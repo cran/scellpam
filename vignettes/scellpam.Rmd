@@ -1,0 +1,594 @@
+---
+title: "scellpam"  
+author: "Juan Domingo"  
+output: rmarkdown::html_vignette  
+bibliography: scellpam.bib  
+vignette: >
+  %\VignetteIndexEntry{scellpam}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(scellpam)
+```
+# Purpose  
+The package `scellpam` (@R-scellpam)  is meant as a way to apply the PAM 
+algorithm to results of single-cell RNA-Seq data sets.
+
+Differently to other packages, it can deal with a big number of cells 
+(limited in principle only by the amount of available RAM) and make the 
+calculations in parallel.
+
+It uses a special format to store binary matrices on disk, the `jmatrix` format.
+Please, make yourself familiar with the `jmatrix` creation and manipulation and
+with the PAM application looking first at the other vignettes of this package,
+`jmatrixsc` and `parallelpamsc`.
+
+WARNING: you must NOT load  explicitly neither `jmatrix` nor `parallelpam`.
+Indeed, you do not need even to install them. All their functions have 
+been included here, too, so doing `library(scellpam)` is enough.
+
+# Workflow  
+
+## Debug messages
+
+First of all, the package can show quite informative (but sometimes verbose)
+messages in the console. To turn on/off such messages you can use,
+```{r}
+# Initially, state of debug is FALSE. Turn it on with
+ScellpamSetDebug(TRUE,debparpam=TRUE,debjmat=TRUE)
+# We have also turned on debugging of the parallel PAM algorithm and of the binary matrix creation/manipulation
+# but if this annoys you their default value is FALSE for both cases even when the scellpam debug is set to true, so just do
+# ScellpamSetDebug(TRUE)
+```
+
+## Data load/storage
+
+As stated before, the limitations in memory suggested us to use intermediate
+binary files stored in disk as a way to keep the results of each step of 
+the process. These files have a concrete internal format; see the 
+vignette `jmatrixsc` in this package to know more about the
+`jmatrix` (@R-jmatrix) package.
+
+Thus, the first step is to load raw data (sequencing counts) coming either
+from a .csv file or from the main formats used in single cell RNA-Seq data sets
+and store them as a binary matrix file in `jmatrix` format.
+
+The input formats can be a `.csv` file, a sparse matrix stored into the 
+S4 object created by the Seurat package (@R-Seurat) or a R NumericMatrix 
+extracted from any package that uses a single-cell experiment object. 
+Unfortunately, the internal structure of such objects does not 
+seem to be the same for all packages so we have not been able to provide 
+a single function to extract from all of them. 
+
+### Read/write .csv files  
+
+Assuming a `.csv` input file, the following call reads the file and writes 
+to disk its binary representation. The `jmatrix` format can create full,
+sparse or symmetric matrices.
+
+```{r, eval=FALSE}
+CsvToJMat("countsfile.csv","countsfile.bin")
+```
+By default, data are stored as a sparse matrix of numbers as floats (4 bytes 
+per item in most architectures). Indeed, default parameters are
+```{r, eval=FALSE}
+CsvToJMat("countsfile.csv","countsfile.bin",mtype="sparse",csep=",",
+          ctype="raw",valuetype="float",transpose=FALSE,comment="")
+```
+where mtype can be `sparse` or `full` and valuetype can be `float` or 
+`double`. Changing the default values for these parameters
+is strongly discouraged, except when the sparse matrix is bigger than the 
+full matrix, which happens when there are few zeros.
+In such a case use `mtype="full"`. The names for rows and columns are read
+from the `.csv` file and stored as metadata in the binary
+file after the raw data of counts.
+
+Other parameters you may (and need to) change are the separation character
+for fields in the `.csv` file
+(csep) if your fields are not comma-separated, the type of normalization 
+(ctype) which can be `raw` to write the raw value of
+the counts, `log1` to write the `log2(counts+1)`, `rawn` which is as 
+`row` but normalized and `log1n` which is like `log1` but normalized.
+
+WARNING: normalize ALWAYS DOES IY BY COLUMNS (before transposition, 
+if requested to transpose). The logarithm is taken base 2.
+
+Finally, you may want to write the matrix transposed and add any comment 
+of up to 1024 characters as a string, if you want. Such comment
+will be stored in the metadata, after the row and column names.
+
+In our case, the data are organized with genes by rows and cells by 
+columns (that is why we choose to normalize by colums), which is not what
+is needed later to calculate the dissimilarity matrix. Therefore, our 
+typical call would be
+```{r, eval=FALSE}
+CsvToBinMat("countsfile.csv","countsfile.bin",transpose=TRUE,
+            comment="Obtained from countsfile.csv")
+```
+As a result of the calculations the functions of this package generate 
+binary files, also in `jmatrix` format. If you want to
+inspect them they can be written back as `.csv` files, which allows them 
+to be imported as R tables, if your computer has memory enough to hold them.
+This is done as
+```{r, eval=FALSE}
+JMatToCsv("countsfile.bin","countsback.csv",csep=",",withquotes=FALSE)
+```
+
+Also, you can selectively read some rows and/or columns of them. See appropriate
+functions in the vignette called `jmatrixsc` attached to this package.
+
+Notice that in this case `counstfile.csv` and `countsback.csv`
+would not be equal; row and column names will have been swapped
+and that is OK, since we wrote the binary file with `transpose=TRUE`.
+
+Also, remember that if you use comma as the separator character, you 
+can just get rid of the csep parameter. The parameter
+withquotes, if you decide to use it and you set it to TRUE, writes each 
+row and column name in the `.csv` surrounded by double
+quotes (but not the numbers).
+
+It is fair to have `.csv` files since they can be inspected to 
+check errors but obviously these files can be quite large and
+writing them may be quite slow.
+
+### Read/write Seurat files  
+
+If your data are not in a `.csv` file but stored in a S4 object created 
+by package `seurat` (@R-Seurat) (and frequently stored for example in a
+compressed `.rds` file) we provide a function, too, to write it to `jmatrix`.
+
+```{r, eval=FALSE}
+q <- readRDS("yourdata.rds")
+dgCMatToJMat(q@assays$RNA@counts,"countsfile.bin",transpose=TRUE,
+             comment="Obtained from yourdata.rds")
+```
+
+Nevertheless, sometimes the matrix is stored in a different slot of the 
+object like
+```{r, eval=FALSE}
+dgCMatToJMat(q@raw.data,"countsfile.bin",transpose=TRUE,
+             comment="Obtained from other data")
+```
+
+It is up to you to inspect the original object (with `str(q)`) and see 
+what you must do.
+
+Parameters `mtype`, `ctype` and `valuetype` are available, too, with the 
+same meaning as for the former function. The `.bin` file
+can obviously be dumped to `.csv`, as explained before.
+
+Also, in the case of Seurat, each cell belongs to a sample, being the 
+sample a set of cells with some common characteristic like
+coming from the same living being or from a common stage in a process of 
+cellular change. Cells are then labelled with a factor
+and this could be obtained with
+```{r, eval=FALSE}
+Gr=GetSeuratGroups(q)
+```
+where `Gr` is a numeric vector of integers with as many components as
+cells that contains a consecutive numeric identifier of the
+group starting at 1. But again this may depend on the internal structure 
+of that particular Seurat object.
+
+### Read/write from other single cell experiment packages  
+
+Similarly, if you are using packages that use the `sce` 
+(Single-cell experiment) S4 object (like `splatter` (@R-splatter),
+`DuoClustering` (@R-DuoClustering2018) and others) you will have to extract
+the matrix of counts. Unfortunately, again this does not seem to be uniform
+since each package has a slightly different internal structure for the S4 object. 
+The most we have been able to do is to provide a function which takes the 
+sparse matrix of counts (as a numeric matrix) and the name of the generated 
+binary file (as before) and optionally the row and column 
+names (as `StringVectors`) if they were not attached to the matrix itself, 
+followed by the parameters used for the csv/Seurat formats.
+
+The next examples are not marked for execution since they need the loading
+of packages splatter/scatter and DuoClustering2018 respectively and a test to
+see if they are available using installed.packages is forbidden if you want
+to pass the CRAN tests. It you want to run them, please copy+paste this code
+in R.
+
+Your code, for example with `splatter`, would probably look like
+```{r, eval=FALSE}
+suppressPackageStartupMessages({
+   library(splatter)
+   library(scater)
+})
+set.seed(1)
+Splattersce <- mockSCE()
+SceToJMat(Splattersce@assays@data@listData$counts,"mockSCE.bin",
+           mtype="full",ctype="log1n",transpose=TRUE,
+           comment="Generated by splatter with mockSCE() and normalized
+                    to log2(counts+1).")
+```
+Nevertheless, in `DuoClustering` you would have something like
+
+```{r, eval=FALSE}
+suppressPackageStartupMessages({
+   library(DuoClustering2018)
+})
+KuTCCsce <- sce_filteredExpr10_KumarTCC()
+SceToJMat(KuTCCsce@assays$data@listData$counts,"KuTCC.bin",
+          mtype="full",ctype="log1n",transpose=TRUE,
+          comment="Generated by DuoCLustering with Kumar data and
+                normalized to log2(counts+1).")
+```
+
+Please, notice the subtle difference between 
+
+`Splattersce@assays@data@listData$counts` and 
+
+`KuTCCsce@assays$data@listData$counts`
+
+We have noticed that in simulations with `splatter`, and depending on 
+the parameters, the number of zeros can be not too high and therefore
+storing the binary matrix as sparse matrix makes its size bigger, 
+instead of smaller. In such a case you can store it as a full matrix
+passing the parameter `mtype="full"` to `SceToJMat`.
+
+Parameters `ctype` and `valuetype` are available, too, with the same meaning 
+as for the former functions.
+
+### Getting information on the stored matrix  
+
+Other useful function in this step is `JMatInfo`, which prints in the 
+console or in a text file information about
+a stored binary file. As an example, let us load and write a `.csv` file and 
+then let us see the information of the generated binary file.
+```{r}
+tmpfile=paste0(tempdir(),"/Trapnell.bin")
+CsvToJMat("extdata/conquer_GSE52529_Trapnell_sample.csv",tmpfile,
+          transpose=TRUE,comment="Experiment conquer GSE52529-GPL16791")
+JMatInfo(tmpfile)
+```
+
+If you want to keep the information about the binary file in a 
+text file, just do
+```{r}
+tmpfile=paste0(tempdir(),"/Trapnell.bin")
+tmptxtfile=paste0(tempdir(),"/TrapnellInfo.txt")
+JMatInfo(tmpfile,tmptxtfile)
+```
+
+### Filtering genes or cells  
+
+The binary files can be expurged getting rid of some genes or cells. 
+The function provided for this task is `FilterBinByName`, 
+which takes as inputs a binary file and a R list of R-strings with the 
+names of the genes or cells that must remain (first and second parameters).
+The third one is the name of the binary filtered file, which will have the 
+same nature (full or sparse matrix) and data type of the matrix
+in the original file. The fourth parameter, `namesat`, indicates if 
+whatever you want to filter (genes or cells) are in columns ("cols") or
+in rows ("rows"). As an example, let us filter some 1000 of the 65218 genes 
+contained in file conquer_`GSE52529-GPL16791_Trapnell.csv` and
+whose names we have put in the list stored in variable `v` by reading the 
+file `Trapnell_remain_genes.csv`.
+```{r}
+v<-as.vector(read.table("extdata/Trapnell_remain_genes.csv")[[1]])
+tmpfile1=paste0(tempdir(),"/Trapnell.bin")
+tmpfiltfile1=paste0(tempdir(),"/Trapnell_filtered.bin")
+FilterJMatByName(tmpfile1,v,tmpfiltfile1,namesat="cols")
+```
+
+If the list contains names not present in the original file the program
+emits a warning (and keeps only whose which are present).
+
+## Calculating the distance/dissimilarity matrix  
+
+This is the most computationally intensive part of the process 
+(particularly, for samples with a high number of cells) and therefore
+has been programmed in parallel, taking advantage of the multiple cores 
+of the machine, if available. See vignette `parallelpamsc` of this package
+to know more about `parallelpam` (@R-parallelpam).
+From now on, just the prospective call to comment on the parameters.
+```{r, eval=FALSE}
+tmpfile1=paste0(tempdir(),"/Trapnell.bin")
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,distype="Pearson",nthreads=0,
+                comment="Pearson dissimilarities for cell in experiment conquer GSE52529-GPL16791")
+```
+
+The input and output files (first and second parameters) are of course 
+compulsory. Input file can be a sparse of full binary matrix (but 
+obviously, not a symmetric matrix).
+
+WARNING: notice that the vectors to calculate dissimilarities amongst them
+MUST be stored BY ROWS. This is due to efficiency reasons
+and it is the reason by which we transposed the counts matrix before 
+writing it as binary. 
+
+Output dissimilarity matrix will always be a binary symmetric (obviously 
+square) matrix with a number of rows (and columns) equal to
+the number of rows (in this case, cells) of the counts file. The type
+of distance/dissimilarity can be `L1` (Manhattan distance), `L2`
+(Euclidean distance) or `Pearson` (Pearson dissimilarity coefficient). 
+The resulting matrix stores only names for the rows, which are
+the names of the cells stored as rows in file `Trapnell.bin`. 
+If the number of cells is $N$, only $N(N+1)/2$ dissimilarity values are
+really stored.
+
+A note on the number of threads, valid also for other algorithms that will 
+be explained later. Possible values for the number of threads is:  
+
+- `-1` (or any negative number) to indicate you do not want to use 
+threads (strictly sequential computation).  
+
+- `0` to allow the program to choose the number of threads according to 
+the problem size and the number of available cores. 
+
+- Any positive number to force the use of such number of threads.  
+
+Choosing explicitly a number of threads bigger than the number of available  
+cores is allowed, but discouraged and the program emits a warning about it.
+
+With respect to option `0` (the program chooses), for small problems 
+(in this case, less than 1000 cells) the function makes the choice of not
+using threads, since the overhead of opening and waiting termination is 
+not worth. For bigger problems the number of chosen threads is the
+number of available cores. Nevertheless, this choice may not be the best, 
+depending on your machine.
+
+Now, let us really do the call with this small dataset.
+
+```{r}
+tmpfile1=paste0(tempdir(),"/Trapnell.bin")
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,
+                                comment="Pearson dissimilarities for cell
+                                         in experiment conquer
+                                         GSE52529-GPL16791")
+```
+The resulting matrix is stored as a binary symmetric matrix of float values, 
+as we can check.
+```{r}
+JMatInfo(tmppeafile1)
+```
+
+## Applying PAM  
+
+The last step is to take the previously calculated matrix and apply the 
+Partitioning Around Medoids classifier. Function is
+`ApplyPAM`. Default parameters are:
+```{r}
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+L=ApplyPAM(tmppeafile1,k=10,init_method="BUILD",
+           max_iter=1000,nthreads=0)
+```
+
+The dissimilarity matrix, as formerly calculated, is compulsory, as long 
+as the number of medoids, `k`. 
+
+Parameters `init_method` (and one optional parameter, `initial_med`) 
+deserve special comment. The first is the method to initialize
+the medoids. Its possible values are `BUILD`, `LAB` and `PREV`. 
+The rest of the algorithm make medoid swapping between the points
+of the initial set made with `BUILD` or `LAB` and the rest of points until 
+no swap can reduce the objective function, which is
+the sum of distances of each point to its closest medoid. But this may 
+fall (and indeed falls) in local minima. If you
+initialize with `BUILD` or `LAB` the optional parameter `initial_med` cannot 
+be used.
+
+The initialization methods `BUILD` and `LAB` are described in the paper by
+Schubert at al. (@Schubert2019). `BUILD` is deterministic. `LAB` uses a sample
+of the total points to initialize. Obviously, you can run `LAB` to get different 
+initializations and compare the results. 
+
+The returned object is a list with two fields: `med` and `clasif`. 
+This will be explained later. 
+
+From now on, typical calls to obtain only the initial medoids would be
+```{r}
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+Lbuild=ApplyPAM(tmppeafile1,k=10,init_method="BUILD",max_iter=0)
+Llab1=ApplyPAM(tmppeafile1,k=10,init_method="LAB",max_iter=0)
+Llab2=ApplyPAM(tmppeafile1,k=10,init_method="LAB",max_iter=0)
+```
+
+As you can see, to get and compare different initializations you must set
+the parameter `max_iter` to value `0`. In this
+case no iterations of objective function reduction are performed, and the 
+returned object contains the initial
+medoids and the classification induced by them. Notice that even looking 
+equal, the results of the latter two calls
+are different since `LAB` initializes with a random component (the sample 
+to choose initial medoids is chosen randomly).
+
+You can check that the medoids, stored in `Llab1$med` and `Llab2$med`
+(see more on this below) are in general, different.
+
+Now, these results can be used to initialize PAM if you find that any of 
+them contains a specially good set of medoids. This is the role of method 
+`PREV` that we have mentioned before. A typical call would be
+```{r}
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+Llab2Final=ApplyPAM(tmppeafile1,k=10,init_method="PREV",
+                    initial_med=Llab2$med)
+```
+where the initial set of medoids is taken from the object returned by 
+the former calls.
+
+With respect to that object, as we said it is a list with two vectors. 
+The first one, `L$med`, has as many components as
+requested medoids and the second, `L$clasif`, has as many components 
+as instances (here, cells). 
+
+Medoids are expressed in `L$med` by its number in the array of points 
+(row in the dissimilarity matrix) starting at 1 (R convention).
+
+`L$clasif` contains the number of the medoid (i.e.: the cluster) to which 
+each instance has been assigned, according to their order in `L$med`
+(also from 1).
+
+This means that if `L$clasif[p]` is `m`, the point `p` belongs to the 
+class grouped around medoid `L$med[m]`. Let us see it:
+
+```{r}
+# Which are the indexes of the points chosen as medoids?
+L$med
+#
+# In which class has point 147 been classified?
+L$clasif[147]
+#
+# And which is the index (row in the dissimilarity matrix) of the medoid closest to point 147?
+L$med[L$clasif[147]]
+```
+In this way, values in L$clasif are between 1 and the number of medoids, 
+as we can see.
+```{r}
+min(L$clasif)
+max(L$clasif)
+```
+Therefore, they can be used as factors.  
+
+To help in the data analysis a data frame can be built, too, with the names 
+of the cells instead of their numbers. It is created as
+```{r}
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+F <- ClassifAsDataFrame(L,tmppeafile1)
+```
+The second parameter is the dissimilarity matrix created before when we 
+called `CalcAndWriteDissimilarityMatrix`.
+The reason of using it here is because the returned dataframe has three 
+columns: `CellName` with name of each cell, `NNCellName` 
+with the name of the cell which is the center of the cluster to which 
+`CellName` belongs to and `NNDistance` which is the distance
+between the cells `CellName` and `NNCellName`. 
+
+This data frame implicitly knows which cells are medoids: those whose 
+distance to the closest medoid (themselves) is 0.
+They can be extracted as 
+```{r}
+# Extract column 1 (cell name) of those rows for which distance to
+# closest medoid (column 3) is 0
+F[which(F[,3]==0),1]
+```
+
+Finally, an abundance matrix can be obtained if the cells came from 
+different groups (samples) by combining such groups with
+the obtained clusters. This is done by function `BuildAbundanceMatrix`,
+```{r, eval=FALSE}
+M=BuildAbundanceMatrix(L$clasif,Gr)
+```
+where the `Gr` vector should have been obtained before (either from the Seurat object 
+with `GetSeuratGroups`, or by any other means from
+your input object, if possible). Since the data of this example does not 
+come from Seurat, this is not calculated now, but in a real
+case the resulting object is a matrix with as many rows as clusters and as 
+many columns as groups. Each entry has the number of cells
+of its sample which have been classified at that group. 
+This should be analyzed to determine if being in a different group has 
+sufficient influence on the cluster to which cells belong and therefore 
+if these clusters have any real biological significance.
+
+## Alternative workflow: filtering by silhouette  
+
+It is interesting to filter cells based on the degree in which they belongs 
+to a cluster. Indeed, cluster refinement can be done
+getting rid of cells far away from any cluster center, or which are at a 
+similar distance of two or more of them.
+
+This is characterized by the silhouette of each point (cell). 
+Three functions deal with this: `CalculateSilhouette`, 
+`FilterBySilhouetteQuantile` and `FilterBySilhouetteThreshold`.
+
+```{r}
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+S=CalculateSilhouette(Llab2$clasif,tmppeafile1,nthreads=0)
+```
+
+The parameters to function `CalculateSilhouette` are the array of class 
+membership, as returned by `ApplyPAM` in its `clasif` field, and
+the file with the matrix of dissimilarities.
+
+A parallel implementation has been programmed, being nthreads as explained
+before.
+
+Silhouette is a number in $[-1,1]$; the higher its value, the most centered 
+a point is in its cluster. 
+
+The returned object `S` is a numeric vector with the value of the silhouette 
+for each point, which will be named if the classification vector was named.
+
+This vector can be converted to object of the class `cluster:silhouette`
+with the function `NumSilToClusterSil` (which needs the vector of 
+classifications, too).
+This is done so that, if you load the package cluster, plot will generate 
+the kind of silhouette plots included in such package.
+
+```{r}
+Sclus <- NumSilToClusterSil(Llab2$clasif,S)
+library(cluster)
+plot(Sclus)
+```
+
+Once the silhouette is calculated we can filter it by quantile or by 
+threshold. All points under this quantile or threshold will be
+discarded, except if they are medoids. Parameters are the silhouette, 
+as returned by `CalculateSilhouette`, the list of medoids/clasif,
+as returned by `ApplyPAM`, the file with matrix of counts for the whole 
+set of cells, the file that will contain the matrix of counts of
+the remaining cells, the file with dissimilarity matrix for the whole set,
+the file that will contain the dissimilarity for the remaining
+cells and (depending on the function used) the quantile in $[0,1]$ or 
+the silhouette threshold in $[-1,1]$. As an example:
+```{r}
+tmpfile1=paste0(tempdir(),"/Trapnell.bin")
+tmpfiltfile1=paste0(tempdir(),"/TrapnellFilt.bin")
+tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
+tmppeafiltfile1=paste0(tempdir(),"/TrapnellPearsonFilt.bin")
+Lfilt=FilterBySilhouetteQuantile(S,Llab2,tmpfile1,tmpfiltfile1,
+                                 tmppeafile1,tmppeafiltfile1,0.2)
+```
+
+If the original matrix contained row (in this case, cell) and column 
+(in this case, gene) names, the column names are copied and the row names
+are transported for those rows (cells) that remain. The same happens with 
+respect to rows of the dissimilarity matrix.
+
+Notice that the new dissimilarity matrix could have been calculated from 
+the matrix of filtered counts with `CalcAndWriteDissimilarityMatrix`
+but creating it here, simply getting rid of the filtered rows and columns
+is much faster.
+
+Also, if a medoid is below the silhouette quantile, it will not be 
+filtered out, but a warning message will be shown, since this is a 
+strange situation that may indicate that some of your clusters are not 
+real but artifacts due to a few outliers that are close to each other.
+
+Of course you can use the filtered cells to build a data frame, as long 
+as the dissimilarity matrix contains cell names,
+```{r}
+tmppeafiltfile1=paste0(tempdir(),"/TrapnellPearsonFilt.bin")
+Ffilt=ClassifAsDataFrame(Lfilt,tmppeafiltfile1)
+```
+or to recreate a .csv file of counts of the remaining cells with their 
+correct names using `BinMatToCsv` like this.
+
+```{r}
+tmpfiltfile1=paste0(tempdir(),"/TrapnellFilt.bin")
+tmpfiltcsvfile1=paste0(tempdir(),"/TrapnellFilt.csv")
+JMatToCsv(tmpfiltfile1,tmpfiltcsvfile1)
+```
+But remember that this was the result of the first step of the PAM 
+algorithm, so probably you will want to make them iterate.
+```{r}
+tmppeafiltfile1=paste0(tempdir(),"/TrapnellPearsonFilt.bin")
+Lfinal=ApplyPAM(tmppeafiltfile1,k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med)
+```
+Of course, we might have used simply 10 as number of medoids, `k`, since 
+this does not change by filtering, but this is to emphasize
+the fact that `ApplyPAM` with method `PREV` requires both parameters 
+to be consistent.
+

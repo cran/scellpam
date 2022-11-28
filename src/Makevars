@@ -1,0 +1,3 @@
+PKG_CXXFLAGS = -I../inst/include
+PKG_LIBS = -lpthread -O2
+

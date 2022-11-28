@@ -1,0 +1,249 @@
+---
+title: "jmatrixsc"  
+author: "Juan Domingo"  
+output: rmarkdown::html_vignette  
+bibliography: scellpam.bib
+vignette: >
+  %\VignetteIndexEntry{jmatrixsc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Please, read this  
+
+This is a copy of the vignette of package `jmatrix`. It is included 
+here since `jmatrix` is underlying this package and you will need to know 
+how to prepare your data to be processed by `scellpam`. But you must 
+NOT load package `jmatrix`; all the functions detailed below are 
+already included into `scellpam` and are available just by loading it with
+`library(scellpam)`.
+
+```{r setup}
+library(scellpam)
+```
+
+# Purpose  
+
+The package `jmatrix` (@R-jmatrix) was originally conceived as a tool for other
+packages, namely `parallelpam` (@R-parallelpam) and `scellpam` (@R-scellpam) which
+needed to deal with very big matrices which might not fit in the memory of the
+computer, particularly if their elements are of type `double` (in most modern
+machines, 8 bytes per element) whereas they could fit if they were matrices of
+other  data types, in particular of floats (4 bytes per element).
+
+Unfortunately, R is not a strongly typed language. Double is the default 
+type in R and it is not easy to work with other data types. Trials like 
+the package float (@R-float) have been done, but to use them you have to coerce a
+matrix already loaded in R memory to a float matrix, and then you can delete it.
+But, what happens if you computer has not memory enough to hold the matrix in
+the first place?. This is the problem this package tries to address.
+
+Our idea is to use the disk as temporarily storage of the matrix in a
+file with a internal binary format (`jmatrix` format). This format has a 
+header of 128 bytes with information like type of matrix (full, sparse or
+symmetric), data type of each element (char, short, int, long, float, double or
+long double), number of rows and columns and endianness; then comes the content 
+as binary data (in sparse matrices zeros are not stored; in symmetric matrices
+only the lower-diagonal is stored) and finally the metadata (currently, 
+names for rows/columns if needed and an optional comment).
+
+Such files are created and loaded by functions written in C++ which are 
+accessible from `R` with Rcpp (@R-Rcpp). The file, once loaded, uses strictly the
+needed memory for its data type and can be processed by other C++ functions
+(like the PAM algorithm or any other numeric library written in C++) also
+from inside `R`.
+
+The matrix contained in a binary data file in `jmatrix` format cannot be 
+loaded directly in `R` memory as a `R` matrix (that would be impossible, 
+anyway, since precisely this package is done for the cases in which such 
+matrix would NOT fit into the available RAM). Nevertheless, limited access
+through some functions is provided to read one or more rows or one or 
+more columns as `R` vectors or matrices (obviously, coerced to double).
+
+The package `jmatrix` must not be considered as a final, finished
+software. Currently is mostly an instrumental solution to address our needs and
+we  make available as a separate package just in case it could be useful for
+anyone else.
+
+# Workflow
+
+## Debug messages
+
+First of all, the package can show quite informative (but sometimes 
+verbose) messages in the console. To turn on/off such messages you can use.
+```{r}
+# Initially, state of debug is FALSE. Turn it on exclusively for
+# the jmatrix part of scellpam with
+ScellpamSetDebug(FALSE,debparpam=FALSE,debjmat=TRUE)
+```
+
+## Data storage
+
+As stated before, the binary matrix files should normally be created 
+from C++ getting the data from an external source
+like a data file in a format used in bioinformatics or a .csv file. 
+These files should be read by chunks. As an example,
+look at function `CsvToJMat` in package `scellpam` (@R-scellpam).
+
+As a convenience and only for testing purposes (to be used in this vignette), 
+we provide the function `JWriteBin` to write a
+R matrix as a `jmatrix` file.
+```{r}
+# Create a 6x8 matrix of random values
+Rf <- matrix(runif(48),nrow=6)
+# Set row and column names for it
+rownames(Rf) <- c("A","B","C","D","E","F")
+colnames(Rf) <- c("a","b","c","d","e","f","g","h")
+# Let's see the matrix
+Rf
+# and write it as the binary file Rfullfloat.bin
+JWriteBin(Rf,"Rfullfloat.bin",dtype="float",dmtype="full",
+          comment="Full matrix of floats")
+# Also, you can write it with double data type:
+JWriteBin(Rf,"Rfulldouble.bin",dtype="double",dmtype="full",
+          comment="Full matrix of doubles")
+```
+
+To get information about the stored file the function `JMatInfo` is provided.
+Of course, this funcion does not read the
+complete file in memory but just the header.
+```{r}
+# Information about the float binary file
+JMatInfo("Rfullfloat.bin")
+# Same information about the double binary file
+JMatInfo("Rfulldouble.bin")
+```
+
+## Data load  
+
+As stated before, no function is provided to read the whole matrix in 
+memory which would contradict the philosophy of this package,
+but you can get rows or columns from a file.
+```{r}
+# Reads row 1 into vector vf. Float values inside the file are
+# promoted to double.
+(vf<-GetJRow("Rfullfloat.bin",1))
+```
+
+Obviously, storage in float provokes a loosing of precision. We have 
+observed this not to be relevant for `PAM` (partitioning around medoids)
+algorihm but it can be important in other cases. It is the price to pay
+for halving the needed space.
+```{r}
+# Checks the precision lost
+max(abs(Rf[1,]-vf))
+```
+
+Nevertheless, storing as double obviously keeps the data intact.
+```{r}
+vd<-GetJRow("Rfulldouble.bin",1)
+max(abs(Rf[1,]-vd))
+```
+
+Now, let us see examples of some functions to read rows or columns by 
+number or by name, or to read several rows/columns as a R matrix.
+In all examples numbers for rows and columns are in R-convention (i.e. 
+starting at 1)
+```{r}
+# Read column number 3
+(vf<-GetJCol("Rfullfloat.bin",3))
+# Test precision
+max(abs(Rf[,3]-vf))
+# Read row with name C
+(vf<-GetJRowByName("Rfullfloat.bin","C"))
+# Read column with name c
+(vf<-GetJColByName("Rfullfloat.bin","c"))
+# Get the names of all rows or columns as vectors of R strings
+(rn<-GetJRowNames("Rfullfloat.bin"))
+(cn<-GetJColNames("Rfullfloat.bin"))
+# Get the names of rows and columns simultaneosuly as a list of two elements
+(l<-GetJNames("Rfullfloat.bin"))
+# Get several rows at once. The returned matrix has the rows in the
+# same order as the passed list,
+# and this list can contain even repeated values
+(vm<-GetJManyRows("Rfullfloat.bin",c(1,4)))
+
+# Of course, columns can be extrated equally
+(vc<-GetJManyCols("Rfulldouble.bin",c(1,4)))
+# and similar functions are provided for extracting by names:
+(vm<-GetJManyRowsByNames("Rfulldouble.bin",c("A","D")))
+(vc<-GetJManyColsByNames("Rfulldouble.bin",c("a","d")))
+```
+
+The package can manage and store sparse and symmetric matrices, too. 
+```{r}
+# Generation of a 6x8 sparse matrix
+Rsp <- matrix(rep(0,48),nrow=6)
+sparsity <- 0.1
+nnz <- round(48*sparsity)
+where <- floor(47*runif(nnz))
+val <- runif(nnz)
+for (i in 1:nnz)
+{
+ Rsp[floor(where[i]/8)+1,(where[i]%%8)+1] <- val[i]
+}
+rownames(Rsp) <- c("A","B","C","D","E","F")
+colnames(Rsp) <- c("a","b","c","d","e","f","g","h")
+# Let's see the matrix
+Rsp
+# Write the matrix as sparse with type float
+JWriteBin(Rsp,"Rspafloat.bin",dtype="float",dmtype="sparse",
+          comment="Sparse matrix of floats")
+```
+
+Notice that the condition of being a sparse matrix and the storage space 
+used can be known with the matrix info.
+```{r}
+JMatInfo("Rspafloat.bin")
+```
+
+Be careful: trying to store as sparse a matrix which is not (it has not 
+a majority of 0-entries) works, but produces
+a matrix larger than the corresponding full matrix.
+
+With respect to symmetric matrices, `JWriteBin` works the same way. 
+Let us generate a $7 \times 7$ symmetric matrix.
+```{r}
+Rns <- matrix(runif(49),nrow=7)
+Rsym <- 0.5*(Rns+t(Rns))
+rownames(Rsym) <- c("A","B","C","D","E","F","G")
+colnames(Rsym) <- c("a","b","c","d","e","f","g")
+# Let's see the matrix
+Rsym
+# Write the matrix as symmetric with type float
+JWriteBin(Rsym,"Rsymfloat.bin",dtype="float",dmtype="symmetric",
+          comment="Symmetric matrix of floats")
+# Get the information 
+JMatInfo("Rsymfloat.bin")
+```
+Notice that if you store a R matrix which is NOT symmetric as a symmetric 
+`jmatrix`, only the lower triangular part (including the
+main diagonal) will be saved. The upper-triangular part will be lost.
+
+The functions to read rows/colums stated before works equally independently 
+of the matrix character (full, sparse or symmetric) so
+you can play with them using the `Rspafloat.bin` and `Rsymfloat.bin` file 
+to check they work.
+
+Finally, there is a function to get the lower-diagonal part of a symmetric 
+matrix stored in a `jmatrix` file as a R vector,
+ordered by columns (i.e.: column 1 from M(2,1) to M(n,1), followed by 
+column 2 from M(3,2) to M(n,2) and so on, up to M(n,n-1) so
+d is a vector of $n(n-1)/2$ components). This is to get the data 
+of a dissimilarity/distance matrix in the format used by the Partitioning
+around medoids (PAM) algorithm implemented in the `cluster` (@R-cluster) package.
+The purpose is to compare such implementation with our own implementation
+of PAM. If you are interested, see the documentation of the 
+`parallelpam` (@R-parallelpam) package.
+
+```{r}
+(d<-GetSubdiag("Rsymfloat.bin"))
+```
+

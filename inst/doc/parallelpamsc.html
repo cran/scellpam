@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Juan Domingo" />
+
+
+<title>parallelpamsc</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">parallelpamsc</h1>
+<h4 class="author">Juan Domingo</h4>
+
+
+
+<div id="please-read-this" class="section level1">
+<h1>Please, read this</h1>
+<p>This is a copy of the vignette of package <code>parallelpam</code>. It is included here since parallelpam is underlying this package and you will need to know how does it work to process the single cell data using the PAM algorithm. But you must NOT load package <code>parallelpam</code>. All the functions detailed below are already included into <code>scellpam</code> and are available just by loading it with <code>library(scellpam)</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
+</div>
+<div id="purpose" class="section level1">
+<h1>Purpose</h1>
+<p>The package <code>parallelpam</code> (<span class="citation">Domingo (2022b)</span>) is meant as a way to apply the PAM algorithm to quite (or very) big sets of data, such as the results of single-cell sequencing, but can be generally used for any type of data, as long as a distance/dissimilarity matrix can be calculated.</p>
+<p>Differently to other packages, its main strength is its ability to perform clustering based on Partitioning Around Medoids (PAM) using a large number of items and doing it in parallel. Memory and speed limitations are reduced by extensive use of C++ programming which allows use of alternative data types (for instance, float vs. double to represent distance/dissimilarity), intermediate disk-storage to avoid memory copy operations whenever possible and use of threads.</p>
+<p>Both phases of PAM (initialization with BUILD and optimization) have been parallelized so it you have a multi-core machine, many threads will be launched with a great acceleration of the calculations. This is done automatically, even you are allowed to choose the number of threads yourself for comparison purposes or to allow your machine to execute other things simultaneously.</p>
+<p>Also, calculation of the matrix of distances/dissimilarities from the initial data and calculation of silhouette of the resulting classification are available, too, and are calculated in parallel in a multi-core machine.</p>
+<p>The data are stored in memory reading them from binary files created with the package <code>jmatrix</code>(<span class="citation">Domingo (2022a)</span>). To be familiar with them please read the vignette called <code>jmatrixsc</code> which is included with this package.</p>
+<p>WARNING: you must NOT load neither <code>jmatrix</code> nor <code>parallelpam</code> explicitly. Indeed, you do not need even to install them. All their functions have been included here, too, so doing <code>library(scellpam)</code> is enough.</p>
+</div>
+<div id="workflow" class="section level1">
+<h1>Workflow</h1>
+<div id="debug-messages" class="section level2">
+<h2>Debug messages</h2>
+<p>First of all, the package can show quite informative (but sometimes verbose) messages in the console. To turn on/off such messages you can use.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE. Turn it on exclusively for</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the parallelpam part with</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">FALSE</span>,<span class="at">debparpam=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for parallelpam inside scellpam package set to ON.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># There is another parameter, debjmat, to turn on messages about</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># binary matrix creation/manipulation. By default is FALSE but turn it on</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># if you like with</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ScellpamSetDebug(FALSE,debparpam=TRUE,debjmat=TRUE)</span></span></code></pre></div>
+</div>
+<div id="data-loadstorage" class="section level2">
+<h2>Data load/storage</h2>
+<p>The first step is to load raw data coming from external sources like the main formats used in single cell experiments which should have been stored as a binary matrix file in <code>jmatrix</code> format. Since this is a separate package, and for purposes of illustration, we will create an artificial matrix for a small problem that fits in <code>R</code> memory with 5000 vectors with 500 dimensions each. Then we will calculate the dissimilarity matrix and finally we will apply PAM algorithm to it.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the matrix with row names V1 to V5000 and column names d1 to d500</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>nvec<span class="ot">&lt;-</span><span class="dv">5000</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ndim<span class="ot">&lt;-</span><span class="dv">500</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>P<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">runif</span>(nvec<span class="sc">*</span>ndim),<span class="at">nrow=</span>nvec)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(P)<span class="ot">&lt;-</span><span class="fu">paste0</span>(<span class="st">&quot;V&quot;</span>,<span class="dv">1</span><span class="sc">:</span>nvec)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(P)<span class="ot">&lt;-</span><span class="fu">paste0</span>(<span class="st">&quot;d&quot;</span>,<span class="dv">1</span><span class="sc">:</span>ndim)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write it to disk as a binary file in jmatrix format.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Please, see vignette jmatrixsc.</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(P,<span class="st">&quot;datatest.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Synthetic problem data to test PAM&quot;</span>)</span></code></pre></div>
+<p>For your real problem, the input format can be a .csv file. See function <code>CsvToJMat</code> in package <code>scellpam</code> (<span class="citation">Domingo (2022c)</span>).</p>
+<p>To know details about the generated files do</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;datatest.bin&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               datatest.bin</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 2500000</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     5000</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  500</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Synthetic problem data to test PAM&quot;</span></span></code></pre></div>
+</div>
+<div id="calculating-the-distancedissimilarity-matrix" class="section level2">
+<h2>Calculating the distance/dissimilarity matrix</h2>
+<p>This is the most computationally intensive part of the process (particularly, for samples with a high number of points and/or high dimensionalty) and therefore has been programmed in parallel, taking advantage of the multiple cores of the machine, if available. The funcion is called <code>CalcAndWriteDissimilarityMatrix</code>. Its input and output files (first and second parameters) are of course compulsory. Input file can be a sparse of full binary <code>jmatrix</code> (but obviously, not a symmetric matrix).</p>
+<p>WARNING: notice that the vectors to calculate dissimilarities amongst them MUST be stored BY ROWS. This is due to efficiency reasons.</p>
+<p>Output dissimilarity matrix will always be a binary symmetric (obviously square) matrix with a number of rows (and columns) equal to the number of rows (in this case, vectors) of the input file. The type of distance/dissimilarity can be <code>L1</code> (Manhattan distance), <code>L2</code> (Euclidean distance) or ‘Pearson’ (Pearson dissimilarity coefficient). The resulting matrix stores only names for the rows, which are the names of the vectors stored as rows in file <code>datatest.bin</code>. If the number of vectors is N, only <span class="math inline">\(N(N+1)/2\)</span> dissimilarity values are really stored.</p>
+<p>A note on the number of threads, valid also for other algorithms that will be explained later:</p>
+<p>Possible values for the number of threads are:</p>
+<ul>
+<li><p><code>-1</code> (or any negative number) to indicate you do not want to use threads (strictly sequential computation).</p></li>
+<li><p><code>0</code> to allow the program to choose the number of threads according to the problem size and the number of available cores.</p></li>
+<li><p>Any positive number to force the use of such number of threads.</p></li>
+</ul>
+<p>Choosing explicitly a number of threads bigger than the number of available cores is allowed, but discouraged and the program emits a warning about it.</p>
+<p>With respect to option <code>0</code>, for small problems (in this case, less than 1000 vectors) the function makes the choice of not using threads, since the overhead of opening and waiting termination is not worth. For bigger problems the number of chosen threads is the number of available cores, or twice this numer if the processor is capable of hyperthreading. Nevertheless, this choice may not be the best, depending on your machine, possibly due (I guess) to the memory access confilcts created by the need of keep processor cache coherence. You may have to do some trials with your data in your machine.</p>
+<p>Now, let us try it with this small dataset.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(<span class="st">&quot;datatest.bin&quot;</span>,<span class="st">&quot;datatestL2.bin&quot;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">distype=</span><span class="st">&quot;L2&quot;</span>,<span class="at">restype=</span><span class="st">&quot;float&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">comment=</span><span class="st">&quot;L2 distance for vectors in</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st"> jmatrix file datatest.bin&quot;</span>,<span class="at">nthreads=</span><span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Input matrix is a full matrix  with elements of type &#39;float&#39; and size (5000,500)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read full matrix from file datatest.bin. Its size is [5000 x 500] and it uses 2500000 elements of 4 bytes each with accounts for 9.53674 MBytes.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Creating dissimilarity matrix of size (5000x5000)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: memuse</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259554744 Kib.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Launching up to 128 simultaneous threads.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of dissimilarity matrix calculation (parallel version). Elapsed time: 0.301104 s</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Output binary file datatestL2.bin written.</span></span></code></pre></div>
+<p>The resulting matrix is stored as a binary symmetric matrix of float values, as we can check.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;datatestL2.bin&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               datatestL2.bin</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 25000000 (12502500 really stored)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     5000</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  5000</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored only names of rows.</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;L2 distance for vectors in</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  jmatrix file datatest.bin&quot;</span></span></code></pre></div>
+</div>
+<div id="applying-pam" class="section level2">
+<h2>Applying PAM</h2>
+<p>The last step is to take the previously calculated matrix and apply the Partitioning Around Medoids classifier. Function is <code>ApplyPAM</code>. First parameter (name of the file containing the dissimilarity matrix in <code>jmatrix</code> format) and second parameter (<code>k</code>, number of medoids) are compulsory. The names and default values for the rest of parameters are as in this example.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">k=</span><span class="dv">5</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,<span class="at">max_iter=</span><span class="dv">1000</span>,<span class="at">nthreads=</span><span class="dv">0</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2.bin</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259550832 Kib.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, parallel version with 128 threads.</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 1838. TD=8.791571</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 4863. 2468 reassigned points. TD=8.676730</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 2079. 1479 reassigned points. TD=8.626474</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 4377. 994 reassigned points. TD=8.598572</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 1496. 780 reassigned points. TD=8.577665</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8.577665</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (parallel version) finished. Elapsed time: 0.0263541 s</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in parallel implementation with 128 threads.</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 8.577647</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (parallel version) finished. Elapsed time: 0.00560657 s</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.0263541 s (method BUILD).</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00560657 s in 0 iterations.</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0319607 s (0 minutes, 0.0319607 seconds).</span></span></code></pre></div>
+<p>Parameters <code>init_method</code> (and another optional parameter, <code>initial_med</code>) deserve special comment. The first is the method to initialize the medoids. Its possible values are <code>BUILD</code>, <code>LAB</code> and <code>PREV</code>. The rest of the algorithm make medoid swapping between the points of the initial set made with <code>BUILD</code> or <code>LAB</code> and the rest of points until no swap can reduce the objective function, which is the sum of distances of each point to its closest medoid. But this may fall (and indeed falls) in local minima. If you initialize with <code>BUILD</code> or <code>LAB</code> the optional parameter <code>initial_med</code> cannot be used.</p>
+<p>The initialization methods <code>BUILD</code> and <code>LAB</code> are described in the paper from Schubert at al. (<span class="citation">Schubert and Rousseeuw (2019)</span>). <code>BUILD</code> is deterministic. <code>LAB</code> uses a sample of the total points to initialize. Obviously, you can run <code>LAB</code> to get different initializations and compare the results.</p>
+<p>The returned object is a list with two fields: <code>med</code> and <code>clasif</code>. This will be explained later.</p>
+<p>From now on, typical calls to obtain only the initial medoids would be</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Lbuild<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">k=</span><span class="dv">5</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2.bin</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259541020 Kib.</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, parallel version with 128 threads.</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 1838. TD=8.791571</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 4863. 2468 reassigned points. TD=8.676730</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 2079. 1479 reassigned points. TD=8.626474</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 4377. 994 reassigned points. TD=8.598572</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 1496. 780 reassigned points. TD=8.577665</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8.577665</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (parallel version) finished. Elapsed time: 0.0273123 s</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.0273123 s (method BUILD).</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0273123 s (0 minutes, 0.0273123 seconds).</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>Llab1<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">k=</span><span class="dv">5</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2.bin</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259530784 Kib.</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 3075. TD=8.895035</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 1290. 2639 reassigned points. TD=8.764056</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 907. 1555 reassigned points. TD=8.713096</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 2625. 1479 reassigned points. TD=8.667349</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 558. 489 reassigned points. TD=8.653774</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8.653774</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.00206854 s</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00206854 s (method LAB).</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00206854 s (0 minutes, 0.00206854 seconds).</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>Llab2<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">k=</span><span class="dv">5</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2.bin</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259535088 Kib.</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 536. TD=8.891776</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 2625. 2727 reassigned points. TD=8.754475</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 3076. 1436 reassigned points. TD=8.704541</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 1020. 1255 reassigned points. TD=8.666968</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 465. 873 reassigned points. TD=8.643220</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8.643220</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.00213372 s</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00213372 s (method LAB).</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00213372 s (0 minutes, 0.00213372 seconds).</span></span></code></pre></div>
+<p>As it can be seen, to get and compare different initializations you must set the parameter <code>max_iter</code> to the value <code>0</code>. In this case no iterations of objective function reduction are performed, and the returned object contains the initial medoids and the classification induced by them. Notice that even looking equal, the results of the latter two calls are different since <code>LAB</code> initializes with a random component (the sample to choose initial medoids is chosen randomly).</p>
+<p>You can check that the medoids, stored in <code>Llab1$med</code> and <code>Llab2$med</code> (see more on this below) are in general, different.</p>
+<p>Now, these results can be used to initialize PAM if you find that any of them contains a specially good set of medoids. This is the role of method <code>PREV</code> that we have mentioned before. A typical call would be</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Llab2Final<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">k=</span><span class="dv">5</span>,<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Llab2<span class="sc">$</span>med)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2.bin</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259534488 Kib.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in parallel implementation with 128 threads.</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 5 (point 465) swapped with point 1839; TD-change=-0.025660; TD=8.617560. 1506 reassigned points.</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 3 (point 3076) swapped with point 4863; TD-change=-0.020875; TD=8.596685. 1400 reassigned points.</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 1 (point 537) swapped with point 2079; TD-change=-0.013017; TD=8.583668. 1210 reassigned points.</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 2 (point 2625) swapped with point 4377; TD-change=-0.004102; TD=8.579566. 1138 reassigned points.</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 4 (point 1020) swapped with point 1496; TD-change=-0.001891; TD=8.577675. 1098 reassigned points.</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 8.577675</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (parallel version) finished. Elapsed time: 0.0348074 s</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.0348074 s in 4 iterations (0.00870184 seconds/iteration).</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0348074 s (0 minutes, 0.0348074 seconds).</span></span></code></pre></div>
+<p>The initial set of medoids is taken from the object returned by the former calls.</p>
+<p>With respect to that object, as we said it is a list with two vectors. The first one, <code>L$med</code>, has as many components as requested medoids and the second, <code>L$clasif</code>, has as many components as instances.</p>
+<p>Medoids are expressed in <code>L$med</code> by its number in the array of vectors (row number in the dissimilarity matrix) starting at 1 (<code>R</code> convention).</p>
+<p><code>L$clasif</code> contains the number of the medoid (i.e.: the cluster) to which each instance has been assigned, according to their order in <code>L$med</code> (also from 1).</p>
+<p>This means that if <code>L$clasif[p]</code> is <code>m</code>, the point <code>p</code> belongs to the class grouped around medoid <code>L$med[m]</code>. Let us see it.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which are the indexes of the points chosen as medoids?</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; V1839 V4863 V2079 V4377 V1496 </span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1839  4863  2079  4377  1496</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># In which class has point 147 been classified?</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>clasif[<span class="dv">147</span>]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; V147 </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    4</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># And which is the index (row in the dissimilarity matrix) of</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># the medoid closest to point 147?</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med[L<span class="sc">$</span>clasif[<span class="dv">147</span>]]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; V4377 </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4377</span></span></code></pre></div>
+<p>In this way, values in <code>L$clasif</code> are between 1 and the number of medoids, as we can see</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(L<span class="sc">$</span>clasif)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(L<span class="sc">$</span>clasif)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span></code></pre></div>
+<p>They can be used as factors.</p>
+</div>
+<div id="calculating-silhouette" class="section level2">
+<h2>Calculating silhouette</h2>
+<p>It is interesting to filter points based on the degree in which they belong to a cluster. Indeed, cluster refinement can be done getting rid of points far away from any cluster center, or which are at a similar distance of two or more of them.</p>
+<p>This is characterized by the silhouette of each point. Three functions deal with this: <code>CalculateSilhouette</code>, <code>FilterBySilhouetteQuantile</code> and <code>FilterBySilhouetteThreshold</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">CalculateSilhouette</span>(Llab2<span class="sc">$</span>clasif,<span class="st">&quot;datatestL2.bin&quot;</span>,<span class="at">nthreads=</span><span class="dv">0</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 48837 KiB, which is 0.01% of the available memory, which is 259523224 Kib.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Calculating silhouette (parallel version) with 128 threads.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5000 points classified in 5 classes.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished parallel implementation of silhouette (including dissimilarity matrix load). Elapsed time: 0.0321761 s</span></span></code></pre></div>
+<p>The parameters to function <code>CalculateSilhouette</code> are the array of class membership, as returned by <code>ApplyPAM</code> in its <code>clasif</code> field, and the file with the matrix of dissimilarities.</p>
+<p>A parallel implementation has been programmed, being nthreads as explained before.</p>
+<p>Silhouette is a number in <span class="math inline">\([-1,1]\)</span>; the higher its value, the most centered a point is in its cluster.</p>
+<p>The returned object <code>S</code> is a numeric vector with the value of the silhouette for each point, which will be a named vector if the classification vector was named.</p>
+<p>This vector can be converted to an object of the class <code>cluster::silhouette</code> with the function <code>NumSilToClusterSil</code> (which needs the vector of classifications, too). This is done so that, if you load the package <code>cluster</code> (<span class="citation">Maechler et al. (2022)</span>), plot will generate the kind of silhouette plots included in such package.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Sclus <span class="ot">&lt;-</span> <span class="fu">NumSilToClusterSil</span>(Llab2<span class="sc">$</span>clasif,S)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sclus)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Probably the plot does not look very nice with this random data which yields a very bad clustering (since the points are not, by its own nature, organized in clusters) but with real data you should see significant things (see package <code>scellpam</code> (<span class="citation">Domingo (2022c)</span>)).</p>
+<p>Once the silhouette is calculated we can filter it by quantile or by threshold. All points under this quantile or threshold will be discarded, except if they are medoids. Parameters are:</p>
+<ul>
+<li><p>The silhouette, as returned by CalculateSilhouette.</p></li>
+<li><p>The list of medoids/clasif, as returned by ApplyPAM.</p></li>
+<li><p>The file with matrix of counts for the whole set of cells, which was our first input.</p></li>
+<li><p>The file that will contain the matrix of counts of the remaining cells.</p></li>
+<li><p>The file with the dissimilarity matrix for the whole set, as calculated by <code>CalcAndWriteDissimilarityMatrix</code>.</p></li>
+<li><p>The file that will contain the dissimilarity for the remaining cells.</p></li>
+<li><p>And (depending on the function used) the quantile in <span class="math inline">\([0,1]\)</span> or the silhouette threshold in <span class="math inline">\([-1,1]\)</span>.</p></li>
+</ul>
+<p>As an example,</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Lfilt<span class="ot">=</span><span class="fu">FilterBySilhouetteQuantile</span>(S,Llab2,<span class="st">&quot;datatest.bin&quot;</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;datatestFilt.bin&quot;</span>,<span class="st">&quot;datatestL2.bin&quot;</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;datatestL2Filt.bin&quot;</span>,<span class="fl">0.2</span>)</span></code></pre></div>
+<p>If the original matrix contained row and column names, the column names are copied and the row names are transported for those rows that remain. The same happens with respect to rows of the dissimilarity matrix.</p>
+<p>Notice that the new dissimilarity matrix could have been calculated from the matrix of filtered counts with <code>CalcAndWriteDissimilarityMatrix</code> but creating it here, simply getting rid of the filtered rows and columns is much faster.</p>
+<p>Also, if a medoid is below the silhouette quantile, it will not be filtered out, but a warning message will be shown, since this is a strange situation that may indicate that some of your clusters are not real but artifacts due to a few outliers that are close to each other.</p>
+<p>But remember that this was the result of the first step of the PAM algorithm, so probably you will want to make them iterate.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Lfinal<span class="ot">=</span><span class="fu">ApplyPAM</span>(<span class="st">&quot;datatestL2Filt.bin&quot;</span>,<span class="at">k=</span><span class="fu">length</span>(Lfilt<span class="sc">$</span>med),<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Lfilt<span class="sc">$</span>med)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix datatestL2Filt.bin</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 31257 KiB, which is 0.01% of the available memory, which is 259442716 Kib.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in parallel implementation with 128 threads.</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 5 (point 369) swapped with point 1482; TD-change=-0.020491; TD=8.605930. 1140 reassigned points.</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 3 (point 2477) swapped with point 3501; TD-change=-0.007405; TD=8.598526. 906 reassigned points.</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 1 (point 426) swapped with point 1195; TD-change=-0.004677; TD=8.593849. 968 reassigned points.</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 4 (point 801) swapped with point 3531; TD-change=-0.000612; TD=8.593237. 983 reassigned points.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 8.593237</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (parallel version) finished. Elapsed time: 0.0253295 s</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (parallel implementation with 128 threads).</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.0253295 s in 3 iterations (0.00844315 seconds/iteration).</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0253295 s (0 minutes, 0.0253295 seconds).</span></span></code></pre></div>
+<p>Of course, we might have used simply 5 as number of medoids, <code>k</code>, since this does not change by filtering, but this is to emphasize the fact that <code>ApplyPAM</code> with method <code>PREV</code> requires both parameters to be consistent.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-jmatrix" class="csl-entry">
+Domingo, Juan. 2022a. <em>Jmatrix: Read from/Write in Disks Matrices with Any Data Type in a Binary Format</em>.
+</div>
+<div id="ref-R-parallelpam" class="csl-entry">
+———. 2022b. <em>Parallelpam: Applies the Partitioning-Around-Medoids (PAM) Clustering Algortihm to Big Sets of Data Using Parallel Implementation, If Several Cores Are Available</em>.
+</div>
+<div id="ref-R-scellpam" class="csl-entry">
+———. 2022c. <em>Scellpam: Applying Partitioning Around Medoids to Single Cell with High Number of Cells</em>.
+</div>
+<div id="ref-R-cluster" class="csl-entry">
+Maechler, Martin, Peter Rousseeuw, Anja Struyf, Mia Hubert, and Kurt Hornik. 2022. <em>Cluster: Cluster Analysis Basics and Extensions</em>. <a href="https://CRAN.R-project.org/package=cluster">https://CRAN.R-project.org/package=cluster</a>.
+</div>
+<div id="ref-Schubert2019" class="csl-entry">
+Schubert, Erich, and Peter J. Rousseeuw. 2019. <span>“Faster k-Medoids Clustering: Improving the <span>PAM</span>, <span>CLARA</span>, and <span>CLARANS</span> Algorithms.”</span> In <em>Similarity Search and Applications</em>, 171–87. Springer International Publishing. <a href="https://doi.org/10.1007/978-3-030-32047-8_16">https://doi.org/10.1007/978-3-030-32047-8_16</a>.
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

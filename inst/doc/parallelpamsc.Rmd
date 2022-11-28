@@ -1,0 +1,372 @@
+---
+title: "parallelpamsc"
+author: "Juan Domingo"
+output: rmarkdown::html_vignette
+bibliography: scellpam.bib  
+vignette: >
+  %\VignetteIndexEntry{parallelpamsc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Please, read this  
+
+This is a copy of the vignette of package `parallelpam`.
+It is included here since parallelpam is underlying this package and 
+you will need to know how does it work to process the single cell data 
+using the PAM algorithm. But you must NOT load package `parallelpam`.
+All the functions detailed below are already included into `scellpam`
+and are available just by loading it with `library(scellpam)`.
+
+```{r setup}
+library(scellpam)
+```
+
+# Purpose  
+The package `parallelpam` (@R-parallelpam) is meant as a way to apply the
+PAM algorithm to
+quite (or very) big sets of data, such as the results of single-cell 
+sequencing, but can be generally used for any type of data, as long as a 
+distance/dissimilarity matrix can be calculated.
+
+Differently to other packages, its main strength is its ability to perform 
+clustering based on Partitioning Around Medoids (PAM) using a large number 
+of items and doing it in parallel. Memory and speed limitations are reduced 
+by extensive use of C++ programming
+which allows use of alternative data types (for instance, float vs. double 
+to represent distance/dissimilarity), intermediate disk-storage to avoid memory
+copy operations whenever possible and use of threads.
+
+Both phases of PAM (initialization with BUILD and optimization) have been 
+parallelized so it you have a multi-core machine, many threads will
+be launched with a great acceleration of the calculations. 
+This is done automatically, even you are allowed to choose the number of 
+threads yourself for comparison purposes or to allow your machine to execute
+other things simultaneously.
+
+Also, calculation of the matrix of distances/dissimilarities from the initial
+data and calculation of silhouette of the resulting classification are
+available, too, and are calculated in parallel in a multi-core machine.
+
+The data are stored in memory reading them from binary files created with 
+the package `jmatrix`(@R-jmatrix). To be familiar with them please read the
+vignette called `jmatrixsc` which is included with this package. 
+
+WARNING: you must NOT load neither `jmatrix` nor `parallelpam` explicitly.
+Indeed, you do not need  even to install them. All their functions have been
+included here, too, so doing `library(scellpam)` is enough.
+
+# Workflow  
+
+## Debug messages  
+
+First of all, the package can show quite informative (but sometimes verbose)
+messages in the console. To turn on/off such messages you can use.
+
+```{r}
+# Initially, state of debug is FALSE. Turn it on exclusively for
+# the parallelpam part with
+ScellpamSetDebug(FALSE,debparpam=TRUE)
+# There is another parameter, debjmat, to turn on messages about
+# binary matrix creation/manipulation. By default is FALSE but turn it on
+# if you like with
+# ScellpamSetDebug(FALSE,debparpam=TRUE,debjmat=TRUE)
+```
+
+## Data load/storage  
+
+The first step is to load raw data coming from external sources like the 
+main formats used in single cell experiments which should have been stored 
+as a binary matrix file in `jmatrix` format. Since this is a separate 
+package, and for purposes of illustration, we will create an artificial 
+matrix for a small problem that fits in `R` memory with 5000 vectors
+with 500 dimensions each. Then we will calculate the dissimilarity matrix 
+and finally we will apply PAM algorithm to it.
+
+```{r}
+# Create the matrix with row names V1 to V5000 and column names d1 to d500
+nvec<-5000
+ndim<-500
+P<-matrix(runif(nvec*ndim),nrow=nvec)
+rownames(P)<-paste0("V",1:nvec)
+colnames(P)<-paste0("d",1:ndim)
+# Write it to disk as a binary file in jmatrix format.
+# Please, see vignette jmatrixsc.
+JWriteBin(P,"datatest.bin",dtype="float",dmtype="full",
+          comment="Synthetic problem data to test PAM")
+```
+
+For your real problem, the input format can be a .csv file. 
+See function `CsvToJMat` in package `scellpam` (@R-scellpam).
+
+To know details about the generated files do
+```{r}
+JMatInfo("datatest.bin")
+```
+
+## Calculating the distance/dissimilarity matrix
+
+This is the most computationally intensive part of the process 
+(particularly, for samples with a high number of points and/or
+high dimensionalty) and therefore has been programmed in parallel, 
+taking advantage of the multiple cores of the machine, if available.
+The funcion is called `CalcAndWriteDissimilarityMatrix`. Its input and 
+output files (first and second parameters) are of course compulsory.
+Input file can be a sparse of full binary `jmatrix` (but obviously, not a
+symmetric matrix).
+
+WARNING: notice that the vectors to calculate dissimilarities amongst 
+them MUST be stored BY ROWS. This is due to efficiency reasons.
+
+Output dissimilarity matrix will always be a binary symmetric 
+(obviously square) matrix with a number of rows (and columns) equal to
+the number of rows (in this case, vectors) of the input file. 
+The type of distance/dissimilarity can be `L1` (Manhattan distance), `L2`
+(Euclidean distance) or 'Pearson' (Pearson dissimilarity coefficient). 
+The resulting matrix stores only names for the rows, which are
+the names of the vectors stored as rows in file `datatest.bin`. 
+If the number of vectors is N, only $N(N+1)/2$ dissimilarity values are
+really stored.
+
+A note on the number of threads, valid also for other algorithms that 
+will be explained later:
+
+Possible values for the number of threads are:
+
+- `-1` (or any negative number) to indicate you do not want to use 
+threads (strictly sequential computation).
+
+- `0` to allow the program to choose the number of threads according to 
+the problem size and the number of available cores.
+
+- Any positive number to force the use of such number of threads.
+
+Choosing explicitly a number of threads bigger than the number of available 
+cores is allowed, but discouraged and the program emits a warning about it.
+
+With respect to option `0`, for small problems (in this case, less than 
+1000 vectors) the function makes the choice of not using threads, 
+since the overhead of opening and waiting termination is not worth. 
+For bigger problems the number of chosen threads is the number
+of available cores, or twice this numer if the processor is capable of 
+hyperthreading. Nevertheless, this choice may not be the best,
+depending on your machine, possibly due (I guess) to the memory access
+confilcts created by the need of keep processor cache coherence.
+You may have to do some trials with your data in your machine.
+
+Now, let us try it with this small dataset. 
+```{r}
+CalcAndWriteDissimilarityMatrix("datatest.bin","datatestL2.bin",
+                                distype="L2",restype="float",
+                                comment="L2 distance for vectors in
+ jmatrix file datatest.bin",nthreads=0)
+```
+
+The resulting matrix is stored as a binary symmetric matrix of float 
+values, as we can check.
+```{r}
+JMatInfo("datatestL2.bin")
+```
+
+## Applying PAM  
+
+The last step is to take the previously calculated matrix and apply the
+Partitioning Around Medoids classifier. Function is
+`ApplyPAM`. First parameter (name of the file containing the dissimilarity 
+matrix in `jmatrix` format) and second parameter (`k`, number of medoids)
+are compulsory. The names and default values for the rest of parameters 
+are as in this example.
+
+```{r}
+L=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=1000,nthreads=0)
+```
+
+Parameters `init_method` (and another optional parameter, `initial_med`) 
+deserve special comment. The first is the method to initialize
+the medoids. Its possible values are `BUILD`, `LAB` and `PREV`. 
+The rest of the algorithm make medoid swapping between the points
+of the initial set made with `BUILD` or `LAB` and the rest of points until 
+no swap can reduce the objective function, which is
+the sum of distances of each point to its closest medoid. 
+But this may fall (and indeed falls) in local minima. If you
+initialize with `BUILD` or `LAB` the optional parameter `initial_med` 
+cannot be used.
+
+The initialization methods `BUILD` and `LAB` are described in the paper
+from Schubert at al. (@Schubert2019). `BUILD` is deterministic. `LAB` uses a
+sample of the total points to initialize. Obviously, you can run `LAB` to
+get different initializations and compare the results. 
+
+The returned object is a list with two fields: `med` and `clasif`. 
+This will be explained later. 
+
+From now on, typical calls to obtain only the initial medoids would be
+```{r}
+Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0)
+Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
+Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
+```
+
+As it can be seen, to get and compare different initializations you must 
+set the parameter `max_iter` to the value `0`. In this
+case no iterations of objective function reduction are performed, 
+and the returned object contains the initial
+medoids and the classification induced by them. Notice that even looking 
+equal, the results of the latter two calls are different since `LAB`
+initializes with a random component (the sample to choose initial medoids 
+is chosen randomly).
+
+You can check that the medoids, stored in `Llab1$med` and `Llab2$med` 
+(see more on this below) are in general, different.
+
+Now, these results can be used to initialize PAM if you find that any of 
+them contains a specially good set of medoids. This is the role of method 
+`PREV` that we have mentioned before. A typical call would be
+```{r}
+Llab2Final=ApplyPAM("datatestL2.bin",k=5,init_method="PREV",initial_med=Llab2$med)
+```
+The initial set of medoids is taken from the object returned by the 
+former calls.
+
+With respect to that object, as we said it is a list with two vectors. 
+The first one, `L$med`, has as many components as requested medoids and
+the second, `L$clasif`, has as many components as instances. 
+
+Medoids are expressed in `L$med` by its number in the array of vectors 
+(row number in the dissimilarity matrix) starting at 1 (`R` convention).
+
+`L$clasif` contains the number of the medoid (i.e.: the cluster) to which 
+each instance has been assigned, according to their order in `L$med`
+(also from 1).
+
+This means that if `L$clasif[p]` is `m`, the point `p` belongs to the 
+class grouped around medoid `L$med[m]`. Let us see it.
+```{r}
+# Which are the indexes of the points chosen as medoids?
+L$med
+#
+# In which class has point 147 been classified?
+L$clasif[147]
+#
+# And which is the index (row in the dissimilarity matrix) of
+# the medoid closest to point 147?
+L$med[L$clasif[147]]
+```
+
+In this way, values in `L$clasif` are between 1 and the number of 
+medoids, as we can see
+```{r}
+min(L$clasif)
+max(L$clasif)
+```
+They can be used as factors.
+
+## Calculating silhouette  
+
+It is interesting to filter points based on the degree in which they belong
+to a cluster. Indeed, cluster refinement can be done
+getting rid of points far away from any cluster center, or which are at
+a similar distance of two or more of them.
+
+This is characterized by the silhouette of each point. Three functions deal
+with this: `CalculateSilhouette`, `FilterBySilhouetteQuantile`
+and `FilterBySilhouetteThreshold`.
+
+```{r}
+S=CalculateSilhouette(Llab2$clasif,"datatestL2.bin",nthreads=0)
+```
+
+The parameters to function `CalculateSilhouette` are the array of class 
+membership, as returned by `ApplyPAM` in its `clasif` field, and
+the file with the matrix of dissimilarities.
+
+A parallel implementation has been programmed, being nthreads as explained 
+before.
+
+Silhouette is a number in $[-1,1]$; the higher its value, the most 
+centered a point is in its cluster. 
+
+The returned object `S` is a numeric vector with the value of the 
+silhouette for each point, which will be a named vector if the classification
+vector was named.
+
+This vector can be converted to an object of the class `cluster::silhouette`
+with the function `NumSilToClusterSil` (which needs the vector of 
+classifications, too). This is done so that, if you load the package 
+`cluster` (@R-cluster), plot will generate the kind of silhouette plots
+included in such package.
+
+```{r}
+Sclus <- NumSilToClusterSil(Llab2$clasif,S)
+library(cluster)
+plot(Sclus)
+```
+
+Probably the plot does not look very nice with this random data which 
+yields a very bad clustering (since the points are not, by its own nature,
+organized in clusters) but with real data you should see significant
+things (see package `scellpam` (@R-scellpam)).
+
+Once the silhouette is calculated we can filter it by quantile or 
+by threshold. All points under this quantile or threshold will be
+discarded, except if they are medoids. Parameters are:  
+
+- The silhouette, as returned by CalculateSilhouette.  
+
+- The list of medoids/clasif, as returned by ApplyPAM.
+
+- The file with matrix of counts for the whole set of cells, which was 
+our first input.
+
+- The file that will contain the matrix of counts of the remaining cells.
+
+- The file with the dissimilarity matrix for the whole set, as calculated
+by `CalcAndWriteDissimilarityMatrix`.  
+
+- The file that will contain the dissimilarity for the remaining cells.  
+
+- And (depending on the function used) the quantile in $[0,1]$ or the 
+silhouette threshold in $[-1,1]$.
+
+As an example,
+ 
+```{r}
+Lfilt=FilterBySilhouetteQuantile(S,Llab2,"datatest.bin",
+                                 "datatestFilt.bin","datatestL2.bin",
+                                 "datatestL2Filt.bin",0.2)
+```
+
+If the original matrix contained row and column names, the column names 
+are copied and the row names are transported for those rows that remain.
+The same happens with respect to rows of the dissimilarity matrix.
+
+Notice that the new dissimilarity matrix could have been calculated from 
+the matrix of filtered counts with `CalcAndWriteDissimilarityMatrix`
+but creating it here, simply getting rid of the filtered rows and columns
+is much faster.
+
+Also, if a medoid is below the silhouette quantile, it will not be 
+filtered out, but a warning message will be shown, since this is a strange
+situation that may indicate that some of your clusters are not real but
+artifacts due to a few outliers that are close to each other.
+
+But remember that this was the result of the first step of the PAM 
+algorithm, so probably you will want to make them iterate.
+
+```{r}
+Lfinal=ApplyPAM("datatestL2Filt.bin",k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med)
+```
+
+Of course, we might have used simply 5 as number of medoids, `k`, 
+since this does not change by filtering, but this is to emphasize
+the fact that `ApplyPAM` with method `PREV` requires both parameters 
+to be consistent.
+
+
