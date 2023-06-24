@@ -99,8 +99,11 @@ class SymmetricMatrix: public JMatrix<T>
      * 
      * @return T: value at (r,c) of matrix
      */
+#ifdef WITH_CHECKS_MATRIXSYM
     T Get(indextype r,indextype c);
-    
+#else
+    inline T Get(indextype r,indextype c) { return (c<=r) ? data[r][c] : data[c][r]; };
+#endif
     /** 
      * Function to set an element
      * 
@@ -109,8 +112,12 @@ class SymmetricMatrix: public JMatrix<T>
      * @param T: the value to be set
      * 
      */
+#ifdef WITH_CHECKS_MATRIXSYM
     void Set(indextype r,indextype c,T v); 
-    
+#else  
+    inline void Set(indextype r,indextype c,T v) { if (c<=r) data[r][c]=v; else data[c][r]=v; };
+#endif
+
     /**
      * Function to get the sum of a row (used frequently by PAM)
      * 

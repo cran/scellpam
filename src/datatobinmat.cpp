@@ -107,19 +107,20 @@ void CsvDataToBinMat(std::string ifname,std::string ofname,unsigned char vtype,s
 
 //' CsvToJMat
 //'
-//' Gets a csv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
+//' Gets a csv/tsv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
 //' First line of the .csv is supposed to have the field names.\cr
 //' First column of each line is supposed to have the field name.\cr
 //' The fields are supposed to be separated by one occurrence of a character-field sepparator (usually, comma or tab)
+//' .tsv files can be read with this function, too, setting the csep argument to '\\t'
 //'
 //' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 //' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
 //' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
 //' 
-//' @param ifname    A string with the name of the .csv text file.
+//' @param ifname    A string with the name of the .csv/.tsv text file.
 //' @param ofname    A string with the name of the binary output file.
 //' @param mtype     A string to indicate the matrix type: 'full' or 'sparse'. Default: 'sparse'
-//' @param csep      The character used as separator in the .csv file. Default: ',' (comma)
+//' @param csep      The character used as separator in the .csv file. Default: ',' (comma) (Set to '\\t' for .tsv)
 //' @param ctype     The string 'raw' or 'log1' to write raw counts or log(counts+1), or the normalized versions, 'rawn' and 'log1n', which normalize ALWAYS BY COLUMNS (before transposition, if requested to transpose). The logarithm is taken base 2. Default: raw
 //' @param valuetype The data type to store the matrix. It must be one of the strings 'uint32', 'float' or 'double'. Default: float
 //' @param transpose Boolean to indicate if the matrix should be transposed before writing. See Details for a comment about this. Default: FALSE
@@ -137,7 +138,7 @@ void CsvDataToBinMat(std::string ifname,std::string ofname,unsigned char vtype,s
 //' JMatToCsv(tmpfile1,tmpcsvfile1)
 //' CsvToJMat(tmpcsvfile1,tmpfile2)
 //' # It can be checked that files Rfullfloat.bin and Rfullfloat2.bin contain the same data
-//' # (even hey differ in the comment, which has been eliminated when converting to csv)
+//' # (even they differ in the comment, which has been eliminated when converting to csv)
 //' @export
 // [[Rcpp::export]]
 void CsvToJMat(std::string ifname, std::string ofname,std::string mtype = "sparse",char csep=',', std::string ctype = "raw", std::string valuetype = "float", bool transpose = false,std::string comment = "")
@@ -633,13 +634,13 @@ void dgCMatrixDataToBinMat(std::string fname,std::string ctype,indextype nrows,i
 
 //' dgCMatToJMat
 //'
-//' Gets a dgCMatrix object and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
+//' Gets a dgCMatrix object (sparse matrix of the `Matrix` package) and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
 //' below to know more about the extraction of the sparse matrices from Seurat or similar single cell formats.
 //' 
 //' We have found that, in some Seurat objects, the dgCMatrix to be passed to this function can be extracted as q@assays$RNA@counts, being q the Seurat S4 object.\cr
 //' In other cases this matrix is obtained as q@raw.data.\cr
 //' In any case, we assume that this matrix has slots Dimnames (with a list of strings in Dimnames[[0]] as rownames and Dimnames[[1]]
-//' as column names) as long as slots with names i, p and x as described in the documentation of the R Matrix library on sparse matrices.
+//' as column names) as long as slots with names i, p and x as described in the documentation of the `Matrix` package on sparse matrices.
 //'
 //' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 //' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
@@ -718,9 +719,15 @@ void dgCMatToJMat(Rcpp::S4 q, std::string fname, std::string mtype = "sparse", s
  Rcpp::NumericVector colacc = q.slot("p");
  Rcpp::NumericVector values = q.slot("x");
  
- if ((values.length() < 2) || ((unsigned int)values.length() > nrows*ncols))
+ if (values.length() < 2) 
  {
-  Rcpp::stop("The vector of values in sparse matrix has incorrect length (too small or too big).\n");
+  Rcpp::stop("The vector of values in sparse matrix is too small (length is 0 or 1)\n");
+  return;
+ }
+ 
+ if ((unsigned long long)values.length() > (unsigned long long)nrows*(unsigned long long)ncols)
+ {
+  Rcpp::stop("The vector of values in sparse matrix has incorrect length (it is too big, bigger than the product of number of rows x number of columns().\n");
   return;
  }
  
@@ -906,18 +913,20 @@ void SceDataToBinMat(std::string fname,std::string ctype,bool isfull,bool transp
 
 //' SceToJMat
 //'
-//' Gets a numeric matrix of counts and writes it to a disk file in the jmatrix binary format.\cr
+//' Gets a numeric matrix of counts in the single cell experiment (sce) format and writes it to a disk file in the jmatrix binary format.\cr
 //' To use this function you will have to extract yourself the matrix of counts (and may be the vectors of row names and column names) from the sce
 //' or other object type. Plase, see the Details section
 //'
-//' The package BiocGenerics offers a facility to get the counts matrix, function counts, so usually you may load this packages and use
+//' The package BiocGenerics offers a facility to get the counts matrix, the function `counts, so usually you may load this package and use
 //' counts(your_sce_object) as first argument. But sometimes not, and for example in the DuoClustering, you have\cr 
 //' \cr
-//' M<-your_object@assays$data@listData$counts to extract the counts matrix\cr
+//' M<-your_object@assays$data@listData$counts\cr
 //' \cr
-//' but in splatter you would have\cr
+//' to extract the counts matrix but in splatter you would have\cr
 //' \cr
-//' M<-your_object@assays@data@listData$counts (which is not exactly the same...)\cr
+//' M<-your_object@assays@data@listData$counts\cr
+//' \cr
+//' (which is not exactly the same...)\cr
 //'
 //' The message, unfortunately, is: extract the data inspecting the internal structure of the object in the package that provided the data you are using.\cr
 //' We assume, nevertheless, that if the matrix is M,\cr
@@ -931,7 +940,7 @@ void SceDataToBinMat(std::string fname,std::string ctype,bool isfull,bool transp
 //' 
 //' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 //' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
-//' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
+//' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix.
 //'
 //' @param M         The numeric matrix (extracted from the sce object as counts(theobject) or otherwise directly from the sce object).
 //' @param fname     A string with the name of the binary output file
@@ -1043,3 +1052,108 @@ void SceToJMat(Rcpp::NumericMatrix &M, std::string fname,
   SceDataToBinMat<double>(fname,ctype,isfull,transpose,M,rnames,cnames,comment); 
 }
 
+/*
+//' LogAndNormalize
+//'
+//' Takes the names of a file containing a binary matrix in jmatrix format and a file that will contain the transformed/normalized matrix, also in binary jmatrix format
+//' The only possible transformation is the substitutiong of each value c by log2(c+1). AFTER that, normalization can be applied, either by rows or by columns.
+//' Input matrix must be of type 'uint32' (unsigned long), 'float' or 'double'.
+//' The transformed/normalized matrix will have the same character (full or sparse) of the original matrix and the datatype requested by the user.
+//' Setting log1n to FALSE, nomralization to 'none' and otype to a type different from that of the input matrix can be used to change the data type.
+//'
+//' A call to this function with log1n=FALSE, normtype='none' and the ouput type equal to that of the input matrix would not alter the original matrix, and therefore
+//' is not executed, raising an error.
+//' Degrading the input matrix to a lower type (i.e.: 'double' to 'float' or to 'uint32' or 'float' to 'uint32' is allowed, but will provoke a precision loss and it raises a warning.
+//' Apply the log1n transformation requires the output type be 'float' or 'double'. Otherwise, an error is raised.
+//' This function cannot be applied to symmetric matrices. If ifname contains such a matrix, it would raise an error.
+//'
+//' @param ifname Name of the file containing the original matrix
+//' @param ofname Name of the file containing the transformed matrix
+//' @param log1n  Boolean. TRUE to apply the log2(c+1) transformation to any c value, FALSE to write the value c as is
+//' @param normtype String to ask for the normalization to be applied with value 'none', 'byrows' or 'bycols'
+//' @param otype  Data type of the output matrix. It can be 'uint32', 'float' or 'double'
+//' @return   No return value, called for side effects (creates a file)
+//' @examples
+//' # Sorry, we cannot provide an example here, since it would need the load of the splatter package.
+//' # Please, see the vignette for examples
+//' @export
+// [[Rcpp::export]]
+void LogAndNormalize(std::string ifile, std::string ofile, bool log1n=false, std::string normtype, std::string otype)
+{
+ if ((normtype != "none") && (normtype != "byrows") && (normtype != "bycols"))
+ {
+  Rcpp::stop("normtype parameter must be 'none', 'byrows' or 'bycols'.\n");
+  return;
+ }
+ if ((otype != "uint32") && (otype != "float") && (otype != "double"))
+ {
+  Rcpp::stop("otype parameter must be 'uint32', 'int32', 'float' or 'double'.\n");
+  return;
+ }
+ unsigned char octype;
+ if (otype=="uint32")
+  octype=ULTYPE;
+ if (otype=="float")
+  octype=FTYPE;
+ if (otype=="double")
+  octype=DTYPE;
+  
+ unsigned char mtype,ctype,endian,mdinf;
+ indextype nrows,ncols;
+ 
+ MatrixType(ifile,mtype,ctype,endian,mdinf,nrows,ncols);
+ 
+ if (mtype==MTYPESYMMETRIC)
+ {
+  Rcpp::stop("Input matrix cannot be symmetric, only full or sparse.\n");
+  return;
+ }
+ 
+ if ((ctype!=ULTYPE) && (ctype!=FTYPE) && (ctype!=DTYPE))
+ {
+  Rcpp::stop("Input matrix is not of one of the allowed types (uint32, float or double).\n");
+  return;
+ }
+ 
+ if ((log1n==true) && (otype=="uint32"))
+ {
+  Rcpp::stop("Cannot apply log1n transformation and write the result as integer. It should be float or double.\n");
+  return;
+ }
+ 
+ if (
+     (otype=="uint32" && (ctype=="float" || (ctype=="double"))) 
+     ||
+     (otype=="float") && (ctype=="double")
+    )
+    Rcpp::warn("Warning: you are downgrading data type. This will provoke a loss of precision.\n");
+    
+ if ((normtype=="none") && (log1n==false) && (ctype==octype))
+ {
+  Rcpp::stop("Not normalizing, not applying the log transformation and keeping the same datatype would not change the original file so it is not executed. In this case, just make a copy the file.\n");
+  return;
+ }
+ 
+ if (mtype==MTYPEFULL)
+ {
+     switch (ctype)
+     {
+        case ULTYPE: { FullMatrix<unsigned long> M(ifile); WriteFullNorm(M,normtype,octype,ofile); break; };
+        case FTYPE:  { FullMatrix<float> M(ifile);  WriteFullNorm(M,normtype,octype,ofile); break; };
+        case DTYPE:  { FullMatrix<double> M(ifile); WriteFullNorm(M,normtype,octype,ofile); break; };
+        default: break;
+    }
+ }
+ if (mtype==MTYPESPARSE)
+ {
+     switch (ctype)
+     {
+        case ULTYPE: { SparseMatrix<unsigned long> M(ifile); WriteSparseNorm(M,normtype,octype,ofile); break; };
+        case FTYPE:  { SparseMatrix<float> M(ifile);  WriteSparseNorm(M,normtype,octype,ofile); break; }; 
+        case DTYPE:  { SparseMatrix<double> M(ifile); WriteSparseNorm(M,normtype,octype,ofile); break; };
+        default: break;
+    }
+ }
+ 
+}
+*/

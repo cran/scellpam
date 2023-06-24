@@ -24,9 +24,9 @@ FilterBySilhouetteQuantile(
 
 \item{ffilcounts}{A string with the name of the binary file that will contain the selected cells. It will have the same character (full/sparse) and type of the complete file.}
 
-\item{falldissim}{A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix of floats.}
+\item{falldissim}{A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix.}
 
-\item{ffildissim}{A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix of floats.}
+\item{ffildissim}{A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix.}
 
 \item{q}{Quantile to filter. All points (cells) whose silhouette is below this quantile will be filtered out. Default: 0.2}
 

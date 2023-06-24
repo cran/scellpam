@@ -9,7 +9,7 @@ GetJManyColsByNames(fname, extcolnames)
 \arguments{
 \item{fname}{String with the file name that contains the binary data.}
 
-\item{extcolnames}{A numeric vector with the names of the columns to be extracted. If the binary file has no column names, or _any_ of the column names is not present, an empty matrix is returned.}
+\item{extcolnames}{A vector of RStrings with the names of the columns to be extracted. If the binary file has no column names, or _any_ of the column names is not present, an empty matrix is returned.}
 }
 \value{
 A numeric matrix with the values of elements in the requested columns

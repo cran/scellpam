@@ -142,9 +142,9 @@ void JMatInfo(std::string fname, std::string fres = "")
   
  if (mtype==MTYPESPARSE)
  {
-     unsigned long long full_size=nrows*ncols*SizeOfType(ctype);
+     unsigned long long full_size=(unsigned long long)nrows*(unsigned long long)ncols*SizeOfType(ctype);
      unsigned long long used_size=start_metadata-HEADER_SIZE;
-     out << "Binary data size:   " <<  used_size << " bytes, which is " << 100.0*float(used_size)/float(full_size) << "% of the full matrix size.\n";
+     out << "Binary data size:   " <<  used_size << " bytes, which is " << 100.0*float(used_size)/float(full_size) << "% of the full matrix size (which would be " << full_size  << " bytes).\n";
  }
  
  if (fres != "")

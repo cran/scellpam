@@ -22,7 +22,7 @@ ScellpamSetDebug(TRUE,debparpam=TRUE,debjmat=TRUE)
 #            ctype="raw",valuetype="float",transpose=FALSE,comment="")
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  CsvToBinMat("countsfile.csv","countsfile.bin",transpose=TRUE,
+#  CsvToBinMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
 #              comment="Obtained from countsfile.csv")
 
 ## ---- eval=FALSE--------------------------------------------------------------

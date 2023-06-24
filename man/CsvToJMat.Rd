@@ -16,13 +16,13 @@ CsvToJMat(
 )
 }
 \arguments{
-\item{ifname}{A string with the name of the .csv text file.}
+\item{ifname}{A string with the name of the .csv/.tsv text file.}
 
 \item{ofname}{A string with the name of the binary output file.}
 
 \item{mtype}{A string to indicate the matrix type: 'full' or 'sparse'. Default: 'sparse'}
 
-\item{csep}{The character used as separator in the .csv file. Default: ',' (comma)}
+\item{csep}{The character used as separator in the .csv file. Default: ',' (comma) (Set to '\\t' for .tsv)}
 
 \item{ctype}{The string 'raw' or 'log1' to write raw counts or log(counts+1), or the normalized versions, 'rawn' and 'log1n', which normalize ALWAYS BY COLUMNS (before transposition, if requested to transpose). The logarithm is taken base 2. Default: raw}
 
@@ -36,10 +36,11 @@ CsvToJMat(
 No return value, called for side effects (creates a file)
 }
 \description{
-Gets a csv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
+Gets a csv/tsv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
 First line of the .csv is supposed to have the field names.\cr
 First column of each line is supposed to have the field name.\cr
 The fields are supposed to be separated by one occurrence of a character-field sepparator (usually, comma or tab)
+.tsv files can be read with this function, too, setting the csep argument to '\\t'
 }
 \details{
 The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
@@ -58,5 +59,5 @@ JWriteBin(Rf,tmpfile1,dtype="float",dmtype="full",comment="Full matrix of floats
 JMatToCsv(tmpfile1,tmpcsvfile1)
 CsvToJMat(tmpcsvfile1,tmpfile2)
 # It can be checked that files Rfullfloat.bin and Rfullfloat2.bin contain the same data
-# (even hey differ in the comment, which has been eliminated when converting to csv)
+# (even they differ in the comment, which has been eliminated when converting to csv)
 }

@@ -12,7 +12,7 @@ GetJNames(fname)
 \value{
 N["rownames","colnames"]: A list with two elements named rownames and colnames which are R StringVectors.
         If the binary file has no row or column names as metadata BOTH will be returned as empty vectors, even if one of them exists.
-        If you want to extract only one, use either GetBinRowNames or GetBinColNames, as appropriate.
+        If you want to extract only one, use either GetJRowNames or GetJColNames, as appropriate.
 }
 \description{
 Returns a R list of two elements, rownames and colnames, each of them being a R StringVector with the corresponding names

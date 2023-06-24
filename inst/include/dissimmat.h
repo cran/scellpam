@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (C) 2022 Juan Domingo (Juan.Domingo@uv.es)
+ * Copyright (C) 2023 Juan Domingo (Juan.Domingo@uv.es)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,13 @@
 const unsigned char DL1=0x0;   // L1 distance
 const unsigned char DL2=0x1;   // L2 distance
 const unsigned char DPe=0x2;   // Pearson dissimilarity coefficient
+const unsigned char DCo=0x3;   // Cosine distance
+const unsigned char DWe=0x4;   // Weighted Euclidean distance
 
 const unsigned char EMPTY=0x0;
 const unsigned char IN_FIRST=0x01;
 const unsigned char IN_SECOND=0x02;   // This is IN_FIRST << 1
-// No need to use this later...
-//const unsigned char IN_BOTH=0x03;     // This is IN_FIRST | IN_SECOND
+const unsigned char IN_BOTH=0x03;     // This is IN_FIRST | IN_SECOND
 
 // From now on, and in the .cpp files, counttype is the value type of the input files and disttype the value type of the dissimilarity matrix (our output)
 template <typename counttype,typename disttype>
@@ -50,7 +51,8 @@ struct args_to_sp_thread
     indextype final_row2;
     SparseMatrix<counttype> *M;
     SymmetricMatrix<disttype> *D;
-    std::vector<counttype> *mu;
+    std::vector<disttype> *muvar;  // The mean or variance is always promoted to disttype
+                                   // This is because counttype might be integer but mean/variance of integers is, at least, a float.
     unsigned char dtype;
 };
 
@@ -63,7 +65,8 @@ struct args_to_full_thread
     indextype final_row2;
     FullMatrix<counttype> *M;
     SymmetricMatrix<disttype> *D;
-    std::vector<counttype> *mu;
+    std::vector<disttype> *muvar;  // The mean or variance is always promoted to disttype
+                                   // This is because counttype might be integer but mean/variance of integers is, at least, a float.
     unsigned char dtype;
 };
 

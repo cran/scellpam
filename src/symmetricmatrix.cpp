@@ -232,12 +232,11 @@ bool SymmetricMatrix<T>::TestDistDisMat()
 TEMPLATES_FUNC(bool,SymmetricMatrix,TestDistDisMat,)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+#ifdef WITH_CHECKS_MATRIXSYM
 template <typename T>
 T SymmetricMatrix<T>::Get(indextype r,indextype c)
 { 
 
-#ifdef WITH_CHECKS_MATRIXSYM
     if ((r>=this->nr) || (c>=this->nc))
     {
     	std::ostringstream errst;
@@ -245,18 +244,18 @@ T SymmetricMatrix<T>::Get(indextype r,indextype c)
         errst << "This matrix was of dimension (" << this->nr << " x " << this->nc << ")\n";
         Rcpp::stop(errst.str());
     }
-#endif
     return (c<=r) ? data[r][c] : data[c][r];
 }
 
 TEMPLATES_FUNCR(SymmetricMatrix,Get,SINGLE_ARG(indextype r,indextype c))
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef WITH_CHECKS_MATRIXSYM
 template <typename T>
 void SymmetricMatrix<T>::Set(indextype r,indextype c,T v)
 {
-#ifdef WITH_CHECKS_MATRIXSYM
     if ((r>=this->nr) || (c>=this->nc))
     {
     	std::ostringstream errst;
@@ -264,7 +263,6 @@ void SymmetricMatrix<T>::Set(indextype r,indextype c,T v)
         errst << "This matrix was of dimension (" << this->nr << " x " << this->nc << ")\n";
         Rcpp::stop(errst.str());
     }
-#endif
     if (c<=r) 
         data[r][c]=v;
     else 
@@ -272,6 +270,7 @@ void SymmetricMatrix<T>::Set(indextype r,indextype c,T v)
 }
 
 TEMPLATES_SETFUNC(void,SymmetricMatrix,Set,SINGLE_ARG(indextype r,indextype c),v)
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

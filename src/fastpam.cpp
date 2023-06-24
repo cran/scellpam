@@ -371,20 +371,20 @@ void FastPAM<disttype>::BUILD()
      }
      
      // The maximum decrease in TD is initialized to the lowest possible number
-     most_negative_tdchange = numeric_limits<double>::max();
-     best_up_to_now = num_obs+1;
+     most_negative_tdchange = numeric_limits<double>::max();  // L9
+     best_up_to_now = num_obs+1;                              // L9
      
      // For each point, it is a candidate to be a new medoid...   
-     for (indextype cand=0; cand<num_obs; cand++)
+     for (indextype cand=0; cand<num_obs; cand++)                 // L10
      {
          // ...unless it is one of the already found medoids.
          if ( !ismedoid[cand] )
          {
              // The total change in TD is initialized to 0
-             tdchange=0.0;
+             tdchange=0.0;                                        // L11
              
              // Now, let's look at each of the other points...
-             for (indextype other=0; other<num_obs; other++)
+             for (indextype other=0; other<num_obs; other++)               // L12
                 // .. as said before, 'other' points different from cand and its dissimilarity with its
                 // current closest medoid is bigger than the one to me...
                 if ( (other!=cand) && ((d=D->Get(cand,other))<dnearest[other]) )
@@ -1065,7 +1065,7 @@ void FastPAM<disttype>::RunImprovedFastPAM1()
   
   Rcpp::checkUserInterrupt();
  }
- while ((fabs(DeltaTDst)>tol_limit) && (iteration<maxiter) && (!out));   // fabs because DeltaTDst is negative...
+ while ((fabs(DeltaTDst)>tol_limit) && (iteration<maxiter) && (current_npch>0) && (!out));   // fabs because DeltaTDst is negative...
  num_iterations_in_opt=(iteration>0) ? iteration-1 : 0;
  
  delete[] DeltaTDminusm;
@@ -1306,7 +1306,7 @@ void FastPAM<disttype>::RunParallelImprovedFastPAM1(unsigned int nt)
   
   Rcpp::checkUserInterrupt();
  }
- while ((fabs(DeltaTDst)>tol_limit) && (iteration<maxiter) && (!out));   // fabs because DeltaTDst is negative...
+ while ((fabs(DeltaTDst)>tol_limit) && (iteration<maxiter) && (current_npch>0) && (!out));   // fabs because DeltaTDst is negative...
  num_iterations_in_opt=(iteration>0) ? iteration-1 : 0;
  
  delete[] DeltaTDstPerTh;

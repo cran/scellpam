@@ -170,7 +170,7 @@ Rcpp::StringVector GetJRowNames(std::string fname)
 //' Returns a R StringVector with the column names of a matrix stored in the binary format of package jmatrix, if it has them stored.
 //'
 //' @param fname  String with the file name that contains the binary data.
-//' @return A R StringVector with the column names, or the empty vector if the binaryfile has no row column names as metadata.
+//' @return A R StringVector with the column names, or the empty vector if the binaryfile has no column names as metadata.
 //' @examples
 //' Rf <- matrix(runif(48),nrow=6)
 //' rownames(Rf) <- c("A","B","C","D","E","F")
@@ -198,7 +198,7 @@ Rcpp::StringVector GetJColNames(std::string fname)
 //' @param fname  String with the file name that contains the binary data.
 //' @return N["rownames","colnames"]: A list with two elements named rownames and colnames which are R StringVectors.
 //'         If the binary file has no row or column names as metadata BOTH will be returned as empty vectors, even if one of them exists.
-//'         If you want to extract only one, use either GetBinRowNames or GetBinColNames, as appropriate.
+//'         If you want to extract only one, use either GetJRowNames or GetJColNames, as appropriate.
 //' @examples
 //' Rf <- matrix(runif(48),nrow=6)
 //' rownames(Rf) <- c("A","B","C","D","E","F")

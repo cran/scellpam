@@ -28,19 +28,20 @@ BuildAbundanceMatrix <- function(clasif, gr, expgroups = 0L) {
 
 #' CsvToJMat
 #'
-#' Gets a csv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
+#' Gets a csv/tsv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
 #' First line of the .csv is supposed to have the field names.\cr
 #' First column of each line is supposed to have the field name.\cr
 #' The fields are supposed to be separated by one occurrence of a character-field sepparator (usually, comma or tab)
+#' .tsv files can be read with this function, too, setting the csep argument to '\\t'
 #'
 #' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 #' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
 #' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
 #' 
-#' @param ifname    A string with the name of the .csv text file.
+#' @param ifname    A string with the name of the .csv/.tsv text file.
 #' @param ofname    A string with the name of the binary output file.
 #' @param mtype     A string to indicate the matrix type: 'full' or 'sparse'. Default: 'sparse'
-#' @param csep      The character used as separator in the .csv file. Default: ',' (comma)
+#' @param csep      The character used as separator in the .csv file. Default: ',' (comma) (Set to '\\t' for .tsv)
 #' @param ctype     The string 'raw' or 'log1' to write raw counts or log(counts+1), or the normalized versions, 'rawn' and 'log1n', which normalize ALWAYS BY COLUMNS (before transposition, if requested to transpose). The logarithm is taken base 2. Default: raw
 #' @param valuetype The data type to store the matrix. It must be one of the strings 'uint32', 'float' or 'double'. Default: float
 #' @param transpose Boolean to indicate if the matrix should be transposed before writing. See Details for a comment about this. Default: FALSE
@@ -58,7 +59,7 @@ BuildAbundanceMatrix <- function(clasif, gr, expgroups = 0L) {
 #' JMatToCsv(tmpfile1,tmpcsvfile1)
 #' CsvToJMat(tmpcsvfile1,tmpfile2)
 #' # It can be checked that files Rfullfloat.bin and Rfullfloat2.bin contain the same data
-#' # (even hey differ in the comment, which has been eliminated when converting to csv)
+#' # (even they differ in the comment, which has been eliminated when converting to csv)
 #' @export
 CsvToJMat <- function(ifname, ofname, mtype = "sparse", csep = ',', ctype = "raw", valuetype = "float", transpose = FALSE, comment = "") {
     invisible(.Call(`_scellpam_CsvToJMat`, ifname, ofname, mtype, csep, ctype, valuetype, transpose, comment))
@@ -125,13 +126,13 @@ FilterJMatByName <- function(fname, Gn, filname, namesat = "rows") {
 
 #' dgCMatToJMat
 #'
-#' Gets a dgCMatrix object and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
+#' Gets a dgCMatrix object (sparse matrix of the `Matrix` package) and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
 #' below to know more about the extraction of the sparse matrices from Seurat or similar single cell formats.
 #' 
 #' We have found that, in some Seurat objects, the dgCMatrix to be passed to this function can be extracted as q@assays$RNA@counts, being q the Seurat S4 object.\cr
 #' In other cases this matrix is obtained as q@raw.data.\cr
 #' In any case, we assume that this matrix has slots Dimnames (with a list of strings in Dimnames[[0]] as rownames and Dimnames[[1]]
-#' as column names) as long as slots with names i, p and x as described in the documentation of the R Matrix library on sparse matrices.
+#' as column names) as long as slots with names i, p and x as described in the documentation of the `Matrix` package on sparse matrices.
 #'
 #' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 #' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
@@ -179,18 +180,20 @@ GetSeuratGroups <- function(q) {
 
 #' SceToJMat
 #'
-#' Gets a numeric matrix of counts and writes it to a disk file in the jmatrix binary format.\cr
+#' Gets a numeric matrix of counts in the single cell experiment (sce) format and writes it to a disk file in the jmatrix binary format.\cr
 #' To use this function you will have to extract yourself the matrix of counts (and may be the vectors of row names and column names) from the sce
 #' or other object type. Plase, see the Details section
 #'
-#' The package BiocGenerics offers a facility to get the counts matrix, function counts, so usually you may load this packages and use
+#' The package BiocGenerics offers a facility to get the counts matrix, the function `counts, so usually you may load this package and use
 #' counts(your_sce_object) as first argument. But sometimes not, and for example in the DuoClustering, you have\cr 
 #' \cr
-#' M<-your_object@assays$data@listData$counts to extract the counts matrix\cr
+#' M<-your_object@assays$data@listData$counts\cr
 #' \cr
-#' but in splatter you would have\cr
+#' to extract the counts matrix but in splatter you would have\cr
 #' \cr
-#' M<-your_object@assays@data@listData$counts (which is not exactly the same...)\cr
+#' M<-your_object@assays@data@listData$counts\cr
+#' \cr
+#' (which is not exactly the same...)\cr
 #'
 #' The message, unfortunately, is: extract the data inspecting the internal structure of the object in the package that provided the data you are using.\cr
 #' We assume, nevertheless, that if the matrix is M,\cr
@@ -204,7 +207,7 @@ GetSeuratGroups <- function(q) {
 #' 
 #' The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 #' (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
-#' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
+#' the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix.
 #'
 #' @param M         The numeric matrix (extracted from the sce object as counts(theobject) or otherwise directly from the sce object).
 #' @param fname     A string with the name of the binary output file
@@ -259,7 +262,8 @@ ScellpamSetDebug <- function(deb = TRUE, debparpam = FALSE, debjmat = FALSE) {
 #'
 #' @param ifname   A string with the name of the file containing the counts as a binary matrix, as written by CsvToBinMat, dgCMatToBinMat or SceToBinMat
 #' @param ofname   A string with the name of the binary output file to contain the symmetric dissimilarity matrix.
-#' @param distype  The dissimilarity to be calculated. It must be one of these strings: 'L1', 'L2' or 'Pearson'.\cr
+#' @param distype  The dissimilarity to be calculated. It must be one of these strings: 'L1', 'L2', 'Pearson', 'Cos' or 'WEuc'.\cr
+#'                 Respectively: L1 (Manhattan), L2 (Euclidean), Pearson (Pearson dissimilarity), Cos (cosine distance), WEuc (weigthed Euclidean, with inverse-variances as weights).\cr
 #'                 Default: 'L2'.
 #' @param restype  The data type of the result. It can be one of the strings 'float' or 'double'. Default: float (and don't change it unless you REALLY need to...).
 #' @param comment  Comment to be added to the dissimilary matrix. Default: "" (no comment)
@@ -314,8 +318,8 @@ CalcAndWriteDissimilarityMatrix <- function(ifname, ofname, distype = "L2", rest
 #' @param L          A list of two numeric vectors, L$med and L$clasif, obtained normally as the object returned by ApplyPAM.
 #' @param fallcounts A string with the name of the binary file containing the matrix of counts per cell. It can be either a full or a sparse matrix.
 #' @param ffilcounts A string with the name of the binary file that will contain the selected cells. It will have the same character (full/sparse) and type of the complete file.
-#' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix of floats.
-#' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix of floats.
+#' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix.
+#' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix.
 #' @param q          Quantile to filter. All points (cells) whose silhouette is below this quantile will be filtered out. Default: 0.2
 #' @param addcom     Boolean to indicate if a comment must be appended to the current comment of counts and dissimilarity matrices to indicate that they are the result of a filtering process. This comment is automatically generated and contains the value of quantile q. Succesive applications add comments at the end of those already present. Default: TRUE
 #' @return Lr["med","clasif"] A list of two numeric vectors.\cr
@@ -373,8 +377,8 @@ FilterBySilhouetteQuantile <- function(s, L, fallcounts, ffilcounts, falldissim,
 #' @param L          A list of two numeric vectors, L$med and L$clasif, obtained normally as the object returned by ApplyPAM.
 #' @param fallcounts A string with the name of the binary file containing the matrix of counts per cell. It can be either a full or a sparse matrix.
 #' @param ffilcounts A string with the name of the binary file that will contain the selected cells. It will have the same character (full/sparse) and type of the complete file.
-#' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix of floats.
-#' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix of floats.
+#' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix.
+#' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix.
 #' @param thres      Threshold to filter. All points whose silhouette is below this threshold will be filtered out. Default: 0.0 (remember that silhouette is in [-1..1])
 #' @param addcom     Boolean to indicate if a comment must be appended to the current comment of counts and dissimilarity matrices to indicate that they are the result of a filtering process. This comment is automatically generated and contains the value of threshold t. Succesive applications add comments at the end of those already present. Default: TRUE
 #' @return Lr["med","clasif"] A list of two numeric vectors.\cr
@@ -428,7 +432,7 @@ FilterBySilhouetteThreshold <- function(s, L, fallcounts, ffilcounts, falldissim
 #' @param L      The list returned by ApplyPAM with fields L$med and\cr
 #'               L$clasif with the numbers of the medoids and the classification of each point
 #' @param fdist  The binary file containing the symmetric matrix with the dissimilarities between points (usually, generated by 
-#'               a call to CalcAndWriteDissimilarityMatrix or to CalcAndWriteDissimilarityMatrixDouble)
+#'               a call to CalcAndWriteDissimilarityMatrix).
 #' @return Df    Dataframe with columns PointName, NNPointName and NNDistance. See Details for description.
 #' @examples
 #' # Synthetic problem: 10 random seeds with coordinates in [0..20]
@@ -470,17 +474,18 @@ ClassifAsDataFrame <- function(L, fdist) {
 #' used to generate the distance matrix.\cr
 #' The number of instances, N, is not passed since dissimilarity matrix is NxN and therefore its size indicates the N value.
 #' 
-#' With respect to the returned value, L$med has as many components as requested medoids and\cr
-#' L$clasif has as many components as instances.\cr
+#' With respect to the returned value, L$med has as many components\cr
+#' as requested medoids and L$clasif has as many components as instances.\cr
 #' Medoids are expressed in L$med by its number in the array of points (row in the dissimilarity matrix) starting at 1 (R convention).\cr
 #' L$clasif contains the number of the medoid (i.e.: the cluster) to which each instance has been assigned, according to their order in\cr
 #' L$med (also from 1).\cr
-#' This means that if L$clasif[p] is m, the point p belongs to the class grouped around\cr
-#' medoid L$med[m].\cr
-#' Moreover, if the dissimilarity matrix contains as metadata the point names, the returned are R-named vector with such names.
+#' This means that if L$clasif[p] is m, the point p belongs to the\cr
+#' class grouped around medoid L$med[m].\cr
+#' Moreover, if the dissimilarity matrix contains as metadata\cr
+#' (row names) the cell names, the returned vector is a R-named vector with such names.
 #' 
 #' @param dissim_file  A string with the name of the binary file that contains the symmetric matrix of dissimilarities. Such matrix
-#'                     should have been generated by CalcAndWriteDissimilarityMatrix and it is a matrix of type 'disttype' (in this type defined as float).
+#'                     should have been generated by CalcAndWriteDissimilarityMatrix and it must be a symmetric matrix.
 #' @param k            A possitive integer (the desired number of medoids).
 #' @param init_method  One of the strings 'PREV', 'BUILD' or 'LAB'. See meaning of initialization algorithms BUILD and LAB in the original paper.\cr
 #'                     'PREV' should be used exclusively to start the second part of the algorithm (optimization) from a initial set of medoids generated by a former call.\cr
@@ -490,8 +495,9 @@ ClassifAsDataFrame <- function(L, fdist) {
 #'                     Default: empty vector.
 #' @param max_iter     The maximum number of allowed iterations. 0 means stop immediately after finding initial medoids.\cr
 #'                     Default: 1000
-#' @param nthreads     For the BUILD initialization algorithm (the only part currently implemented in parallel), the number of used threads.\cr
-#'                     -1 means don't use threads (serial implementation). 0 means let the program choose according to the number of cores and of points.\cr
+#' @param nthreads     The number of used threads.\cr
+#'                     -1 means don't use threads (serial implementation).\cr
+#'                     0 means let the program choose according to the number of cores and of points.\cr
 #'                     Any other number forces this number of threads. Choosing more than the number of available cores is allowed, but discouraged.\cr
 #'                     Default: 0
 #' @return L["med","clasif"] A list of two numeric vectors. See section Details for more information\cr                     
@@ -534,7 +540,7 @@ ApplyPAM <- function(dissim_file, k, init_method = "BUILD", initial_med = NULL, 
 #'
 #' @param L            A list of two numeric vectors, L["med","clasif"], as returned by ApplyPAM (please, consult the help of ApplyPAM for details)
 #' @param dissim_file  A string with the name of the binary file that contains the symmetric matrix of dissimilarities. Such matrix
-#'                     should have been generated by CalcAndWriteDissimilarityMatrix and it is a matrix of type 'disttype' (currently defined as float).
+#'                     should have been generated by CalcAndWriteDissimilarityMatrix.
 #' @return TD          The value of the TD function.
 #' @examples
 #' # Synthetic problem: 10 random seeds with coordinates in [0..20]
@@ -629,7 +635,7 @@ GetJColByName <- function(fname, colname) {
 #' Returns (as a R numeric matrix) the columns with the requested column names from the matrix contained in a jmatrix binary file
 #'
 #' @param fname        String with the file name that contains the binary data.
-#' @param extcolnames  A numeric vector with the names of the columns to be extracted. If the binary file has no column names, or _any_ of the column names is not present, an empty matrix is returned.
+#' @param extcolnames  A vector of RStrings with the names of the columns to be extracted. If the binary file has no column names, or _any_ of the column names is not present, an empty matrix is returned.
 #' @return             A numeric matrix with the values of elements in the requested columns
 #' @examples
 #' Rf <- matrix(runif(48),nrow=6)
@@ -735,7 +741,7 @@ GetJRowByName <- function(fname, rowname) {
 #' Returns (as a R numeric matrix) the rows with the requested row names from the matrix contained in a jmatrix binary file
 #'
 #' @param fname        String with the file name that contains the binary data.
-#' @param extrownames  A numeric vector with the names of the rows to be extracted. If the binary file has no row names, or _any_ of the row names is not present, an empty matrix is returned.
+#' @param extrownames  A vector of RStrings with the names of the rows to be extracted. If the binary file has no row names, or _any_ of the row names is not present, an empty matrix is returned.
 #' @return             A numeric matrix with the values of elements in the requested rows
 #' @examples
 #' Rf <- matrix(runif(48),nrow=6)
@@ -794,7 +800,7 @@ GetJRowNames <- function(fname) {
 #' Returns a R StringVector with the column names of a matrix stored in the binary format of package jmatrix, if it has them stored.
 #'
 #' @param fname  String with the file name that contains the binary data.
-#' @return A R StringVector with the column names, or the empty vector if the binaryfile has no row column names as metadata.
+#' @return A R StringVector with the column names, or the empty vector if the binaryfile has no column names as metadata.
 #' @examples
 #' Rf <- matrix(runif(48),nrow=6)
 #' rownames(Rf) <- c("A","B","C","D","E","F")
@@ -815,7 +821,7 @@ GetJColNames <- function(fname) {
 #' @param fname  String with the file name that contains the binary data.
 #' @return N["rownames","colnames"]: A list with two elements named rownames and colnames which are R StringVectors.
 #'         If the binary file has no row or column names as metadata BOTH will be returned as empty vectors, even if one of them exists.
-#'         If you want to extract only one, use either GetBinRowNames or GetBinColNames, as appropriate.
+#'         If you want to extract only one, use either GetJRowNames or GetJColNames, as appropriate.
 #' @examples
 #' Rf <- matrix(runif(48),nrow=6)
 #' rownames(Rf) <- c("A","B","C","D","E","F")
@@ -869,13 +875,14 @@ JWriteBin <- function(M, fname, dtype = "float", dmtype = "full", comment = "") 
 #' 
 #' @param cl        The array of classification with the number of the class to which each point belongs to. This number must be in 1..number_of_classes.\cr
 #'                  This function takes something like the L$clasif array which is the second element of the list returned by ApplyPAM
-#' @param fdist     The binary file containing the symmetric matrix with the dissimilarities between points (usually, generated by a call to CalcAndWriteDissimilarityMatrix)
-#' @param nthreads  The number of used threads.\cr
-#'                  -1 means don't use threads (serial implementation). 0 means let the program choose according to the number of cores and of points.\cr
+#' @param fdist     The binary file containing the symmetric matrix with the dissimilarities between cells (usually, generated by a call to CalcAndWriteDissimilarityMatrix)
+#' @param nthreads  The number of used threads for parallel calculation.\cr
+#'                  -1 means don't use threads (serial implementation).\cr
+#'                   0 means let the program choose according to the number of cores and of points.\cr
 #'                   Any other number forces this number of threads. Choosing more than the number of available cores is allowed, but discouraged.\cr
 #'                   Default: 0
 #' @return sil       Numeric vector with the values of the silhouette for each point, in the same order in which points are in cl.\cr
-#'                   If cl is a named vector sill will be a named vector, too, with the same names.
+#'                   If cl is a named vector sil will be a named vector, too, with the same names.
 #' @examples
 #' # Synthetic problem: 10 random seeds with coordinates in [0..20]
 #' # to which random values in [-0.1..0.1] are added
@@ -910,8 +917,8 @@ CalculateSilhouette <- function(cl, fdist, nthreads = 0L) {
 #' @param cl        The array of classification with the number of the class to which each point belongs to. This number must be in 1..number_of_classes.\cr
 #'                  This function takes something like the L$clasif array which is the second element of the list returned by ApplyPAM
 #' @param s         The numeric value of the silhouette for each point, with points in the same order as they appear in cl.\cr
-#'                  This is the vector returned by after a call to CalculateSilhouette with the same value of parameter cl.
-#' @return sp       A silhouette in the format of the cluster package which is a NumericMatrix of as many rows as points and three columns: cluster, neighbor and sil_width.\cr
+#'                  This is the vector returned by a call to CalculateSilhouette with the same value of parameter cl.
+#' @return sp       A silhouette in the format of the cluster package which is a NumericMatrix with as many rows as points and three columns: cluster, neighbor and sil_width.\cr
 #'                  Its structure and dimension names are as in package 'cluster', which allows to use it with the silhouette plotting functions of such package\cr
 #'                  This means you can do library(cluster) followed by plot(NumSilToClusterSil(cl,s)) to get a beatiful plot.
 #' @examples

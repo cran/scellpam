@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (C) 2022 Juan Domingo (Juan.Domingo@uv.es)
+ * Copyright (C) 2023 Juan Domingo (Juan.Domingo@uv.es)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ void FillMetricMatrixFromFull(indextype initial_row,indextype final_row,FullMatr
  if ( (initial_row >= nrows) || (final_row > nrows) )
  {
      std::ostringstream errst;
-     errst << "Error in FillMetricMatrixFromFull: start of area at " << initial_row << " or end of area at " << final_row << " outside matrix limits.\n";
+     errst << "Error in FillMetricMatrixFromFull: either start of area at " << initial_row << " or end of area at " << final_row << " or both are outside matrix limits.\n";
      Rcpp::stop(errst.str());
      return;
  }
@@ -76,7 +76,7 @@ void FillMetricMatrixFromFull(indextype initial_row,indextype final_row,FullMatr
     }
    } 
    
-   D->Set(rowA,rowB,(L1dist ? d : sqrtf(d)));
+   D->Set(rowA,rowB,(L1dist ? d : sqrt(d)));
   }
   
   // This is just to set the main diagonal.
@@ -94,31 +94,11 @@ template void FillMetricMatrixFromFull(indextype initial_row,indextype final_row
 template void FillMetricMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,SymmetricMatrix<double> *D,bool L1dist);
 template void FillMetricMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,SymmetricMatrix<double> *D,bool L1dist);
 
-template <typename counttype>
-void CalculateMeansFromFull(FullMatrix<counttype> &M,std::vector<counttype> &mu)
-{
- indextype ncells=M.GetNRows();
- indextype ngenes=M.GetNCols();
- 
- counttype s;   
- for (indextype gene=0; gene<ngenes; gene++)
- {
-  s=counttype(0); 
-  for (indextype cell=0; cell<ncells; cell++)
-   s += M.Get(cell,gene);
-  mu.push_back(s/counttype(ncells)); 
- }
-}
-
-template void CalculateMeansFromFull(FullMatrix<float> &M,std::vector<float> &mu);
-template void CalculateMeansFromFull(FullMatrix<double> &M,std::vector<double> &mu);
-
 // This function will fill part of the distance matrix D, concretely, lines between initial_row and (but not including) final_row
 template <typename counttype,typename disttype>
-void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<counttype> *M,std::vector<counttype> *mu,SymmetricMatrix<disttype> *D)
+void FillCosMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<counttype> *M,SymmetricMatrix<disttype> *D)
 {
- disttype da,db,sxx,syy,sxy,den,pearson;
- disttype dtol=1e-06;
+ disttype sc1,sc2,prod;
  indextype ncols=M->GetNCols();
  indextype nrows=D->GetNRows();
  
@@ -126,7 +106,136 @@ void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMat
  if ( (initial_row >= nrows) || (final_row > nrows) )
  {
      std::ostringstream errst;
-     errst << "Error in FillPearsonMatrixFromFull: start of area at " << initial_row << " or end of area at " << final_row << " outside matrix limits.\n";
+     errst << "Error in FillCosMatrixFromFull: either start of area at " << initial_row << " or end of area at " << final_row << " or both are outside matrix limits.\n";
+     Rcpp::stop(errst.str());
+     return;
+ }
+ 
+ counttype *va = new counttype [ncols];
+ counttype *vb = new counttype [ncols];
+ unsigned char *mark = new unsigned char [ncols];
+ unsigned char *rowmark = new unsigned char [ncols];
+
+ for (indextype rowA=initial_row; rowA<final_row; rowA++)
+ {
+  // The values of the current row (let's call it rowA) and the places they are, are stored in va and rowmark respectively
+  memset((void *)va,0x0,ncols*sizeof(counttype));
+  memset((void *)rowmark,EMPTY,ncols);
+  
+  M->GetFullRow(rowA,rowmark,IN_FIRST,va);
+  
+  // The next loop calculates the distance between the current row (rowA) and all others with numbers below its own number, let's call rowB to each.
+  // (remember that to fill distance matrix we only need to fill the lower-diagonal part...)
+  
+  for (unsigned rowB=0; rowB<rowA; rowB++)
+  {
+   // The mark array is initialized to the marks of rowA
+   memcpy(mark,rowmark,ncols);
+   
+   // and vb will contain the values of rowB. First, we clean it...
+   memset((void *)vb,0x0,ncols*sizeof(counttype));
+   
+   // and now, we fill its values and update mark adding 2 to the rigth places. In that way, mark will return with 0, 1, 2 or 3
+   // for the cases of "No value at that place in any row", "Value only in first row", "Value only in second row" or "Value in both", respectively.
+   M->GetFullRow(rowB,mark,IN_SECOND,vb);
+   
+   sc1=sc2=prod=disttype(0);
+   for (unsigned col=0; col<ncols; col++)
+   {
+    if (mark[col])
+    {
+     switch (mark[col])
+     {
+      case IN_FIRST: sc1 += disttype(va[col])*disttype(va[col]);
+                     break;
+      case IN_SECOND: sc2 += disttype(vb[col])*disttype(vb[col]);
+                      break;
+      case IN_BOTH: sc1 += disttype(va[col])*disttype(va[col]);
+                    sc2 += disttype(vb[col])*disttype(vb[col]); 
+                    prod += disttype(va[col])*disttype(vb[col]);
+                    break;
+      default: break;
+     }             
+    } 
+   }
+   
+   D->Set(rowA,rowB,1.0-(prod/(sqrt(sc1)*sqrt(sc2))));
+  }
+  
+  // This is just to set the main diagonal.
+  D->Set(rowA,rowA,disttype(0));
+ }
+ 
+ delete[] va;
+ delete[] vb;
+ delete[] mark;
+ delete[] rowmark;
+}
+
+template void FillCosMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,SymmetricMatrix<float> *D);
+template void FillCosMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,SymmetricMatrix<float> *D);
+template void FillCosMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,SymmetricMatrix<double> *D);
+template void FillCosMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,SymmetricMatrix<double> *D);
+
+template <typename counttype,typename disttype>
+void CalculateMeansFromFull(FullMatrix<counttype> &M,std::vector<disttype> &mu)
+{
+ indextype ncells=M.GetNRows();
+ indextype ngenes=M.GetNCols();
+ 
+ disttype s;   
+ for (indextype gene=0; gene<ngenes; gene++)
+ {
+  s=disttype(0); 
+  for (indextype cell=0; cell<ncells; cell++)
+   s += disttype(M.Get(cell,gene));
+  mu.push_back(s/disttype(ncells)); 
+ }
+}
+
+template void CalculateMeansFromFull(FullMatrix<float> &M,std::vector<float> &mu);
+template void CalculateMeansFromFull(FullMatrix<float> &M,std::vector<double> &mu);
+template void CalculateMeansFromFull(FullMatrix<double> &M,std::vector<float> &mu);
+template void CalculateMeansFromFull(FullMatrix<double> &M,std::vector<double> &mu);
+
+template <typename counttype,typename disttype>
+void CalculateVariancesFromFull(FullMatrix<counttype> &M,std::vector<disttype> &mu,std::vector<disttype> &cvar)
+{
+ indextype ncells=M.GetNRows();
+ indextype ngenes=M.GetNCols();
+ 
+ disttype st,dif;
+ for (indextype gene=0; gene<ngenes; gene++)
+ {
+  st=disttype(0); 
+  for (indextype cell=0; cell<ncells; cell++)
+  {
+   dif = disttype(M.Get(cell,gene))-disttype(mu[gene]);
+   st += dif*dif;
+  }
+  cvar.push_back(st/disttype(ncells-1)); 
+ }
+}
+
+template void CalculateVariancesFromFull(FullMatrix<float> &M,std::vector<float> &mu,std::vector<float> &cstd);
+template void CalculateVariancesFromFull(FullMatrix<double> &M,std::vector<float> &mu,std::vector<float> &cstd);
+template void CalculateVariancesFromFull(FullMatrix<float> &M,std::vector<double> &mu,std::vector<double> &cstd);
+template void CalculateVariancesFromFull(FullMatrix<double> &M,std::vector<double> &mu,std::vector<double> &cstd);
+
+// This function will fill part of the distance matrix D, concretely, lines between initial_row and (but not including) final_row
+template <typename counttype,typename disttype>
+void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<counttype> *M,std::vector<disttype> *mu,SymmetricMatrix<disttype> *D)
+{
+ disttype da,db,sxx,syy,sxy,den,pearson;
+ disttype dtol=std::numeric_limits<disttype>::epsilon();
+ indextype ncols=M->GetNCols();
+ indextype nrows=D->GetNRows();
+ 
+ // This should not be done from inside a thread. But, if we have failed anyway....
+ if ( (initial_row >= nrows) || (final_row > nrows) )
+ {
+     std::ostringstream errst;
+     errst << "Error in FillPearsonMatrixFromFull: either start of area at " << initial_row << " or end of area at " << final_row << " or both are outside matrix limits.\n";
      Rcpp::stop(errst.str());
      return;
  }
@@ -157,8 +266,8 @@ void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMat
    sxx=sxy=syy=0.0;
    for (unsigned col=0; col<ncols; col++)
    {
-    da=va[col]-disttype((*mu)[col]);
-    db=vb[col]-disttype((*mu)[col]);
+    da=disttype(va[col])-((*mu)[col]);
+    db=disttype(vb[col])-((*mu)[col]);
     sxx += (da*da);
     syy += (db*db);
     sxy += (da*db);
@@ -182,21 +291,95 @@ void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMat
 }
 
 template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,std::vector<float> *mu,SymmetricMatrix<float> *D);
-template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,std::vector<double> *mu,SymmetricMatrix<float> *D);
-template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,std::vector<float> *mu,SymmetricMatrix<double> *D);
+template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,std::vector<float> *mu,SymmetricMatrix<float> *D);
+template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,std::vector<double> *mu,SymmetricMatrix<double> *D);
 template void FillPearsonMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,std::vector<double> *mu,SymmetricMatrix<double> *D);
+
+// This function will fill part of the distance matrix D, concretely, lines between initial_row and (but not including) final_row
+template <typename counttype,typename disttype>
+void FillWEucMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<counttype> *M,std::vector<disttype> *cvar,SymmetricMatrix<disttype> *D)
+{
+ disttype d,dif;
+ indextype ncols=M->GetNCols();
+ indextype nrows=D->GetNRows();
+ 
+ // This should not be done from inside a thread. But, if we have failed anyway....
+ if ( (initial_row >= nrows) || (final_row > nrows) )
+ {
+     std::ostringstream errst;
+     errst << "Error in FillWEucMatrixFromFull: either start of area at " << initial_row << " or end of area at " << final_row << " or both are outside matrix limits.\n";
+     Rcpp::stop(errst.str());
+     return;
+ }
+
+ counttype *va = new counttype [ncols];
+ counttype *vb = new counttype [ncols];
+ unsigned char *mark = new unsigned char [ncols];
+ unsigned char *rowmark = new unsigned char [ncols];
+
+ for (indextype rowA=initial_row; rowA<final_row; rowA++)
+ {
+  // The values of the current row (let's call it rowA) and the places they are, are stored in va and rowmark respectively
+  memset((void *)va,0x0,ncols*sizeof(counttype));
+  memset((void *)rowmark,EMPTY,ncols);
+  
+  M->GetFullRow(rowA,rowmark,IN_FIRST,va);
+  
+  // The next loop calculates the distance between the current row (rowA) and all others with numbers below its own number, let's call rowB to each.
+  // (remember that to fill distance matrix we only need to fill the lower-diagonal part...)
+  
+  for (indextype rowB=0; rowB<rowA; rowB++)
+  {
+   // The mark array is initialized to the marks of rowA
+   memcpy(mark,rowmark,ncols);
+   
+   // and vb will contain the values of rowB. First, we clean it...
+   memset((void *)vb,0x0,ncols*sizeof(counttype));
+   
+   // and now, we fill its values and update mark adding 2 to the rigth places. In that way, mark will return with 0, 1, 2 or 3
+   // for the cases of "No value at that place in any row", "Value only in first row", "Value only in second row" or "Value in both", respectively.
+   M->GetFullRow(rowB,mark,IN_SECOND,vb);
+   
+   d=0.0;
+   for (unsigned col=0; col<ncols; col++)
+   {
+    // That component of the vector is updated only if there is something to consider...
+    if (mark[col]!=EMPTY)
+    {
+        dif = ((mark[col]==IN_FIRST) ? disttype(va[col]) : ((mark[col]==IN_SECOND) ? -disttype(vb[col]) : disttype(va[col])-disttype(vb[col]) ));
+        // The case of null variance does not happen: it would mean all the column is null, but in that case mark[col] would be EMPTY and we wouldn't be inside this if
+        d += (dif*dif/(*cvar)[col]);
+    }
+   } 
+  
+   D->Set(rowA,rowB,sqrt(d));
+  }
+  
+  // This is just to set the main diagonal.
+  D->Set(rowA,rowA,disttype(0));
+ }
+ delete[] va;
+ delete[] vb;
+ delete[] mark;
+ delete[] rowmark;
+}
+
+template void FillWEucMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,std::vector<float> *cvar,SymmetricMatrix<float> *D);
+template void FillWEucMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,std::vector<float> *cvar,SymmetricMatrix<float> *D);
+template void FillWEucMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<float> *M,std::vector<double> *cvar,SymmetricMatrix<double> *D);
+template void FillWEucMatrixFromFull(indextype initial_row,indextype final_row,FullMatrix<double> *M,std::vector<double> *cvar,SymmetricMatrix<double> *D);
+
 
 template <typename counttype,typename disttype>
 void *BasicThreadFull(void *arg)
 {
- // Commas into () are called protected commas; this is the way to pass to a macro commas which must be part of a macro argument
  indextype initial_row1 = GetFieldDT(arg,args_to_full_thread,counttype,disttype,initial_row1);
  indextype final_row1 = GetFieldDT(arg,args_to_full_thread,counttype,disttype,final_row1);
  indextype initial_row2 = GetFieldDT(arg,args_to_full_thread,counttype,disttype,initial_row2);
  indextype final_row2 = GetFieldDT(arg,args_to_full_thread,counttype,disttype,final_row2);
  FullMatrix<counttype> *M = GetFieldDT(arg,args_to_full_thread,counttype,disttype,M);
  SymmetricMatrix<disttype> *D = GetFieldDT(arg,args_to_full_thread,counttype,disttype,D);
- std::vector<counttype> *mu = GetFieldDT(arg,args_to_full_thread,counttype,disttype,mu);
+ std::vector<disttype> *mu_or_var = GetFieldDT(arg,args_to_full_thread,counttype,disttype,muvar);
  unsigned char dtype = GetFieldDT(arg,args_to_full_thread,counttype,disttype,dtype);
 
  switch (dtype)
@@ -212,8 +395,18 @@ void *BasicThreadFull(void *arg)
             }
             break;
   case DPe: {
-  		FillPearsonMatrixFromFull(initial_row1,final_row1,M,mu,D);
-            	FillPearsonMatrixFromFull(initial_row2,final_row2,M,mu,D);
+  		FillPearsonMatrixFromFull(initial_row1,final_row1,M,mu_or_var,D);
+            	FillPearsonMatrixFromFull(initial_row2,final_row2,M,mu_or_var,D);
+            }
+            break;
+  case DCo: {
+  		FillCosMatrixFromFull(initial_row1,final_row1,M,D);
+            	FillCosMatrixFromFull(initial_row2,final_row2,M,D);
+            }
+            break;
+  case DWe: {
+  		FillWEucMatrixFromFull(initial_row1,final_row1,M,mu_or_var,D);
+            	FillWEucMatrixFromFull(initial_row2,final_row2,M,mu_or_var,D);
             }
             break;
   default: break;
@@ -251,17 +444,27 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
    case DL1: dummy="L1"; break;
    case DL2: dummy="L2"; break;
    case DPe: dummy="Pearson"; break;
+   case DCo: dummy="Cosine"; break;
+   case DWe: dummy="WeightedEuclidean"; break;
   }
  }
  
- std::vector<counttype> mu;
- if (dtype==DPe)
+ std::vector<disttype> mu,cvar;
+ if ((dtype==DPe) || (dtype==DWe))
  {
   if (DEB & DEBPP)
-   Rcpp::Rcout << "Calculating vector of means used by the Pearson dissimilarity...\n";
+   Rcpp::Rcout << "Calculating vector of means used by Pearson dissimilarity and weigthed Euclidean distance...\n";
   CalculateMeansFromFull(M,mu);
   if (mu.size()!=M.GetNCols())
-   Rcpp::stop("Error from CalcAndWriteAuxSparse: length of vector of means is not the number of columns of the data matrix.\n");
+   Rcpp::stop("Error from CalcAndWriteAuxFull: length of vector of means is not the number of columns of the data matrix.\n");
+ }
+ if (dtype==DWe)
+ {
+  if (DEB & DEBPP)
+   Rcpp::Rcout << "Calculating vector of variances used by weigthed Euclidean distance...\n";
+  CalculateVariancesFromFull(M,mu,cvar);
+  if (cvar.size()!=M.GetNCols())
+   Rcpp::stop("Error from CalcAndWriteAuxFull: length of vector of variances is not the number of columns of the data matrix.\n");
  }
  
  if ((nrows<1000) && (nthr!=1))
@@ -281,6 +484,8 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
    case DL1: FillMetricMatrixFromFull(0,D.GetNRows(),&M,&D,true); break;
    case DL2: FillMetricMatrixFromFull(0,D.GetNRows(),&M,&D,false); break;
    case DPe: FillPearsonMatrixFromFull(0,D.GetNRows(),&M,&mu,&D); break;
+   case DCo: FillCosMatrixFromFull(0,D.GetNRows(),&M,&D); break;
+   case DWe: FillWEucMatrixFromFull(0,D.GetNRows(),&M,&cvar,&D); break;
    default: break;
   }
   Dt.EndClock(DEB & DEBPP);
@@ -292,8 +497,10 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
   indextype nrows=D.GetNRows();
  
   args_to_full_thread<counttype,disttype> *fullargs = new args_to_full_thread<counttype,disttype> [nthr];
-  // This strange distribution of rows (each thread has two intervals which are symmetric with respect to the middle of the matrix rows)
-  // is to balance well the number of distances calculated by each thread. For each 'sort' row (those before the middle) the same thread does also a 'long' row (those after the middle)
+  
+  // This strange distribution of rows among threads (each thread has two intervals which are symmetric with respect to the middle of the matrix rows)
+  // is chosen to balance as much as possible the number of distances calculated by each thread. For each 'short' row (those before the middle) the same
+  // thread does also a 'long' row (those after the middle)
   for (unsigned int t=0; t<nthr; t++)
   {
    fullargs[t].initial_row1 = indextype(float(t)*float(nrows)/(2*float(nthr)));
@@ -312,7 +519,15 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
     
    fullargs[t].M = &M;
    fullargs[t].D = &D;
-   fullargs[t].mu = &mu;
+   switch (dtype)
+   {
+    case DPe: fullargs[t].muvar = &mu; break;
+    case DWe: fullargs[t].muvar = &cvar;  break;
+    case DL1: fullargs[t].muvar = nullptr; break;
+    case DL2: fullargs[t].muvar = nullptr; break;
+    case DCo: fullargs[t].muvar = nullptr; break;
+    default: break;
+   }
    fullargs[t].dtype = dtype;
   }
   if (DEB & DEBPP)
@@ -325,6 +540,7 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
      Rcpp::Rcout << "\n";
      */
   }
+  
   CreateAndRunThreadsWithDifferentArgs(nthr,BasicThreadFull<counttype,disttype>,(void *)fullargs,sizeof(args_to_full_thread<counttype,disttype>));
   
   delete[] fullargs;
@@ -334,7 +550,7 @@ void CalcAndWriteAuxFull(std::string ifname, std::string ofname, unsigned char d
  
  std::vector<std::string> rnames=M.GetRowNames();
  if (!rnames.empty())    
-  D.SetRowNames(M.GetRowNames());
+  D.SetRowNames(rnames);
   
  if (comment!="")
   D.SetComment(comment);

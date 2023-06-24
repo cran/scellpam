@@ -391,8 +391,8 @@ void FilterDissim(std::string ifname,std::string ofname,unsigned char mdinfo,std
 //' @param L          A list of two numeric vectors, L$med and L$clasif, obtained normally as the object returned by ApplyPAM.
 //' @param fallcounts A string with the name of the binary file containing the matrix of counts per cell. It can be either a full or a sparse matrix.
 //' @param ffilcounts A string with the name of the binary file that will contain the selected cells. It will have the same character (full/sparse) and type of the complete file.
-//' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix of floats.
-//' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix of floats.
+//' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix.
+//' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix.
 //' @param q          Quantile to filter. All points (cells) whose silhouette is below this quantile will be filtered out. Default: 0.2
 //' @param addcom     Boolean to indicate if a comment must be appended to the current comment of counts and dissimilarity matrices to indicate that they are the result of a filtering process. This comment is automatically generated and contains the value of quantile q. Succesive applications add comments at the end of those already present. Default: TRUE
 //' @return Lr["med","clasif"] A list of two numeric vectors.\cr
@@ -514,8 +514,8 @@ Rcpp::List FilterBySilhouetteQuantile(Rcpp::NumericVector s, Rcpp::List L,std::s
 //' @param L          A list of two numeric vectors, L$med and L$clasif, obtained normally as the object returned by ApplyPAM.
 //' @param fallcounts A string with the name of the binary file containing the matrix of counts per cell. It can be either a full or a sparse matrix.
 //' @param ffilcounts A string with the name of the binary file that will contain the selected cells. It will have the same character (full/sparse) and type of the complete file.
-//' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix of floats.
-//' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix of floats.
+//' @param falldissim A string with the name of the binary file containing the dissimilarity matrix of the complete set of cells. It must be a symmetric matrix.
+//' @param ffildissim A string with the name of the binary file that will contain  the dissimilarity matrix for the remaining cells. It will be a symmetric matrix.
 //' @param thres      Threshold to filter. All points whose silhouette is below this threshold will be filtered out. Default: 0.0 (remember that silhouette is in [-1..1])
 //' @param addcom     Boolean to indicate if a comment must be appended to the current comment of counts and dissimilarity matrices to indicate that they are the result of a filtering process. This comment is automatically generated and contains the value of threshold t. Succesive applications add comments at the end of those already present. Default: TRUE
 //' @return Lr["med","clasif"] A list of two numeric vectors.\cr

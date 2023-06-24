@@ -94,13 +94,14 @@ file after the raw data of counts.
 
 Other parameters you may (and need to) change are the separation character
 for fields in the `.csv` file
-(csep) if your fields are not comma-separated, the type of normalization 
-(ctype) which can be `raw` to write the raw value of
+(csep) if your fields are not comma-separated; indeed, you can read
+tab-separated files (.tsv) using `csep='\t'`. Also, you can set the type of
+normalization  (ctype) which can be `raw` to write the raw value of
 the counts, `log1` to write the `log2(counts+1)`, `rawn` which is as 
 `row` but normalized and `log1n` which is like `log1` but normalized.
 
-WARNING: normalize ALWAYS DOES IY BY COLUMNS (before transposition, 
-if requested to transpose). The logarithm is taken base 2.
+WARNING: normalize ALWAYS NORMALIZES BY COLUMNS (before transposition, 
+if requested to transpose). The logarithm is taken base-2.
 
 Finally, you may want to write the matrix transposed and add any comment 
 of up to 1024 characters as a string, if you want. Such comment
@@ -111,7 +112,7 @@ columns (that is why we choose to normalize by colums), which is not what
 is needed later to calculate the dissimilarity matrix. Therefore, our 
 typical call would be
 ```{r, eval=FALSE}
-CsvToBinMat("countsfile.csv","countsfile.bin",transpose=TRUE,
+CsvToBinMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
             comment="Obtained from countsfile.csv")
 ```
 As a result of the calculations the functions of this package generate 
@@ -140,11 +141,13 @@ It is fair to have `.csv` files since they can be inspected to
 check errors but obviously these files can be quite large and
 writing them may be quite slow.
 
-### Read/write Seurat files  
+### Read/write Seurat (dgCMatrix) files  
 
 If your data are not in a `.csv` file but stored in a S4 object created 
 by package `seurat` (@R-Seurat) (and frequently stored for example in a
-compressed `.rds` file) we provide a function, too, to write it to `jmatrix`.
+compressed `.rds` file) it is likely that this is an object of the class
+`dgCMatrix`, defined in package `Matrix` (@R-Matrix). We provide a function,
+too, to write it to `jmatrix`.
 
 ```{r, eval=FALSE}
 q <- readRDS("yourdata.rds")
@@ -152,7 +155,7 @@ dgCMatToJMat(q@assays$RNA@counts,"countsfile.bin",transpose=TRUE,
              comment="Obtained from yourdata.rds")
 ```
 
-Nevertheless, sometimes the matrix is stored in a different slot of the 
+Nevertheless, sometimes the dgCMatrix is stored in a different slot of the 
 object like
 ```{r, eval=FALSE}
 dgCMatToJMat(q@raw.data,"countsfile.bin",transpose=TRUE,

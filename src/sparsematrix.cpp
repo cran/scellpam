@@ -388,7 +388,7 @@ SparseMatrix<T>::SparseMatrix(std::string fname,unsigned char vtype,char csep) :
     this->nr=0;
     while (!this->ifile.eof())
     {
-        this->ifile >> line;
+        getline(this->ifile,line);
         if (!this->ifile.eof())
             this->nr++;
     }
@@ -409,7 +409,7 @@ SparseMatrix<T>::SparseMatrix(std::string fname,unsigned char vtype,char csep) :
     this->ifile.close();
     this->ifile.open(fname.c_str());
     size_t p=0;
-    this->ifile >> line;
+    getline(this->ifile,line);
     // No need to process first line here, it was done at the parent's class constructor
     
     T *data_with_zeros = new T [this->nc];
@@ -417,9 +417,16 @@ SparseMatrix<T>::SparseMatrix(std::string fname,unsigned char vtype,char csep) :
     std::vector<indextype> datacolsofrow;
     std::vector<T>dataofrow;
     
+    if (DEB & DEBJM)
+        Rcpp::Rcout << "Reading line... ";
     while (!this->ifile.eof())
     {
-        this->ifile >> line;
+        if ( (DEB & DEBJM) && !(p%1000))
+        {
+            Rcpp::Rcout << p << " ";
+            Rcpp::Rcout.flush();
+        }
+        getline(this->ifile,line);
         if (!this->ifile.eof())
         {
           if (!this->ProcessDataLineCsv(line,csep,data_with_zeros))
@@ -446,7 +453,7 @@ SparseMatrix<T>::SparseMatrix(std::string fname,unsigned char vtype,char csep) :
      
     if (DEB & DEBJM)
     {
-        Rcpp::Rcout << "Read " << p << " data lines of file " << fname;
+        Rcpp::Rcout << "\nRead " << p << " data lines of file " << fname;
         if (p==this->nr)
             Rcpp::Rcout << ", as expected.\n";
         else

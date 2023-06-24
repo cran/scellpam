@@ -205,7 +205,7 @@ FullMatrix<T>::FullMatrix(std::string fname,unsigned char vtype,char csep) : JMa
     this->nr=0;
     while (!this->ifile.eof())
     {
-        this->ifile >> line;
+        getline(this->ifile,line);
         if (!this->ifile.eof())
             this->nr++;
     }
@@ -231,12 +231,19 @@ FullMatrix<T>::FullMatrix(std::string fname,unsigned char vtype,char csep) : JMa
     this->ifile.close();
     this->ifile.open(fname.c_str());
     size_t p=0;
-    this->ifile >> line;
+    getline(this->ifile,line);
     // No need to process first line here, it was done at the parent's class constructor
 
+    if (DEB & DEBJM)
+        Rcpp::Rcout << "Reading line... ";
     while (!this->ifile.eof())
     {
-        this->ifile >> line;
+        if ( (DEB & DEBJM) && !(p%1000))
+        {
+            Rcpp::Rcout << p << " ";
+            Rcpp::Rcout.flush();
+        }
+        getline(this->ifile,line);
         if (!this->ifile.eof())
         {
           if (!this->ProcessDataLineCsv(line,csep,data[p]))
@@ -254,7 +261,7 @@ FullMatrix<T>::FullMatrix(std::string fname,unsigned char vtype,char csep) : JMa
     
     if (DEB & DEBJM)
     {
-        Rcpp::Rcout << "Read " << p << " data lines of file " << fname;
+        Rcpp::Rcout << "\nRead " << p << " data lines of file " << fname;
         if (p==this->nr)
             Rcpp::Rcout << ", as expected.\n";
         else

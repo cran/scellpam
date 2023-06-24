@@ -38,13 +38,13 @@ void GSDiag(std::string fname,indextype nrows,Rcpp::NumericVector &v)
  std::ifstream f(fname.c_str());
  
  // This is the beginning of row 1 in the binary symmetric data
- size_t offset=HEADER_SIZE+sizeof(T);
+ std::streampos offset=HEADER_SIZE+sizeof(T);
  f.seekg(offset,std::ios::beg);
  
  for (indextype r=1; r<nrows; r++)
  {
   // Here we read the r+1 values present in that row, including the (nr,nr) at the main diagonal (which will be normally 0 in a dissimilarity matrix)
-  f.read((char *)data,(r+1)*sizeof(T));
+  f.read((char *)data,((unsigned long long)r+1)*sizeof(T));
   // but we copy all of them, except the last one, at the appropriate place of return array so that theay are ordered by column.
   for (indextype c=0; c<r; c++)
    v(c*(nrows-1)-((c*(c-1))/2)+r-c-1)=data[c];
@@ -81,8 +81,41 @@ Rcpp::NumericVector GetSubdiag(std::string fname)
  MatrixType(fname,mtype,ctype,endian,mdinfo,nrows,ncols);
  if (mtype != MTYPESYMMETRIC)
   Rcpp::stop("This function admits only symmetric matrices.\n");
-  
- Rcpp::NumericVector retv((nrows*(nrows-1))/2);
+ 
+ Rcpp::Environment env = Rcpp::Environment::base_env();
+ Rcpp::List machine = env[".Machine"];
+ int sp = machine["sizeof.pointer"];
+ int sull = machine["sizeof.longlong"];
+ 
+ if ((sp!=4) && (sp!=8))
+  Rcpp::stop("Sorry, this is a very strange architecture. Size of pointer is neither 4 nor 8. We don't know how to manage that.\n");
+ 
+ if ((sull!=4) && (sull!=8))
+  Rcpp::stop("Sorry, this is a very strange compiler. Size of unsigned long long is neither 4 nor 8. We don't know how to manage that.\n");
+ 
+ if ((sp==8) && (sull==4))
+   Rcpp::warning("This seems to be a 64-bit architecture in which size of unsigned long long is 32 bits. Have you compiled R or this package intentionally for 32 bit?.\nIn any case, your maximum vector length will be limited to 2^32-2.\n");
+ 
+ if ((sp==4) && (nrows>65536))
+  Rcpp::stop("Too big matrix. In this 32-bit archicture the maximum allowed size to return a vector of length smaller than the allowed maximum (2^32-2) is 65536.\n");
+ 
+ if ((sp==8) && (nrows>94906266))
+  Rcpp::stop("Too big matrix. In this 64-bit archicture the maximum allowed size to return a vector of length smaller than the allowed maximum (2^52-2) is 94906266.\n"); 
+ 
+ unsigned long long vectorsize;
+ if (nrows%2)
+ {
+  vectorsize=(unsigned long long)(nrows-1)/2;
+  vectorsize*=(unsigned long long)nrows;
+ }
+ else
+ {
+  vectorsize=(unsigned long long)nrows/2;
+  vectorsize*=(unsigned long long)(nrows-1);
+ }
+ 
+ Rcpp::NumericVector retv(vectorsize);
+ 
  switch (ctype)
  {
   case FTYPE:  { GSDiag<float>(fname,nrows,retv); break;};

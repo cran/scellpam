@@ -18,7 +18,8 @@ CalcAndWriteDissimilarityMatrix(
 
 \item{ofname}{A string with the name of the binary output file to contain the symmetric dissimilarity matrix.}
 
-\item{distype}{The dissimilarity to be calculated. It must be one of these strings: 'L1', 'L2' or 'Pearson'.\cr
+\item{distype}{The dissimilarity to be calculated. It must be one of these strings: 'L1', 'L2', 'Pearson', 'Cos' or 'WEuc'.\cr
+Respectively: L1 (Manhattan), L2 (Euclidean), Pearson (Pearson dissimilarity), Cos (cosine distance), WEuc (weigthed Euclidean, with inverse-variances as weights).\cr
 Default: 'L2'.}
 
 \item{restype}{The data type of the result. It can be one of the strings 'float' or 'double'. Default: float (and don't change it unless you REALLY need to...).}

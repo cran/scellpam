@@ -33,14 +33,14 @@ dgCMatToJMat(
 No return value, called for side effects (creates a file)
 }
 \description{
-Gets a dgCMatrix object and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
+Gets a dgCMatrix object (sparse matrix of the `Matrix` package) and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format. Plase, see Details
 below to know more about the extraction of the sparse matrices from Seurat or similar single cell formats.
 }
 \details{
 We have found that, in some Seurat objects, the dgCMatrix to be passed to this function can be extracted as q@assays$RNA@counts, being q the Seurat S4 object.\cr
 In other cases this matrix is obtained as q@raw.data.\cr
 In any case, we assume that this matrix has slots Dimnames (with a list of strings in Dimnames[[0]] as rownames and Dimnames[[1]]
-as column names) as long as slots with names i, p and x as described in the documentation of the R Matrix library on sparse matrices.
+as column names) as long as slots with names i, p and x as described in the documentation of the `Matrix` package on sparse matrices.
 
 The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate

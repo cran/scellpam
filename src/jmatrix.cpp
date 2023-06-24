@@ -295,14 +295,20 @@ bool JMatrix<T>::ProcessFirstLineCsv(std::string line,char csep)
  size_t pos=0;
  std::string token,tt;
  int p=0;
+ 
  while ((pos=line.find(delim)) != std::string::npos)
  {
      token=line.substr(0,pos);
      line.erase(0,pos+1);
      tt="";
      std::remove_copy(token.begin(),token.end(),std::back_inserter(tt),'\"');
-     if ( ( p==0 && tt!="" ) || ( p!=0 && tt=="" ) )
+     // Some people inserts a word before the first tab in the first line, even that word CANNOT BE the header of any column...
+     //if ( ( p==0 && tt!="" ) || ( p!=0 && tt=="" ) )
+     if (p!=0 && tt=="")
+     {
+         Rcpp::Rcerr << "Returning false with p=" << p << "\n";
          return false;
+     }
      // Each token (except the first one) is stored as a column name
      if (p>0)
       colnames.push_back(token);
@@ -381,7 +387,7 @@ JMatrix<T>::JMatrix(std::string fname,unsigned char mtype,unsigned char valuetyp
     }   
  std::string first_line;
  
- ifile >> first_line;
+ std::getline(ifile,first_line);
  if (!ProcessFirstLineCsv(first_line,csep))
  {
      std::string err = "Error: incorrect format of first line of file "+fname+".\n";

@@ -39,19 +39,21 @@ SceToJMat(
 No return value, called for side effects (creates a file)
 }
 \description{
-Gets a numeric matrix of counts and writes it to a disk file in the jmatrix binary format.\cr
+Gets a numeric matrix of counts in the single cell experiment (sce) format and writes it to a disk file in the jmatrix binary format.\cr
 To use this function you will have to extract yourself the matrix of counts (and may be the vectors of row names and column names) from the sce
 or other object type. Plase, see the Details section
 }
 \details{
-The package BiocGenerics offers a facility to get the counts matrix, function counts, so usually you may load this packages and use
+The package BiocGenerics offers a facility to get the counts matrix, the function `counts, so usually you may load this package and use
 counts(your_sce_object) as first argument. But sometimes not, and for example in the DuoClustering, you have\cr 
 \cr
-M<-your_object@assays$data@listData$counts to extract the counts matrix\cr
+M<-your_object@assays$data@listData$counts\cr
 \cr
-but in splatter you would have\cr
+to extract the counts matrix but in splatter you would have\cr
 \cr
-M<-your_object@assays@data@listData$counts (which is not exactly the same...)\cr
+M<-your_object@assays@data@listData$counts\cr
+\cr
+(which is not exactly the same...)\cr
 
 The message, unfortunately, is: extract the data inspecting the internal structure of the object in the package that provided the data you are using.\cr
 We assume, nevertheless, that if the matrix is M,\cr
@@ -65,7 +67,7 @@ as attributes in the matrix, they will be left empty.
 
 The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
-the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
+the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix.
 }
 \examples{
 # Sorry, we cannot provide an example here, since it would need the load of the splatter package.

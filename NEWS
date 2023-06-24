@@ -1,0 +1,16 @@
+Package: scelllpam
+----------------
+
+Version 1.4.2 [2023-02-01]
+* Function GetSubdiag rewritten to deal with cases of overflow (too big data).
+
+Version 1.4.3 [2023-03-01]
+* Error in JMatInfo messages (it did not affect functionality)
+* Error in reading of csv files with tabs (tsv) corrected
+* Minimal modifications in vignette scellpam
+* Correction in the help of some functions.
+
+Version 1.4.4 [2023-06-20]
+* Corrected errors in GetJRow and GetJCol for symmetric matrices when indices are bigger than 65536
+* Added the cosine and weighted-Euclidean distances
+
