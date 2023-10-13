@@ -284,6 +284,17 @@ std::vector<std::string> JMatrix<T>::GetRowNames()
 
 TEMPLATES_FUNC(std::vector<std::string>,JMatrix,GetRowNames,)
 
+////////////////////////////////////////////////////////////////////////
+template<typename T>
+std::string JMatrix<T>::CleanQuotes(std::string s)
+{
+ std::string r=s;
+ if (s[0]=='\"')
+  r=r.substr(1);
+ if (r[r.size()-1]=='\"')
+  r=r.substr(0,r.size()-1);
+ return r;
+}
 
 ////////////////////////////////////////////////////////////////////////
 template <typename T>
@@ -304,17 +315,17 @@ bool JMatrix<T>::ProcessFirstLineCsv(std::string line,char csep)
      std::remove_copy(token.begin(),token.end(),std::back_inserter(tt),'\"');
      // Some people inserts a word before the first tab in the first line, even that word CANNOT BE the header of any column...
      //if ( ( p==0 && tt!="" ) || ( p!=0 && tt=="" ) )
-     if (p!=0 && tt=="")
+     if ( ( p==0 && tt!="" ) || ( p!=0 && tt=="" ) )
      {
-         Rcpp::Rcerr << "Returning false with p=" << p << "\n";
+         Rcpp::Rcerr << "Returning false when processing first line of csv with p=" << p << "\n";
          return false;
      }
-     // Each token (except the first one) is stored as a column name
+     // Each token (except the first one) is stored as a column name (without the quotes, if it has them...)
      if (p>0)
-      colnames.push_back(token);
+      colnames.push_back(CleanQuotes(token));
      p++;
  }
- colnames.push_back(line);
+ colnames.push_back(CleanQuotes(line));
  nc=colnames.size();
  return true;
 }
@@ -334,21 +345,20 @@ bool JMatrix<T>::ProcessDataLineCsv(std::string line, char csep,T *rowofdata)
     // This reads the first token, which is the row name
     size_t pos=line.find(delim);
     token=line.substr(0,pos);
-    rownames.push_back(token);
+    rownames.push_back(CleanQuotes(token));
     line.erase(0,pos+1);
     
     size_t p=0;
     while ((pos=line.find(delim)) != std::string::npos)
     {
      token=line.substr(0,pos);
-     rowofdata[p]=atof(token.c_str());
+     rowofdata[p]=T(atof(token.c_str()));
      p++;
      line.erase(0,pos+1);
     }
     if (p!=nc-1)
         return false;
-    rowofdata[p]=atof(line.c_str());
-    p++;
+    rowofdata[p]=T(atof(line.c_str()));
     
     return true;
 }
@@ -364,6 +374,52 @@ template bool JMatrix<long>::ProcessDataLineCsv(std::string line, char csep,long
 template bool JMatrix<float>::ProcessDataLineCsv(std::string line, char csep,float *rowofdata);
 template bool JMatrix<double>::ProcessDataLineCsv(std::string line, char csep,double *rowofdata);
 template bool JMatrix<long double>::ProcessDataLineCsv(std::string line, char csep,long double *rowofdata);
+
+//////////////////////
+
+template<typename T>
+bool JMatrix<T>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<T> &rowofdata)
+{
+    std::string delim=" ";
+    delim[0]=csep;
+ 
+    std::string token,tt;
+    
+    // This reads the first token, which is the row name
+    size_t pos=line.find(delim);
+    token=line.substr(0,pos);
+    rownames.push_back(token);
+    line.erase(0,pos+1);
+    
+    size_t p=0;
+    while ((pos=line.find(delim)) != std::string::npos)
+    {
+     token=line.substr(0,pos);
+     // Only columns 0 to rnum (included) are stored. The other are read, but ignored.
+     if (p<=rnum)
+      rowofdata[p]=T(atof(token.c_str()));
+     p++;
+     line.erase(0,pos+1);
+    }
+    if (p!=nc-1)
+        return false;
+    if (rnum==(nc-1))
+        rowofdata[p]=T(atof(line.c_str()));
+    
+    return true;
+}
+
+template bool JMatrix<unsigned char>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<unsigned char> &rowofdata);
+template bool JMatrix<char>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<char> &rowofdata);
+template bool JMatrix<unsigned short>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<unsigned short> &rowofdata);
+template bool JMatrix<short>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<short> &rowofdata);
+template bool JMatrix<unsigned int>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<unsigned int> &rowofdata);
+template bool JMatrix<int>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<int> &rowofdata);
+template bool JMatrix<unsigned long>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<unsigned long> &rowofdata);
+template bool JMatrix<long>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<long> &rowofdata);
+template bool JMatrix<float>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<float> &rowofdata);
+template bool JMatrix<double>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<double> &rowofdata);
+template bool JMatrix<long double>::ProcessDataLineCsvForSymmetric(std::string line, char csep,indextype rnum,std::vector<long double> &rowofdata);
 
 ////////////////////////////////////////////
 
@@ -394,7 +450,7 @@ JMatrix<T>::JMatrix(std::string fname,unsigned char mtype,unsigned char valuetyp
      Rcpp::stop(err);
  }
  if (DEB & DEBJM)
-     Rcpp::Rcout << nc+1 << " columns (excluding column of names) in file " << fname << ".\n";
+     Rcpp::Rcout << nc << " columns of values (not including the column of names) in file " << fname << ".\n";
 }
 
 TEMPLATES_CONST(JMatrix,SINGLE_ARG(std::string fname,unsigned char mtype,unsigned char valuetype,char csep))
@@ -518,7 +574,7 @@ TEMPLATES_OPERATOR(JMatrix,!=)
 
 /////////////////////////////////////////////////////////////////////
 
-// Function to write the matrix as CSV file. It just opens the file
+// Function to write the matrix as CSV file. It opens the file and write the csv header (first line)
 template <typename T>
 void JMatrix<T>::WriteCsv(std::string fname,char csep,bool withquotes)
 {
@@ -528,16 +584,41 @@ void JMatrix<T>::WriteCsv(std::string fname,char csep,bool withquotes)
     std::string err = "Error: cannot open file "+fname+" to write the matrix.\n";
     Rcpp::stop(err);
  }
- if (mdinfo & COL_NAMES)
+ if (this->nc==0)
  {
-  if (withquotes)
+  Rcpp::warning("This matrix has no columns. The .csv will be just an empty file.\n");
+  return;
+ }
+ 
+ if (
+     ((mdinfo & ROW_NAMES) && (nr != rownames.size())) ||
+     ((mdinfo & COL_NAMES) && (nc != colnames.size()))
+    )
+  Rcpp::stop("Different size of row headers and matrix rows.\n");
+ 
+ if (withquotes)
    ofile << "\"\"" << csep;
   else
    ofile << csep;   // Blank empty field at the beginning of first line
-   
+ 
+ if (mdinfo & COL_NAMES)
+ {
   for (unsigned int i=0; i<colnames.size()-1; i++)
    ofile << FixQuotes(colnames[i],withquotes) << csep;
   ofile << FixQuotes(colnames[colnames.size()-1],withquotes) << std::endl;
+ }
+ else
+ {
+  for (unsigned int i=0; i<this->nc-1; i++)
+   if (withquotes)
+    ofile << "\"C" << i+1 << "\"" << csep;
+   else
+    ofile << "C" << i+1 << csep;
+
+  if (withquotes)
+   ofile << "\"C" << this->nc << "\"" << std::endl;
+  else
+   ofile << "C" << this->nc << std::endl;
  }
 }
 
@@ -710,7 +791,7 @@ void JMatrix<T>::WriteMetadata()
  if (mdinfo == NO_METADATA)
   return;
   
- if (mdinfo & ROW_NAMES)
+ if ((mdinfo & ROW_NAMES) && (rownames.size()>0))
  {
   if (DEB & DEBJM)
    Rcpp::Rcout << "   Writing row names (" << rownames.size() << " strings written, from " << rownames[0] << " to " << rownames[rownames.size()-1] << ").\n";
@@ -718,7 +799,7 @@ void JMatrix<T>::WriteMetadata()
   ofile.write((const char *)BLOCKSEP,BLOCKSEP_LEN);
  }
  
- if (mdinfo & COL_NAMES)
+ if ((mdinfo & COL_NAMES) && (colnames.size()>0))
  {
   if (DEB & DEBJM)
    Rcpp::Rcout << "   Writing column names (" << colnames.size() << " strings written, from " << colnames[0] << " to " << colnames[colnames.size()-1] << ").\n";
@@ -860,10 +941,15 @@ void JMatrix<T>::SetComment(std::string cm)
  }
  else
  {
-  for (size_t i=0; i<cm.size(); i++)
-   comment[i]=cm[i];
-  for (size_t i=cm.size(); i<COMMENT_SIZE; i++)
-   comment[i]='\0';
+  if (cm.size()==0)
+   mdinfo &= (~COMMENT);  // Sets the comment bit to 0 if the comment is empty.
+  else
+  {
+   for (size_t i=0; i<cm.size(); i++)
+    comment[i]=cm[i];
+   for (size_t i=cm.size(); i<COMMENT_SIZE; i++)
+    comment[i]='\0';
+  }
  }
 }
 

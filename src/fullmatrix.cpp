@@ -128,6 +128,9 @@ FullMatrix<T>::FullMatrix(std::string fname) : JMatrix<T>(fname,MTYPEFULL)
     this->ReadMetadata();                  // This is exclusively used when reading from a binary file, not from a csv file
       
     this->ifile.close();
+    
+    if (DEB & DEBJM)
+     Rcpp::Rcout << "Read full matrix with size (" << this->nr << "," << this->nc << ")\n";
 }
 
 TEMPLATES_CONST(FullMatrix,std::string fname)
@@ -278,10 +281,11 @@ TEMPLATES_CONST(FullMatrix,SINGLE_ARG(std::string fname,unsigned char vtype,char
 
 //////////////////////////////////////////////////////////////////
 
-template <typename T>
-inline T FullMatrix<T>::Get(indextype r,indextype c)
-{ 
+// This function with no check of arguments is defined inline in the header
 #ifdef WITH_CHECKS_MATRIX
+template <typename T>
+T FullMatrix<T>::Get(indextype r,indextype c)
+{ 
     if ((r>=this->nr) || (c>=this->nc))
     {
     	std::ostringstream errst;
@@ -289,18 +293,19 @@ inline T FullMatrix<T>::Get(indextype r,indextype c)
         errst << "This matrix was of dimension (" << this->nr << " x " << this->nc << ")\n";
         Rcpp::stop(errst.str());
     }
-#endif
     return data[r][c];
 }
 
 TEMPLATES_FUNCR(FullMatrix,Get,SINGLE_ARG(indextype r,indextype c))
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename T>
-inline void FullMatrix<T>::Set(indextype r,indextype c,T v)
-{
+// This procedure with no check of arguments is defined inline in the header
 #ifdef WITH_CHECKS_MATRIX
+template <typename T>
+void FullMatrix<T>::Set(indextype r,indextype c,T v)
+{
     if ((r>=this->nr) || (c>=this->nc))
     {
         std::ostringstream errst;
@@ -308,18 +313,18 @@ inline void FullMatrix<T>::Set(indextype r,indextype c,T v)
         errst << "This matrix was of dimension (" << this->nr << " x " << this->nc << ")\n";
         Rcpp::stop(errst.str());
     }
-#endif
     data[r][c]=v;
 }
 
 TEMPLATES_SETFUNC(void,FullMatrix,Set,SINGLE_ARG(indextype r,indextype c),v)
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 void FullMatrix<T>::GetRow(indextype r,T *v)
 {
-#ifdef WITH_CHECKS_MATRIXSP
+#ifdef WITH_CHECKS_MATRIX
     if (r>=this->nr)
     {
     	std::ostringstream errst;
@@ -328,7 +333,6 @@ void FullMatrix<T>::GetRow(indextype r,T *v)
         Rcpp::stop(errst.str());
     }
 #endif
- // Fill the positions in v which are not zero.
  for (indextype c=0;c<this->nc;c++)
      v[c]=data[r][c];
 }
@@ -340,7 +344,7 @@ TEMPLATES_SETFUNC(void,FullMatrix,GetRow,indextype r,*v)
 template <typename T>
 void FullMatrix<T>::GetFullRow(indextype r,unsigned char *m,unsigned char s,T *v)
 {
-#ifdef WITH_CHECKS_MATRIXSP
+#ifdef WITH_CHECKS_MATRIX
     if (r>=this->nr)
     {
         std::ostringstream errst;
@@ -349,7 +353,7 @@ void FullMatrix<T>::GetFullRow(indextype r,unsigned char *m,unsigned char s,T *v
         Rcpp::stop(errst.str());
     }
 #endif
-  // Fill the positions in v which are not zero and also sum the value s to those positions in array m
+  // Fill the data and also sum the value s to those positions in array m
   for (indextype c=0;c<this->nc;c++)
   {
      if (data[r][c]!=T(0))
@@ -367,7 +371,7 @@ TEMPLATES_SETFUNC(void,FullMatrix,GetFullRow,SINGLE_ARG(indextype r,unsigned cha
 template <typename T>
 void FullMatrix<T>::GetMarksOfFullRow(indextype r,unsigned char *m,unsigned char s)
 {
-#ifdef WITH_CHECKS_MATRIXSP
+#ifdef WITH_CHECKS_MATRIX
     if (r>=this->nr)
     {
     	std::ostringstream errst;
@@ -490,27 +494,38 @@ TEMPLATES_FUNC(void,FullMatrix,WriteBin,std::string fname)
 template <typename T>
 void FullMatrix<T>::WriteCsv(std::string fname,char csep,bool withquotes)
 {
+    // Remember: this writes the header, even if there were no column names (then, the header will be "","C1","C2",...)
     ((JMatrix<T> *)this)->WriteCsv(fname,csep,withquotes);
     
-    bool with_headers=false;
-    size_t nch=this->colnames.size();
-    size_t nrh=this->rownames.size();
-    
-    if (nch>0 && nrh>0)
+    // Header has been written (unless the matrix had no columns...)
+    // But if it would have columns, but no rows, there is nothing after the header. The .csv would have a single line (the header)
+    if ((this->nc==0) || (this->nr==0))
     {
-     if (nch!=this->nc || nrh!=this->nr)
-      Rcpp::warning("Different size of headers and matrix, either in rows or in columns. Headers will not be written in the .csv file.\n");
-     with_headers=true;
+     this->ofile.close();
+     return;
     }
     
+    int p = std::numeric_limits<T>::max_digits10;
+
+    // We have rows to write; otherwise we would have returned four lines ago...
+    indextype rns=this->rownames.size();
+ 
     for (indextype r=0;r<this->nr;r++)
     {
-        if (with_headers)
-            this->ofile << FixQuotes(this->rownames[r],withquotes) << csep;
-            
+        if (rns>0)
+           this->ofile << FixQuotes(this->rownames[r],withquotes) << csep;
+        else
+        {
+         if (withquotes)
+            this->ofile << "\"R" << r+1 << "\"";
+         else
+            this->ofile << "R" << r+1;
+         this->ofile << csep;   // Blank empty field at the beginning of each line
+        }
+         
         for (indextype c=0;c<this->nc-1;c++)
-            this->ofile << ((data[r][c]<1E-10) ? 0 : data[r][c] ) << csep;
-        this->ofile << ((data[r][this->nc-1]<1E-10) ? 0 : data[r][this->nc-1] ) << std::endl; 
+         this->ofile << std::setprecision(p) << data[r][c]  << csep;
+        this->ofile << std::setprecision(p) << data[r][this->nc-1] << std::endl;
     }
     this->ofile.close();
 }

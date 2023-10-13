@@ -165,8 +165,14 @@ Now, let us try it with this small dataset.
 CalcAndWriteDissimilarityMatrix("datatest.bin","datatestL2.bin",
                                 distype="L2",restype="float",
                                 comment="L2 distance for vectors in
- jmatrix file datatest.bin",nthreads=0)
+ jmatrix file datatest.bin",nthreads=-1)
 ```
+
+WARNING: the normal way of calling `CalcAndWriteDissimilarityMatrix`
+would use nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In your
+normal use of code try always nthreads=0.
 
 The resulting matrix is stored as a binary symmetric matrix of float 
 values, as we can check.
@@ -185,8 +191,13 @@ are as in this example.
 
 ```{r}
 L=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=1000,
-           nthreads=0)
+           nthreads=-1)
 ```
+
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
 
 Parameters `init_method` (and another optional parameter, `initial_med`)
 deserve special comment. The first is the method to initialize
@@ -210,10 +221,17 @@ This will be explained later.
 
 From now on, typical calls to obtain only the initial medoids would be
 ```{r}
-Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0)
+Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0,nthreads=-1)
 Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
 Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
 ```
+
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
+For the LAB method this does not matter, since parallel implementation is not
+yet provided.
 
 As it can be seen, to get and compare different initializations you must set
 the parameter `max_iter` to the value `0`. In this
@@ -232,7 +250,7 @@ them contains a specially good set of medoids. This is the role of method
 `PREV` that we have mentioned before. A typical call would be
 ```{r}
 Llab2Final=ApplyPAM("datatestL2.bin",k=5,init_method="PREV",
-                    initial_med=Llab2$med)
+                    initial_med=Llab2$med,nthreads=-1)
 ```
 The initial set of medoids is taken from the object returned by the
 former calls.
@@ -282,8 +300,13 @@ with this: `CalculateSilhouette`, `FilterBySilhouetteQuantile`
 and `FilterBySilhouetteThreshold`.
 
 ```{r}
-S=CalculateSilhouette(Llab2$clasif,"datatestL2.bin",nthreads=0)
+S=CalculateSilhouette(Llab2$clasif,"datatestL2.bin",nthreads=-1)
 ```
+
+WARNING: the normal way of calling `CalculateSilhouette` would use nthreads=0
+to make use of all available cores in your machine. Nevertheless, this does
+not seem to be allowed by CRAN to pass the test so I have had to use the serial
+version invoked with nthreads=-1. In your normal use of code try always nthreads=0.
 
 The parameters to function `CalculateSilhouette` are the array of class 
 membership, as returned by `ApplyPAM` in its `clasif` field, and
@@ -368,8 +391,13 @@ algorithm, so probably you will want to make them iterate.
 
 ```{r}
 Lfinal=ApplyPAM("datatestL2Filt.bin",k=length(Lfilt$med),
-                init_method="PREV",initial_med=Lfilt$med)
+                init_method="PREV",initial_med=Lfilt$med,nthreads=-1)
 ```
+
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
 
 Of course, we might have used simply 5 as number of medoids, `k`, 
 since this does not change by filtering, but this is to emphasize

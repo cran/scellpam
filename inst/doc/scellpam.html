@@ -15,26 +15,38 @@
 
 <title>scellpam</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -52,55 +64,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -134,29 +145,209 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <style type="text/css">
-/* for pandoc --citeproc since 2.11 */
+
 div.csl-bib-body { }
 div.csl-entry {
-  clear: both;
+clear: both;
 }
 .hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+margin-left:2em;
+text-indent:-2em;
 }
 div.csl-left-margin {
-  min-width:2em;
-  float:left;
+min-width:2em;
+float:left;
 }
 div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
+margin-left:2em;
+padding-left:1em;
 }
 div.csl-indent {
-  margin-left: 2em;
+margin-left: 2em;
 }
 </style>
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -174,18 +365,35 @@ div.csl-indent {
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
+<div id="citation" class="section level1">
+<h1>Citation</h1>
+<p>To cite this package please, use preferently the paper of BMC
+mentioned at the bibliography below with citation <span class="citation">Domingo, Leon, and Dura (2023)</span></p>
+</div>
 <div id="purpose" class="section level1">
 <h1>Purpose</h1>
-<p>The package <code>scellpam</code> (<span class="citation">Domingo (2022c)</span>) is meant as a way to apply the PAM algorithm to results of single-cell RNA-Seq data sets.</p>
-<p>Differently to other packages, it can deal with a big number of cells (limited in principle only by the amount of available RAM) and make the calculations in parallel.</p>
-<p>It uses a special format to store binary matrices on disk, the <code>jmatrix</code> format. Please, make yourself familiar with the <code>jmatrix</code> creation and manipulation and with the PAM application looking first at the other vignettes of this package, <code>jmatrixsc</code> and <code>parallelpamsc</code>.</p>
-<p>WARNING: you must NOT load explicitly neither <code>jmatrix</code> nor <code>parallelpam</code>. Indeed, you do not need even to install them. All their functions have been included here, too, so doing <code>library(scellpam)</code> is enough.</p>
+<p>The package <code>scellpam</code> is meant as a way to apply the PAM
+algorithm to results of single-cell RNA-Seq data sets.</p>
+<p>Differently to other packages, it can deal with a big number of cells
+(limited in principle only by the amount of available RAM) and make the
+calculations in parallel.</p>
+<p>It uses a special format to store binary matrices on disk, the
+<code>jmatrix</code> format. Please, make yourself familiar with the
+<code>jmatrix</code> creation and manipulation and with the PAM
+application looking first at the other vignettes of this package,
+<code>jmatrixsc</code> and <code>parallelpamsc</code>.</p>
+<p>WARNING: you must NOT load explicitly neither <code>jmatrix</code>
+nor <code>parallelpam</code>. Indeed, you do not need even to install
+them. All their functions have been included here, too, so doing
+<code>library(scellpam)</code> is enough.</p>
 </div>
 <div id="workflow" class="section level1">
 <h1>Workflow</h1>
 <div id="debug-messages" class="section level2">
 <h2>Debug messages</h2>
-<p>First of all, the package can show quite informative (but sometimes verbose) messages in the console. To turn on/off such messages you can use,</p>
+<p>First of all, the package can show quite informative (but sometimes
+verbose) messages in the console. To turn on/off such messages you can
+use,</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE. Turn it on with</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">TRUE</span>,<span class="at">debparpam=</span><span class="cn">TRUE</span>,<span class="at">debjmat=</span><span class="cn">TRUE</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for scellpam (biological part) of the package set to ON.</span></span>
@@ -197,50 +405,138 @@ div.csl-indent {
 </div>
 <div id="data-loadstorage" class="section level2">
 <h2>Data load/storage</h2>
-<p>As stated before, the limitations in memory suggested us to use intermediate binary files stored in disk as a way to keep the results of each step of the process. These files have a concrete internal format; see the vignette <code>jmatrixsc</code> in this package to know more about the <code>jmatrix</code> (<span class="citation">Domingo (2022a)</span>) package.</p>
-<p>Thus, the first step is to load raw data (sequencing counts) coming either from a .csv file or from the main formats used in single cell RNA-Seq data sets and store them as a binary matrix file in <code>jmatrix</code> format.</p>
-<p>The input formats can be a <code>.csv</code> file, a sparse matrix stored into the S4 object created by the Seurat package (<span class="citation">Hao et al. (2021)</span>) or a R NumericMatrix extracted from any package that uses a single-cell experiment object. Unfortunately, the internal structure of such objects does not seem to be the same for all packages so we have not been able to provide a single function to extract from all of them.</p>
+<p>As stated before, the limitations in memory suggested us to use
+intermediate binary files stored in disk as a way to keep the results of
+each step of the process. These files have a concrete internal format;
+see the vignette <code>jmatrixsc</code> in this package to know more
+about the <code>jmatrix</code> (<span class="citation">Domingo
+(2023a)</span>) package.</p>
+<p>Thus, the first step is to load raw data (sequencing counts) coming
+either from a .csv file or from the main formats used in single cell
+RNA-Seq data sets and store them as a binary matrix file in
+<code>jmatrix</code> format.</p>
+<p>The input formats can be a <code>.csv</code> file, a sparse matrix
+stored into the S4 object created by the Seurat package (<span class="citation">Hao et al. (2021)</span>) or a R NumericMatrix
+extracted from any package that uses a single-cell experiment object.
+Unfortunately, the internal structure of such objects does not seem to
+be the same for all packages so we have not been able to provide a
+single function to extract from all of them.</p>
 <div id="readwrite-.csv-files" class="section level3">
 <h3>Read/write .csv files</h3>
-<p>Assuming a <code>.csv</code> input file, the following call reads the file and writes to disk its binary representation. The <code>jmatrix</code> format can create full, sparse or symmetric matrices.</p>
+<p>Assuming a <code>.csv</code> input file, the following call reads the
+file and writes to disk its binary representation. The
+<code>jmatrix</code> format can create full, sparse or symmetric
+matrices.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>)</span></code></pre></div>
-<p>By default, data are stored as a sparse matrix of numbers as floats (4 bytes per item in most architectures). Indeed, default parameters are</p>
+<p>By default, data are stored as a sparse matrix of numbers as floats
+(4 bytes per item in most architectures). Indeed, default parameters
+are</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">mtype=</span><span class="st">&quot;sparse&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">ctype=</span><span class="st">&quot;raw&quot;</span>,<span class="at">valuetype=</span><span class="st">&quot;float&quot;</span>,<span class="at">transpose=</span><span class="cn">FALSE</span>,<span class="at">comment=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p>where mtype can be <code>sparse</code> or <code>full</code> and valuetype can be <code>float</code> or <code>double</code>. Changing the default values for these parameters is strongly discouraged, except when the sparse matrix is bigger than the full matrix, which happens when there are few zeros. In such a case use <code>mtype=&quot;full&quot;</code>. The names for rows and columns are read from the <code>.csv</code> file and stored as metadata in the binary file after the raw data of counts.</p>
-<p>Other parameters you may (and need to) change are the separation character for fields in the <code>.csv</code> file (csep) if your fields are not comma-separated; indeed, you can read tab-separated files (.tsv) using <code>csep=&#39;\t&#39;</code>. Also, you can set the type of normalization (ctype) which can be <code>raw</code> to write the raw value of the counts, <code>log1</code> to write the <code>log2(counts+1)</code>, <code>rawn</code> which is as <code>row</code> but normalized and <code>log1n</code> which is like <code>log1</code> but normalized.</p>
-<p>WARNING: normalize ALWAYS NORMALIZES BY COLUMNS (before transposition, if requested to transpose). The logarithm is taken base-2.</p>
-<p>Finally, you may want to write the matrix transposed and add any comment of up to 1024 characters as a string, if you want. Such comment will be stored in the metadata, after the row and column names.</p>
-<p>In our case, the data are organized with genes by rows and cells by columns (that is why we choose to normalize by colums), which is not what is needed later to calculate the dissimilarity matrix. Therefore, our typical call would be</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToBinMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<p>where mtype can be <code>sparse</code> or <code>full</code> and
+valuetype can be <code>float</code> or <code>double</code>. Changing the
+default values for these parameters is strongly discouraged, except when
+the sparse matrix is bigger than the full matrix, which happens when
+there are few zeros. In such a case use <code>mtype=&quot;full&quot;</code>. The
+names for rows and columns are read from the <code>.csv</code> file and
+stored as metadata in the binary file after the raw data of counts.</p>
+<p>Other parameters you may (and need to) change are the separation
+character for fields in the <code>.csv</code> file (csep) if your fields
+are not comma-separated; indeed, you can read tab-separated files (.tsv)
+using <code>csep=&#39;\t&#39;</code>. Also, you can set the type of
+normalization (ctype) which can be <code>raw</code> to write the raw
+value of the counts, <code>log1</code> to write the
+<code>log2(counts+1)</code>, <code>rawn</code> which is as
+<code>row</code> but normalized and <code>log1n</code> which is like
+<code>log1</code> but normalized.</p>
+<p>WARNING: normalize ALWAYS NORMALIZES BY COLUMNS (before
+transposition, if requested to transpose). The logarithm is taken
+base-2.</p>
+<p>Finally, you may want to write the matrix transposed and add any
+comment of up to 1024 characters as a string, if you want. Such comment
+will be stored in the metadata, after the row and column names.</p>
+<p>In our case, the data are organized with genes by rows and cells by
+columns (that is why we choose to normalize by colums), which is not
+what is needed later to calculate the dissimilarity matrix. Therefore,
+our typical call would be</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">comment=</span><span class="st">&quot;Obtained from countsfile.csv&quot;</span>)</span></code></pre></div>
-<p>As a result of the calculations the functions of this package generate binary files, also in <code>jmatrix</code> format. If you want to inspect them they can be written back as <code>.csv</code> files, which allows them to be imported as R tables, if your computer has memory enough to hold them. This is done as</p>
+<p>As a result of the calculations the functions of this package
+generate binary files, also in <code>jmatrix</code> format. If you want
+to inspect them they can be written back as <code>.csv</code> files,
+which allows them to be imported as R tables, if your computer has
+memory enough to hold them. This is done as</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatToCsv</span>(<span class="st">&quot;countsfile.bin&quot;</span>,<span class="st">&quot;countsback.csv&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">withquotes=</span><span class="cn">FALSE</span>)</span></code></pre></div>
-<p>Also, you can selectively read some rows and/or columns of them. See appropriate functions in the vignette called <code>jmatrixsc</code> attached to this package.</p>
-<p>Notice that in this case <code>counstfile.csv</code> and <code>countsback.csv</code> would not be equal; row and column names will have been swapped and that is OK, since we wrote the binary file with <code>transpose=TRUE</code>.</p>
-<p>Also, remember that if you use comma as the separator character, you can just get rid of the csep parameter. The parameter withquotes, if you decide to use it and you set it to TRUE, writes each row and column name in the <code>.csv</code> surrounded by double quotes (but not the numbers).</p>
-<p>It is fair to have <code>.csv</code> files since they can be inspected to check errors but obviously these files can be quite large and writing them may be quite slow.</p>
+<p>Also, you can selectively read some rows and/or columns of them. See
+appropriate functions in the vignette called <code>jmatrixsc</code>
+attached to this package.</p>
+<p>Notice that in this case <code>counstfile.csv</code> and
+<code>countsback.csv</code> would not be equal; row and column names
+will have been swapped and that is OK, since we wrote the binary file
+with <code>transpose=TRUE</code>.</p>
+<p>Also, remember that if you use comma as the separator character, you
+can just get rid of the csep parameter. The parameter withquotes, if you
+decide to use it and you set it to TRUE, writes each row and column name
+in the <code>.csv</code> surrounded by double quotes (but not the
+numbers).</p>
+<p>It is fair to have <code>.csv</code> files since they can be
+inspected to check errors but obviously these files can be quite large
+and writing them may be quite slow.</p>
 </div>
 <div id="readwrite-seurat-dgcmatrix-files" class="section level3">
 <h3>Read/write Seurat (dgCMatrix) files</h3>
-<p>If your data are not in a <code>.csv</code> file but stored in a S4 object created by package <code>seurat</code> (<span class="citation">Hao et al. (2021)</span>) (and frequently stored for example in a compressed <code>.rds</code> file) it is likely that this is an object of the class <code>dgCMatrix</code>, defined in package <code>Matrix</code> (<span class="citation">Bates, Maechler, and Jagan (2022)</span>). We provide a function, too, to write it to <code>jmatrix</code>.</p>
+<p>If your data are not in a <code>.csv</code> file but stored in a S4
+object created by package <code>seurat</code> (<span class="citation">Hao et al. (2021)</span>) (and frequently stored for
+example in a compressed <code>.rds</code> file) it is likely that this
+is an object of the class <code>dgCMatrix</code>, defined in package
+<code>Matrix</code> (<span class="citation">Bates, Maechler, and Jagan
+(2022)</span>). We provide a function, too, to write it to
+<code>jmatrix</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;yourdata.rds&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from yourdata.rds&quot;</span>)</span></code></pre></div>
-<p>Nevertheless, sometimes the dgCMatrix is stored in a different slot of the object like</p>
+<p>Nevertheless, sometimes the dgCMatrix is stored in a different slot
+of the object like</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>raw.data,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from other data&quot;</span>)</span></code></pre></div>
-<p>It is up to you to inspect the original object (with <code>str(q)</code>) and see what you must do.</p>
-<p>Parameters <code>mtype</code>, <code>ctype</code> and <code>valuetype</code> are available, too, with the same meaning as for the former function. The <code>.bin</code> file can obviously be dumped to <code>.csv</code>, as explained before.</p>
-<p>Also, in the case of Seurat, each cell belongs to a sample, being the sample a set of cells with some common characteristic like coming from the same living being or from a common stage in a process of cellular change. Cells are then labelled with a factor and this could be obtained with</p>
+<p>It is up to you to inspect the original object (with
+<code>str(q)</code>) and see what you must do.</p>
+<p>Parameters <code>mtype</code>, <code>ctype</code> and
+<code>valuetype</code> are available, too, with the same meaning as for
+the former function. The <code>.bin</code> file can obviously be dumped
+to <code>.csv</code>, as explained before.</p>
+<p>Also, in the case of Seurat, each cell belongs to a sample, being the
+sample a set of cells with some common characteristic like coming from
+the same living being or from a common stage in a process of cellular
+change. Cells are then labelled with a factor and this could be obtained
+with</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Gr<span class="ot">=</span><span class="fu">GetSeuratGroups</span>(q)</span></code></pre></div>
-<p>where <code>Gr</code> is a numeric vector of integers with as many components as cells that contains a consecutive numeric identifier of the group starting at 1. But again this may depend on the internal structure of that particular Seurat object.</p>
+<p>where <code>Gr</code> is a numeric vector of integers with as many
+components as cells that contains a consecutive numeric identifier of
+the group starting at 1. But again this may depend on the internal
+structure of that particular Seurat object.</p>
 </div>
 <div id="readwrite-from-other-single-cell-experiment-packages" class="section level3">
 <h3>Read/write from other single cell experiment packages</h3>
-<p>Similarly, if you are using packages that use the <code>sce</code> (Single-cell experiment) S4 object (like <code>splatter</code> (<span class="citation">Zappia, Phipson, and Oshlack (2017)</span>), <code>DuoClustering</code> (<span class="citation">Duò and Soneson (2021)</span>) and others) you will have to extract the matrix of counts. Unfortunately, again this does not seem to be uniform since each package has a slightly different internal structure for the S4 object. The most we have been able to do is to provide a function which takes the sparse matrix of counts (as a numeric matrix) and the name of the generated binary file (as before) and optionally the row and column names (as <code>StringVectors</code>) if they were not attached to the matrix itself, followed by the parameters used for the csv/Seurat formats.</p>
-<p>The next examples are not marked for execution since they need the loading of packages splatter/scatter and DuoClustering2018 respectively and a test to see if they are available using installed.packages is forbidden if you want to pass the CRAN tests. It you want to run them, please copy+paste this code in R.</p>
-<p>Your code, for example with <code>splatter</code>, would probably look like</p>
+<p>Similarly, if you are using packages that use the <code>sce</code>
+(Single-cell experiment) S4 object (like <code>splatter</code> (<span class="citation">Zappia, Phipson, and Oshlack (2017)</span>),
+<code>DuoClustering</code> (<span class="citation">Duò and Soneson
+(2021)</span>) and others) you will have to extract the matrix of
+counts. Unfortunately, again this does not seem to be uniform since each
+package has a slightly different internal structure for the S4 object.
+The most we have been able to do is to provide a function which takes
+the sparse matrix of counts (as a numeric matrix) and the name of the
+generated binary file (as before) and optionally the row and column
+names (as <code>StringVectors</code>) if they were not attached to the
+matrix itself, followed by the parameters used for the csv/Seurat
+formats.</p>
+<p>The next examples are not marked for execution since they need the
+loading of packages splatter/scatter and DuoClustering2018 respectively
+and a test to see if they are available using installed.packages is
+forbidden if you want to pass the CRAN tests. It you want to run them,
+please copy+paste this code in R.</p>
+<p>Your code, for example with <code>splatter</code>, would probably
+look like</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(splatter)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(scater)</span>
@@ -251,7 +547,8 @@ div.csl-indent {
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">comment=</span><span class="st">&quot;Generated by splatter with mockSCE() and normalized</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">                    to log2(counts+1).&quot;</span>)</span></code></pre></div>
-<p>Nevertheless, in <code>DuoClustering</code> you would have something like</p>
+<p>Nevertheless, in <code>DuoClustering</code> you would have something
+like</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(DuoClustering2018)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>})</span>
@@ -263,28 +560,38 @@ div.csl-indent {
 <p>Please, notice the subtle difference between</p>
 <p><code>Splattersce@assays@data@listData$counts</code> and</p>
 <p><code>KuTCCsce@assays$data@listData$counts</code></p>
-<p>We have noticed that in simulations with <code>splatter</code>, and depending on the parameters, the number of zeros can be not too high and therefore storing the binary matrix as sparse matrix makes its size bigger, instead of smaller. In such a case you can store it as a full matrix passing the parameter <code>mtype=&quot;full&quot;</code> to <code>SceToJMat</code>.</p>
-<p>Parameters <code>ctype</code> and <code>valuetype</code> are available, too, with the same meaning as for the former functions.</p>
+<p>We have noticed that in simulations with <code>splatter</code>, and
+depending on the parameters, the number of zeros can be not too high and
+therefore storing the binary matrix as sparse matrix makes its size
+bigger, instead of smaller. In such a case you can store it as a full
+matrix passing the parameter <code>mtype=&quot;full&quot;</code> to
+<code>SceToJMat</code>.</p>
+<p>Parameters <code>ctype</code> and <code>valuetype</code> are
+available, too, with the same meaning as for the former functions.</p>
 </div>
 <div id="getting-information-on-the-stored-matrix" class="section level3">
 <h3>Getting information on the stored matrix</h3>
-<p>Other useful function in this step is <code>JMatInfo</code>, which prints in the console or in a text file information about a stored binary file. As an example, let us load and write a <code>.csv</code> file and then let us see the information of the generated binary file.</p>
+<p>Other useful function in this step is <code>JMatInfo</code>, which
+prints in the console or in a text file information about a stored
+binary file. As an example, let us load and write a <code>.csv</code>
+file and then let us see the information of the generated binary
+file.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;extdata/conquer_GSE52529_Trapnell_sample.csv&quot;</span>,tmpfile,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">transpose=</span><span class="cn">TRUE</span>,<span class="at">comment=</span><span class="st">&quot;Experiment conquer GSE52529-GPL16791&quot;</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 289 columns (excluding column of names) in file extdata/conquer_GSE52529_Trapnell_sample.csv.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 columns of values (not including the column of names) in file extdata/conquer_GSE52529_Trapnell_sample.csv.</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5218 lines (excluding header) in file extdata/conquer_GSE52529_Trapnell_sample.csv</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data will be read from each line and stored as float values.</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading line... 0 1000 2000 3000 4000 5000 </span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read 5218 data lines of file extdata/conquer_GSE52529_Trapnell_sample.csv, as expected.</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Transposing matrix of (5218x288) to a matrix of (288x5218)</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpp33NKV/Trapnell.bin of (288x5218)</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpG9IRdw/Trapnell.bin of (288x5218)</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 3030456</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from &quot;GSM1268960&quot; to &quot;GSM1269247&quot;).</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from &quot;ENSG00000164675.10&quot; to &quot;ENSG00000093100.13&quot;).</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/Rtmpp33NKV/Trapnell.bin</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/RtmpG9IRdw/Trapnell.bin</span></span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SparseMatrix</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 1502784</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
@@ -294,72 +601,123 @@ div.csl-indent {
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Experiment conquer GSE52529-GPL16791&quot;</span></span>
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Binary data size:   3030328 bytes, which is 50.4119% of the full matrix size (which would be 6011136 bytes).</span></span></code></pre></div>
-<p>If you want to keep the information about the binary file in a text file, just do</p>
+<p>If you want to keep the information about the binary file in a text
+file, just do</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tmptxtfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellInfo.txt&quot;</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile,tmptxtfile)</span></code></pre></div>
 </div>
 <div id="filtering-genes-or-cells" class="section level3">
 <h3>Filtering genes or cells</h3>
-<p>The binary files can be expurged getting rid of some genes or cells. The function provided for this task is <code>FilterBinByName</code>, which takes as inputs a binary file and a R list of R-strings with the names of the genes or cells that must remain (first and second parameters). The third one is the name of the binary filtered file, which will have the same nature (full or sparse matrix) and data type of the matrix in the original file. The fourth parameter, <code>namesat</code>, indicates if whatever you want to filter (genes or cells) are in columns (“cols”) or in rows (“rows”). As an example, let us filter some 1000 of the 65218 genes contained in file conquer_<code>GSE52529-GPL16791_Trapnell.csv</code> and whose names we have put in the list stored in variable <code>v</code> by reading the file <code>Trapnell_remain_genes.csv</code>.</p>
+<p>The binary files can be expurged getting rid of some genes or cells.
+The function provided for this task is <code>FilterBinByName</code>,
+which takes as inputs a binary file and a R list of R-strings with the
+names of the genes or cells that must remain (first and second
+parameters). The third one is the name of the binary filtered file,
+which will have the same nature (full or sparse matrix) and data type of
+the matrix in the original file. The fourth parameter,
+<code>namesat</code>, indicates if whatever you want to filter (genes or
+cells) are in columns (“cols”) or in rows (“rows”). As an example, let
+us filter some 1000 of the 65218 genes contained in file
+conquer_<code>GSE52529-GPL16791_Trapnell.csv</code> and whose names we
+have put in the list stored in variable <code>v</code> by reading the
+file <code>Trapnell_remain_genes.csv</code>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>v<span class="ot">&lt;-</span><span class="fu">as.vector</span>(<span class="fu">read.table</span>(<span class="st">&quot;extdata/Trapnell_remain_genes.csv&quot;</span>)[[<span class="dv">1</span>]])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell_filtered.bin&quot;</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">FilterJMatByName</span>(tmpfile1,v,tmpfiltfile1,<span class="at">namesat=</span><span class="st">&quot;cols&quot;</span>)</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1000 columns of the 5218 in the original matrix will be kept.</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpp33NKV/Trapnell_filtered.bin of (288x1000)</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpG9IRdw/Trapnell_filtered.bin of (288x1000)</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 1276144</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (1000 strings written, from ENSG00000067113.16 to ENSG00000093100.13).</span></span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span></code></pre></div>
-<p>If the list contains names not present in the original file the program emits a warning (and keeps only whose which are present).</p>
+<p>If the list contains names not present in the original file the
+program emits a warning (and keeps only whose which are present).</p>
 </div>
 </div>
 <div id="calculating-the-distancedissimilarity-matrix" class="section level2">
 <h2>Calculating the distance/dissimilarity matrix</h2>
-<p>This is the most computationally intensive part of the process (particularly, for samples with a high number of cells) and therefore has been programmed in parallel, taking advantage of the multiple cores of the machine, if available. See vignette <code>parallelpamsc</code> of this package to know more about <code>parallelpam</code> (<span class="citation">Domingo (2022b)</span>). From now on, just the prospective call to comment on the parameters.</p>
+<p>This is the most computationally intensive part of the process
+(particularly, for samples with a high number of cells) and therefore
+has been programmed in parallel, taking advantage of the multiple cores
+of the machine, if available. See vignette <code>parallelpamsc</code> of
+this package to know more about <code>parallelpam</code> (<span class="citation">Domingo (2023b)</span>). From now on, just the
+prospective call to comment on the parameters.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">distype=</span><span class="st">&quot;Pearson&quot;</span>,<span class="at">nthreads=</span><span class="dv">0</span>,</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell in experiment conquer GSE52529-GPL16791&quot;</span>)</span></code></pre></div>
-<p>The input and output files (first and second parameters) are of course compulsory. Input file can be a sparse of full binary matrix (but obviously, not a symmetric matrix).</p>
-<p>WARNING: notice that the vectors to calculate dissimilarities amongst them MUST be stored BY ROWS. This is due to efficiency reasons and it is the reason by which we transposed the counts matrix before writing it as binary.</p>
-<p>Output dissimilarity matrix will always be a binary symmetric (obviously square) matrix with a number of rows (and columns) equal to the number of rows (in this case, cells) of the counts file. The type of distance/dissimilarity can be <code>L1</code> (Manhattan distance), <code>L2</code> (Euclidean distance) or <code>Pearson</code> (Pearson dissimilarity coefficient). The resulting matrix stores only names for the rows, which are the names of the cells stored as rows in file <code>Trapnell.bin</code>. If the number of cells is <span class="math inline">\(N\)</span>, only <span class="math inline">\(N(N+1)/2\)</span> dissimilarity values are really stored.</p>
-<p>A note on the number of threads, valid also for other algorithms that will be explained later. Possible values for the number of threads is:</p>
+<p>The input and output files (first and second parameters) are of
+course compulsory. Input file can be a sparse of full binary matrix (but
+obviously, not a symmetric matrix).</p>
+<p>WARNING: notice that the vectors to calculate dissimilarities amongst
+them MUST be stored BY ROWS. This is due to efficiency reasons and it is
+the reason by which we transposed the counts matrix before writing it as
+binary.</p>
+<p>Output dissimilarity matrix will always be a binary symmetric
+(obviously square) matrix with a number of rows (and columns) equal to
+the number of rows (in this case, cells) of the counts file. The type of
+distance/dissimilarity can be <code>L1</code> (Manhattan distance),
+<code>L2</code> (Euclidean distance) or <code>Pearson</code> (Pearson
+dissimilarity coefficient). The resulting matrix stores only names for
+the rows, which are the names of the cells stored as rows in file
+<code>Trapnell.bin</code>. If the number of cells is <span class="math inline">\(N\)</span>, only <span class="math inline">\(N(N+1)/2\)</span> dissimilarity values are really
+stored.</p>
+<p>A note on the number of threads, valid also for other algorithms that
+will be explained later. Possible values for the number of threads
+is:</p>
 <ul>
-<li><p><code>-1</code> (or any negative number) to indicate you do not want to use threads (strictly sequential computation).</p></li>
-<li><p><code>0</code> to allow the program to choose the number of threads according to the problem size and the number of available cores.</p></li>
-<li><p>Any positive number to force the use of such number of threads.</p></li>
+<li><p><code>-1</code> (or any negative number) to indicate you do not
+want to use threads (strictly sequential computation).</p></li>
+<li><p><code>0</code> to allow the program to choose the number of
+threads according to the problem size and the number of available
+cores.</p></li>
+<li><p>Any positive number to force the use of such number of
+threads.</p></li>
 </ul>
-<p>Choosing explicitly a number of threads bigger than the number of available<br />
-cores is allowed, but discouraged and the program emits a warning about it.</p>
-<p>With respect to option <code>0</code> (the program chooses), for small problems (in this case, less than 1000 cells) the function makes the choice of not using threads, since the overhead of opening and waiting termination is not worth. For bigger problems the number of chosen threads is the number of available cores. Nevertheless, this choice may not be the best, depending on your machine.</p>
+<p>Choosing explicitly a number of threads bigger than the number of
+available<br />
+cores is allowed, but discouraged and the program emits a warning about
+it.</p>
+<p>With respect to option <code>0</code> (the program chooses), for
+small problems (in this case, less than 1000 cells) the function makes
+the choice of not using threads, since the overhead of opening and
+waiting termination is not worth. For bigger problems the number of
+chosen threads is the number of available cores. Nevertheless, this
+choice may not be the best, depending on your machine.</p>
 <p>Now, let us really do the call with this small dataset.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>,</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">                                         in experiment conquer</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st">                                         GSE52529-GPL16791&quot;</span>)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Input matrix is a sparse matrix  with elements of type &#39;float&#39; and size (288,5218)</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read sparse matrix from file /tmp/Rtmpp33NKV/Trapnell.bin.</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read sparse matrix from file /tmp/RtmpG9IRdw/Trapnell.bin.</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Its size is [288 x 5218] and it uses 378647 elements, half of 4 bytes and half of 4 bytes each, with accounts for 2.88995 MBytes.</span></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Creating dissimilarity matrix of size (288x288)</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255216028 Kib.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995880 Kib.</span></span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of dissimilarity matrix calculation (serial version). Elapsed time: 0.728047 s</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 166592</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Output binary file /tmp/Rtmpp33NKV/TrapnellPearson.bin written.</span></span></code></pre></div>
-<p>The resulting matrix is stored as a binary symmetric matrix of float values, as we can check.</p>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of dissimilarity matrix calculation (serial version). Elapsed time: 0.748278 s</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 166592</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Output binary file /tmp/RtmpG9IRdw/TrapnellPearson.bin written.</span></span></code></pre></div>
+<p>WARNING: the normal way of calling
+<code>CalcAndWriteDissimilarityMatrix</code> would use nthreads=0 to
+make use of all available cores in your machine. Nevertheless, this does
+not seem to be allowed by CRAN to pass the test so I have had to use the
+serial version invoked with nthreads=-1. In your normal use of code try
+always nthreads=0.</p>
+<p>The resulting matrix is stored as a binary symmetric matrix of float
+values, as we can check.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmppeafile1)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 82944 (41616 really stored)</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
@@ -373,13 +731,15 @@ cores is allowed, but discouraged and the program emits a warning about it.</p>
 </div>
 <div id="applying-pam" class="section level2">
 <h2>Applying PAM</h2>
-<p>The last step is to take the previously calculated matrix and apply the Partitioning Around Medoids classifier. Function is <code>ApplyPAM</code>. Default parameters are:</p>
+<p>The last step is to take the previously calculated matrix and apply
+the Partitioning Around Medoids classifier. Function is
+<code>ApplyPAM</code>. Default parameters are:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter=</span><span class="dv">1000</span>,<span class="at">nthreads=</span><span class="dv">0</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter=</span><span class="dv">1000</span>,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
@@ -397,27 +757,49 @@ cores is allowed, but discouraged and the program emits a warning about it.</p>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00169421 s</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00186713 s</span></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 51) swapped with point 209; TD-change=-103.419434; TD=7183.665039. 60 reassigned points.</span></span>
 <span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 7 (point 17) swapped with point 39; TD-change=-43.391033; TD=7140.273926. 11 reassigned points.</span></span>
 <span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 7140.273926</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.000868756 s</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.000887453 s</span></span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00169421 s (method BUILD).</span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.000868756 s in 1 iterations (0.000868756 seconds/iteration).</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00256297 s (0 minutes, 0.00256297 seconds).</span></span></code></pre></div>
-<p>The dissimilarity matrix, as formerly calculated, is compulsory, as long as the number of medoids, <code>k</code>.</p>
-<p>Parameters <code>init_method</code> (and one optional parameter, <code>initial_med</code>) deserve special comment. The first is the method to initialize the medoids. Its possible values are <code>BUILD</code>, <code>LAB</code> and <code>PREV</code>. The rest of the algorithm make medoid swapping between the points of the initial set made with <code>BUILD</code> or <code>LAB</code> and the rest of points until no swap can reduce the objective function, which is the sum of distances of each point to its closest medoid. But this may fall (and indeed falls) in local minima. If you initialize with <code>BUILD</code> or <code>LAB</code> the optional parameter <code>initial_med</code> cannot be used.</p>
-<p>The initialization methods <code>BUILD</code> and <code>LAB</code> are described in the paper by Schubert at al. (<span class="citation">Schubert and Rousseeuw (2019)</span>). <code>BUILD</code> is deterministic. <code>LAB</code> uses a sample of the total points to initialize. Obviously, you can run <code>LAB</code> to get different initializations and compare the results.</p>
-<p>The returned object is a list with two fields: <code>med</code> and <code>clasif</code>. This will be explained later.</p>
-<p>From now on, typical calls to obtain only the initial medoids would be</p>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00186713 s (method BUILD).</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.000887453 s in 1 iterations (0.000887453 seconds/iteration).</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00275458 s (0 minutes, 0.00275458 seconds).</span></span></code></pre></div>
+<p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
+nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In
+your normal use of code try always nthreads=0.</p>
+<p>The dissimilarity matrix, as formerly calculated, is compulsory, as
+long as the number of medoids, <code>k</code>.</p>
+<p>Parameters <code>init_method</code> (and one optional parameter,
+<code>initial_med</code>) deserve special comment. The first is the
+method to initialize the medoids. Its possible values are
+<code>BUILD</code>, <code>LAB</code> and <code>PREV</code>. The rest of
+the algorithm make medoid swapping between the points of the initial set
+made with <code>BUILD</code> or <code>LAB</code> and the rest of points
+until no swap can reduce the objective function, which is the sum of
+distances of each point to its closest medoid. But this may fall (and
+indeed falls) in local minima. If you initialize with <code>BUILD</code>
+or <code>LAB</code> the optional parameter <code>initial_med</code>
+cannot be used.</p>
+<p>The initialization methods <code>BUILD</code> and <code>LAB</code>
+are described in the paper by Schubert at al. (<span class="citation">Schubert and Rousseeuw (2019)</span>).
+<code>BUILD</code> is deterministic. <code>LAB</code> uses a sample of
+the total points to initialize. Obviously, you can run <code>LAB</code>
+to get different initializations and compare the results.</p>
+<p>The returned object is a list with two fields: <code>med</code> and
+<code>clasif</code>. This will be explained later.</p>
+<p>From now on, typical calls to obtain only the initial medoids would
+be</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Lbuild<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
@@ -435,97 +817,123 @@ cores is allowed, but discouraged and the program emits a warning about it.</p>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00170868 s</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00184884 s</span></span>
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00170868 s (method BUILD).</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00184884 s (method BUILD).</span></span>
 <span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00170868 s (0 minutes, 0.00170868 seconds).</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00184884 s (0 minutes, 0.00184884 seconds).</span></span>
 <span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>Llab1<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
 <span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
 <span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
 <span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 38. TD=12058.174805</span></span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 284. 90 reassigned points. TD=10939.773438</span></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 102. 10 reassigned points. TD=10205.498047</span></span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 207. 71 reassigned points. TD=9817.804688</span></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 203. 30 reassigned points. TD=9640.900391</span></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 28. 9 reassigned points. TD=8582.112305</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 166. 45 reassigned points. TD=8435.640625</span></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 224. 6 reassigned points. TD=8356.304688</span></span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 190. 21 reassigned points. TD=8176.241211</span></span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 30. 46 reassigned points. TD=8075.128418</span></span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8075.128418</span></span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000219254 s</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 200. 91 reassigned points. TD=11372.759766</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 28. 9 reassigned points. TD=9710.217773</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 209. 76 reassigned points. TD=9401.531250</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 4. 81 reassigned points. TD=9121.417969</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 91. 18 reassigned points. TD=8947.547852</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 282. 36 reassigned points. TD=8587.501953</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 84. 36 reassigned points. TD=8515.791016</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 143. 20 reassigned points. TD=8422.551758</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 284. 36 reassigned points. TD=8287.095703</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8287.095703</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000222514 s</span></span>
 <span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000219254 s (method LAB).</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000222514 s (method LAB).</span></span>
 <span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000219254 s (0 minutes, 0.000219254 seconds).</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000222514 s (0 minutes, 0.000222514 seconds).</span></span>
 <span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>Llab2<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
 <span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
 <span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
 <span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 171. TD=12271.138672</span></span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 4. 143 reassigned points. TD=11460.033203</span></span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 28. 9 reassigned points. TD=9848.848633</span></span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 266. 53 reassigned points. TD=9209.461914</span></span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 259. 51 reassigned points. TD=9028.160156</span></span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 130. 56 reassigned points. TD=8807.925781</span></span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 108. 21 reassigned points. TD=8578.321289</span></span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 261. 45 reassigned points. TD=8445.971680</span></span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 78. 3 reassigned points. TD=8392.878906</span></span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 16. 5 reassigned points. TD=8239.687500</span></span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8239.687500</span></span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000220964 s</span></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 13. TD=12031.589844</span></span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 40. 9 reassigned points. TD=10483.274414</span></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 132. 68 reassigned points. TD=9646.358398</span></span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 73. 104 reassigned points. TD=9317.611328</span></span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 133. 4 reassigned points. TD=9119.197266</span></span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 130. 74 reassigned points. TD=8836.474609</span></span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 268. 22 reassigned points. TD=8604.005859</span></span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 224. 8 reassigned points. TD=8513.661133</span></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 70. 5 reassigned points. TD=8259.406250</span></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 140. 34 reassigned points. TD=8153.130371</span></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8153.130371</span></span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000218896 s</span></span>
 <span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000220964 s (method LAB).</span></span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000218896 s (method LAB).</span></span>
 <span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000220964 s (0 minutes, 0.000220964 seconds).</span></span></code></pre></div>
-<p>As you can see, to get and compare different initializations you must set the parameter <code>max_iter</code> to value <code>0</code>. In this case no iterations of objective function reduction are performed, and the returned object contains the initial medoids and the classification induced by them. Notice that even looking equal, the results of the latter two calls are different since <code>LAB</code> initializes with a random component (the sample to choose initial medoids is chosen randomly).</p>
-<p>You can check that the medoids, stored in <code>Llab1$med</code> and <code>Llab2$med</code> (see more on this below) are in general, different.</p>
-<p>Now, these results can be used to initialize PAM if you find that any of them contains a specially good set of medoids. This is the role of method <code>PREV</code> that we have mentioned before. A typical call would be</p>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000218896 s (0 minutes, 0.000218896 seconds).</span></span></code></pre></div>
+<p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
+nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In
+your normal use of code try always nthreads=0. For the LAB method this
+does not matter, since parallel implementation is not yet provided.</p>
+<p>As you can see, to get and compare different initializations you must
+set the parameter <code>max_iter</code> to value <code>0</code>. In this
+case no iterations of objective function reduction are performed, and
+the returned object contains the initial medoids and the classification
+induced by them. Notice that even looking equal, the results of the
+latter two calls are different since <code>LAB</code> initializes with a
+random component (the sample to choose initial medoids is chosen
+randomly).</p>
+<p>You can check that the medoids, stored in <code>Llab1$med</code> and
+<code>Llab2$med</code> (see more on this below) are in general,
+different.</p>
+<p>Now, these results can be used to initialize PAM if you find that any
+of them contains a specially good set of medoids. This is the role of
+method <code>PREV</code> that we have mentioned before. A typical call
+would be</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Llab2Final<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">initial_med=</span>Llab2<span class="sc">$</span>med)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearson.bin</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">initial_med=</span>Llab2<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearson.bin</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 9 (point 78) swapped with point 107; TD-change=-352.798615; TD=7886.888184. 4 reassigned points.</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 1 (point 172) swapped with point 118; TD-change=-247.163635; TD=7639.724121. 40 reassigned points.</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 5 (point 259) swapped with point 154; TD-change=-147.933594; TD=7491.790039. 33 reassigned points.</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 8 (point 261) swapped with point 166; TD-change=-104.272354; TD=7387.517578. 28 reassigned points.</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 10 (point 16) swapped with point 126; TD-change=-94.998260; TD=7292.519043. 6 reassigned points.</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 6 (point 130) swapped with point 209; TD-change=-81.579971; TD=7210.939453. 7 reassigned points.</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 4 (point 266) swapped with point 203; TD-change=-48.957317; TD=7161.981934. 4 reassigned points.</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 7. Medoid at place 2 (point 4) swapped with point 39; TD-change=-39.472446; TD=7122.509277. 14 reassigned points.</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 8. Medoid at place 7 (point 108) swapped with point 268; TD-change=-0.358614; TD=7122.150391. 0 reassigned points.</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00229758 s</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00229758 s in 8 iterations (0.000287197 seconds/iteration).</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00229758 s (0 minutes, 0.00229758 seconds).</span></span></code></pre></div>
-<p>where the initial set of medoids is taken from the object returned by the former calls.</p>
-<p>With respect to that object, as we said it is a list with two vectors. The first one, <code>L$med</code>, has as many components as requested medoids and the second, <code>L$clasif</code>, has as many components as instances (here, cells).</p>
-<p>Medoids are expressed in <code>L$med</code> by its number in the array of points (row in the dissimilarity matrix) starting at 1 (R convention).</p>
-<p><code>L$clasif</code> contains the number of the medoid (i.e.: the cluster) to which each instance has been assigned, according to their order in <code>L$med</code> (also from 1).</p>
-<p>This means that if <code>L$clasif[p]</code> is <code>m</code>, the point <code>p</code> belongs to the class grouped around medoid <code>L$med[m]</code>. Let us see it:</p>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 14) swapped with point 107; TD-change=-339.236053; TD=7813.903809. 25 reassigned points.</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 8 (point 224) swapped with point 118; TD-change=-238.033478; TD=7575.869629. 9 reassigned points.</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 10 (point 140) swapped with point 154; TD-change=-109.771622; TD=7466.098145. 43 reassigned points.</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 3 (point 132) swapped with point 284; TD-change=-90.818726; TD=7375.279297. 13 reassigned points.</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 2 (point 40) swapped with point 126; TD-change=-76.211250; TD=7299.068359. 5 reassigned points.</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 6 (point 130) swapped with point 209; TD-change=-70.004341; TD=7229.064453. 10 reassigned points.</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 9 (point 70) swapped with point 28; TD-change=-43.613960; TD=7185.450195. 0 reassigned points.</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00209995 s</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00209995 s in 6 iterations (0.000349992 seconds/iteration).</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00209995 s (0 minutes, 0.00209995 seconds).</span></span></code></pre></div>
+<p>where the initial set of medoids is taken from the object returned by
+the former calls.</p>
+<p>With respect to that object, as we said it is a list with two
+vectors. The first one, <code>L$med</code>, has as many components as
+requested medoids and the second, <code>L$clasif</code>, has as many
+components as instances (here, cells).</p>
+<p>Medoids are expressed in <code>L$med</code> by its number in the
+array of points (row in the dissimilarity matrix) starting at 1 (R
+convention).</p>
+<p><code>L$clasif</code> contains the number of the medoid (i.e.: the
+cluster) to which each instance has been assigned, according to their
+order in <code>L$med</code> (also from 1).</p>
+<p>This means that if <code>L$clasif[p]</code> is <code>m</code>, the
+point <code>p</code> belongs to the class grouped around medoid
+<code>L$med[m]</code>. Let us see it:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which are the indexes of the points chosen as medoids?</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1269168 GSM1268987 GSM1269243 GSM1269066 GSM1269227 GSM1269077 GSM1268998 </span></span>
@@ -542,137 +950,229 @@ cores is allowed, but discouraged and the program emits a warning about it.</p>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med[L<span class="sc">$</span>clasif[<span class="dv">147</span>]]</span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1268998 </span></span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         39</span></span></code></pre></div>
-<p>In this way, values in L$clasif are between 1 and the number of medoids, as we can see.</p>
+<p>In this way, values in L$clasif are between 1 and the number of
+medoids, as we can see.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(L<span class="sc">$</span>clasif)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(L<span class="sc">$</span>clasif)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
 <p>Therefore, they can be used as factors.</p>
-<p>To help in the data analysis a data frame can be built, too, with the names of the cells instead of their numbers. It is created as</p>
+<p>To help in the data analysis a data frame can be built, too, with the
+names of the cells instead of their numbers. It is created as</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">ClassifAsDataFrame</span>(L,tmppeafile1)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span></code></pre></div>
-<p>The second parameter is the dissimilarity matrix created before when we called <code>CalcAndWriteDissimilarityMatrix</code>. The reason of using it here is because the returned dataframe has three columns: <code>CellName</code> with name of each cell, <code>NNCellName</code> with the name of the cell which is the center of the cluster to which <code>CellName</code> belongs to and <code>NNDistance</code> which is the distance between the cells <code>CellName</code> and <code>NNCellName</code>.</p>
-<p>This data frame implicitly knows which cells are medoids: those whose distance to the closest medoid (themselves) is 0. They can be extracted as</p>
+<p>The second parameter is the dissimilarity matrix created before when
+we called <code>CalcAndWriteDissimilarityMatrix</code>. The reason of
+using it here is because the returned dataframe has three columns:
+<code>CellName</code> with name of each cell, <code>NNCellName</code>
+with the name of the cell which is the center of the cluster to which
+<code>CellName</code> belongs to and <code>NNDistance</code> which is
+the distance between the cells <code>CellName</code> and
+<code>NNCellName</code>.</p>
+<p>This data frame implicitly knows which cells are medoids: those whose
+distance to the closest medoid (themselves) is 0. They can be extracted
+as</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract column 1 (cell name) of those rows for which distance to</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># closest medoid (column 3) is 0</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>F[<span class="fu">which</span>(F[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">0</span>),<span class="dv">1</span>]</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;GSM1268987&quot; &quot;GSM1268998&quot; &quot;GSM1269066&quot; &quot;GSM1269077&quot; &quot;GSM1269085&quot;</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;GSM1269113&quot; &quot;GSM1269132&quot; &quot;GSM1269168&quot; &quot;GSM1269227&quot; &quot;GSM1269243&quot;</span></span></code></pre></div>
-<p>Finally, an abundance matrix can be obtained if the cells came from different groups (samples) by combining such groups with the obtained clusters. This is done by function <code>BuildAbundanceMatrix</code>,</p>
+<p>Finally, an abundance matrix can be obtained if the cells came from
+different groups (samples) by combining such groups with the obtained
+clusters. This is done by function
+<code>BuildAbundanceMatrix</code>,</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>M<span class="ot">=</span><span class="fu">BuildAbundanceMatrix</span>(L<span class="sc">$</span>clasif,Gr)</span></code></pre></div>
-<p>where the <code>Gr</code> vector should have been obtained before (either from the Seurat object with <code>GetSeuratGroups</code>, or by any other means from your input object, if possible). Since the data of this example does not come from Seurat, this is not calculated now, but in a real case the resulting object is a matrix with as many rows as clusters and as many columns as groups. Each entry has the number of cells of its sample which have been classified at that group. This should be analyzed to determine if being in a different group has sufficient influence on the cluster to which cells belong and therefore if these clusters have any real biological significance.</p>
+<p>where the <code>Gr</code> vector should have been obtained before
+(either from the Seurat object with <code>GetSeuratGroups</code>, or by
+any other means from your input object, if possible). Since the data of
+this example does not come from Seurat, this is not calculated now, but
+in a real case the resulting object is a matrix with as many rows as
+clusters and as many columns as groups. Each entry has the number of
+cells of its sample which have been classified at that group. This
+should be analyzed to determine if being in a different group has
+sufficient influence on the cluster to which cells belong and therefore
+if these clusters have any real biological significance.</p>
 </div>
 <div id="alternative-workflow-filtering-by-silhouette" class="section level2">
 <h2>Alternative workflow: filtering by silhouette</h2>
-<p>It is interesting to filter cells based on the degree in which they belongs to a cluster. Indeed, cluster refinement can be done getting rid of cells far away from any cluster center, or which are at a similar distance of two or more of them.</p>
-<p>This is characterized by the silhouette of each point (cell). Three functions deal with this: <code>CalculateSilhouette</code>, <code>FilterBySilhouetteQuantile</code> and <code>FilterBySilhouetteThreshold</code>.</p>
+<p>It is interesting to filter cells based on the degree in which they
+belongs to a cluster. Indeed, cluster refinement can be done getting rid
+of cells far away from any cluster center, or which are at a similar
+distance of two or more of them.</p>
+<p>This is characterized by the silhouette of each point (cell). Three
+functions deal with this: <code>CalculateSilhouette</code>,
+<code>FilterBySilhouetteQuantile</code> and
+<code>FilterBySilhouetteThreshold</code>.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">CalculateSilhouette</span>(Llab2<span class="sc">$</span>clasif,tmppeafile1,<span class="at">nthreads=</span><span class="dv">0</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">CalculateSilhouette</span>(Llab2<span class="sc">$</span>clasif,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255196132 Kib.</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 257995776 Kib.</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Calculating silhouette (parallel version) with 128 threads.</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Calculating silhouette (serial implementation)...</span></span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 points classified in 10 classes.</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished parallel implementation of silhouette (including dissimilarity matrix load). Elapsed time: 0.00445743 s</span></span></code></pre></div>
-<p>The parameters to function <code>CalculateSilhouette</code> are the array of class membership, as returned by <code>ApplyPAM</code> in its <code>clasif</code> field, and the file with the matrix of dissimilarities.</p>
-<p>A parallel implementation has been programmed, being nthreads as explained before.</p>
-<p>Silhouette is a number in <span class="math inline">\([-1,1]\)</span>; the higher its value, the most centered a point is in its cluster.</p>
-<p>The returned object <code>S</code> is a numeric vector with the value of the silhouette for each point, which will be named if the classification vector was named.</p>
-<p>This vector can be converted to object of the class <code>cluster:silhouette</code> with the function <code>NumSilToClusterSil</code> (which needs the vector of classifications, too). This is done so that, if you load the package cluster, plot will generate the kind of silhouette plots included in such package.</p>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished serial implementation of silhouette (including dissimilarity matrix load). Elapsed time: 0.000253905 s</span></span></code></pre></div>
+<p>WARNING: the normal way of calling <code>CalculateSilhouette</code>
+would use nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In
+your normal use of code try always nthreads=0.</p>
+<p>The parameters to function <code>CalculateSilhouette</code> are the
+array of class membership, as returned by <code>ApplyPAM</code> in its
+<code>clasif</code> field, and the file with the matrix of
+dissimilarities.</p>
+<p>A parallel implementation has been programmed, being nthreads as
+explained before.</p>
+<p>Silhouette is a number in <span class="math inline">\([-1,1]\)</span>; the higher its value, the most
+centered a point is in its cluster.</p>
+<p>The returned object <code>S</code> is a numeric vector with the value
+of the silhouette for each point, which will be named if the
+classification vector was named.</p>
+<p>This vector can be converted to object of the class
+<code>cluster:silhouette</code> with the function
+<code>NumSilToClusterSil</code> (which needs the vector of
+classifications, too). This is done so that, if you load the package
+cluster, plot will generate the kind of silhouette plots included in
+such package.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Sclus <span class="ot">&lt;-</span> <span class="fu">NumSilToClusterSil</span>(Llab2<span class="sc">$</span>clasif,S)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sclus)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>Once the silhouette is calculated we can filter it by quantile or by threshold. All points under this quantile or threshold will be discarded, except if they are medoids. Parameters are the silhouette, as returned by <code>CalculateSilhouette</code>, the list of medoids/clasif, as returned by <code>ApplyPAM</code>, the file with matrix of counts for the whole set of cells, the file that will contain the matrix of counts of the remaining cells, the file with dissimilarity matrix for the whole set, the file that will contain the dissimilarity for the remaining cells and (depending on the function used) the quantile in <span class="math inline">\([0,1]\)</span> or the silhouette threshold in <span class="math inline">\([-1,1]\)</span>. As an example:</p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Once the silhouette is calculated we can filter it by quantile or by
+threshold. All points under this quantile or threshold will be
+discarded, except if they are medoids. Parameters are the silhouette, as
+returned by <code>CalculateSilhouette</code>, the list of
+medoids/clasif, as returned by <code>ApplyPAM</code>, the file with
+matrix of counts for the whole set of cells, the file that will contain
+the matrix of counts of the remaining cells, the file with dissimilarity
+matrix for the whole set, the file that will contain the dissimilarity
+for the remaining cells and (depending on the function used) the
+quantile in <span class="math inline">\([0,1]\)</span> or the silhouette
+threshold in <span class="math inline">\([-1,1]\)</span>. As an
+example:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>Lfilt<span class="ot">=</span><span class="fu">FilterBySilhouetteQuantile</span>(S,Llab2,tmpfile1,tmpfiltfile1,</span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                                 tmppeafile1,tmppeafiltfile1,<span class="fl">0.2</span>)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; After filtering silhouette with quantile 0.2 (threshold -0.233658) 232 of the 288 points remain.</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in FilterBySilhouetteQuantile(S, Llab2, tmpfile1, tmpfiltfile1, : 3 of</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; After filtering silhouette with quantile 0.2 (threshold -0.10666) 232 of the 288 points remain.</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in FilterBySilhouetteQuantile(S, Llab2, tmpfile1, tmpfiltfile1, : 2 of</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; the medoids have been kept, even they were below the threshold (which seems</span></span>
 <span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; problematic. Check your clusters...).</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpp33NKV/TrapnellFilt.bin of (232x5218)</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 2425456</span></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpG9IRdw/TrapnellFilt.bin of (232x5218)</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 2404456</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268961 to GSM1269245).</span></span>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791 Filtered by silhouette from file /tmp/Rtmpp33NKV/Trapnell.bin with quantile 0.2. </span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791 Filtered by silhouette from file /tmp/RtmpG9IRdw/Trapnell.bin with quantile 0.2. </span></span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpp33NKV/TrapnellPearsonFilt.bin</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpG9IRdw/TrapnellPearsonFilt.bin</span></span>
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 108240</span></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268961 to GSM1269245).</span></span>
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
 <span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791 Filtered by silhouette from file /tmp/Rtmpp33NKV/TrapnellPearson.bin with quantile 0.2.</span></span></code></pre></div>
-<p>If the original matrix contained row (in this case, cell) and column (in this case, gene) names, the column names are copied and the row names are transported for those rows (cells) that remain. The same happens with respect to rows of the dissimilarity matrix.</p>
-<p>Notice that the new dissimilarity matrix could have been calculated from the matrix of filtered counts with <code>CalcAndWriteDissimilarityMatrix</code> but creating it here, simply getting rid of the filtered rows and columns is much faster.</p>
-<p>Also, if a medoid is below the silhouette quantile, it will not be filtered out, but a warning message will be shown, since this is a strange situation that may indicate that some of your clusters are not real but artifacts due to a few outliers that are close to each other.</p>
-<p>Of course you can use the filtered cells to build a data frame, as long as the dissimilarity matrix contains cell names,</p>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791 Filtered by silhouette from file /tmp/RtmpG9IRdw/TrapnellPearson.bin with quantile 0.2.</span></span></code></pre></div>
+<p>If the original matrix contained row (in this case, cell) and column
+(in this case, gene) names, the column names are copied and the row
+names are transported for those rows (cells) that remain. The same
+happens with respect to rows of the dissimilarity matrix.</p>
+<p>Notice that the new dissimilarity matrix could have been calculated
+from the matrix of filtered counts with
+<code>CalcAndWriteDissimilarityMatrix</code> but creating it here,
+simply getting rid of the filtered rows and columns is much faster.</p>
+<p>Also, if a medoid is below the silhouette quantile, it will not be
+filtered out, but a warning message will be shown, since this is a
+strange situation that may indicate that some of your clusters are not
+real but artifacts due to a few outliers that are close to each
+other.</p>
+<p>Of course you can use the filtered cells to build a data frame, as
+long as the dissimilarity matrix contains cell names,</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Ffilt<span class="ot">=</span><span class="fu">ClassifAsDataFrame</span>(Lfilt,tmppeafiltfile1)</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (232,232)</span></span></code></pre></div>
-<p>or to recreate a .csv file of counts of the remaining cells with their correct names using <code>BinMatToCsv</code> like this.</p>
+<p>or to recreate a .csv file of counts of the remaining cells with
+their correct names using <code>BinMatToCsv</code> like this.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tmpfiltcsvfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.csv&quot;</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatToCsv</span>(tmpfiltfile1,tmpfiltcsvfile1)</span></code></pre></div>
-<p>But remember that this was the result of the first step of the PAM algorithm, so probably you will want to make them iterate.</p>
+<p>But remember that this was the result of the first step of the PAM
+algorithm, so probably you will want to make them iterate.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Lfinal<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafiltfile1,<span class="at">k=</span><span class="fu">length</span>(Lfilt<span class="sc">$</span>med),<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Lfilt<span class="sc">$</span>med)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpp33NKV/TrapnellPearsonFilt.bin</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Lfinal<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafiltfile1,<span class="at">k=</span><span class="fu">length</span>(Lfilt<span class="sc">$</span>med),<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Lfilt<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpG9IRdw/TrapnellPearsonFilt.bin</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 105 KiB, which is 0% of the available memory, which is 255194620 Kib.</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 105 KiB, which is 0% of the available memory, which is 257996264 Kib.</span></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (232,232)</span></span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 232 vectors and the overhead of using threads would be excessive.</span></span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 5 (point 211) swapped with point 102; TD-change=-452.911682; TD=8304.227539. 8 reassigned points.</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 9 (point 76) swapped with point 110; TD-change=-341.475861; TD=7962.751465. 4 reassigned points.</span></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 1 (point 154) swapped with point 138; TD-change=-242.373856; TD=7720.377930. 36 reassigned points.</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 7 (point 103) swapped with point 117; TD-change=-202.490921; TD=7517.886719. 13 reassigned points.</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 4 (point 215) swapped with point 202; TD-change=-141.263199; TD=7376.624023. 1 reassigned points.</span></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 8 (point 212) swapped with point 149; TD-change=-81.686928; TD=7294.937012. 17 reassigned points.</span></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 6 (point 120) swapped with point 178; TD-change=-29.595776; TD=7265.340820. 5 reassigned points.</span></span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 7. Medoid at place 2 (point 4) swapped with point 39; TD-change=-26.318754; TD=7239.021973. 11 reassigned points.</span></span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 8. Medoid at place 10 (point 16) swapped with point 115; TD-change=-6.077148; TD=7232.944824. 6 reassigned points.</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 9. Medoid at place 6 (point 178) swapped with point 174; TD-change=-0.029373; TD=7232.915527. 10 reassigned points.</span></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 10.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 7232.915527</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.0020448 s</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
-<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.0020448 s in 9 iterations (0.000227201 seconds/iteration).</span></span>
-<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0020448 s (0 minutes, 0.0020448 seconds).</span></span></code></pre></div>
-<p>Of course, we might have used simply 10 as number of medoids, <code>k</code>, since this does not change by filtering, but this is to emphasize the fact that <code>ApplyPAM</code> with method <code>PREV</code> requires both parameters to be consistent.</p>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 13) swapped with point 89; TD-change=-457.934906; TD=8117.083984. 4 reassigned points.</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 5 (point 113) swapped with point 100; TD-change=-300.896240; TD=7816.187988. 2 reassigned points.</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 8 (point 183) swapped with point 128; TD-change=-226.102707; TD=7590.084961. 8 reassigned points.</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 10 (point 117) swapped with point 107; TD-change=-120.124222; TD=7469.960449. 36 reassigned points.</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 6 (point 111) swapped with point 171; TD-change=-80.808510; TD=7389.151855. 3 reassigned points.</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 2 (point 34) swapped with point 136; TD-change=-60.378704; TD=7328.772949. 43 reassigned points.</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 3 (point 112) swapped with point 165; TD-change=-83.143143; TD=7245.629883. 1 reassigned points.</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 7. Medoid at place 9 (point 59) swapped with point 25; TD-change=-54.141468; TD=7191.488281. 0 reassigned points.</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.0014881 s</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.0014881 s in 7 iterations (0.000212586 seconds/iteration).</span></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0014881 s (0 minutes, 0.0014881 seconds).</span></span></code></pre></div>
+<p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
+nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In
+your normal use of code try always nthreads=0.</p>
+<p>Of course, we might have used simply 10 as number of medoids,
+<code>k</code>, since this does not change by filtering, but this is to
+emphasize the fact that <code>ApplyPAM</code> with method
+<code>PREV</code> requires both parameters to be consistent.</p>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-R-Matrix" class="csl-entry">
-Bates, Douglas, Martin Maechler, and Mikael Jagan. 2022. <em>Matrix: Sparse and Dense Matrix Classes and Methods</em>. <a href="https://CRAN.R-project.org/package=Matrix">https://CRAN.R-project.org/package=Matrix</a>.
+Bates, Douglas, Martin Maechler, and Mikael Jagan. 2022. <em>Matrix:
+Sparse and Dense Matrix Classes and Methods</em>. <a href="https://CRAN.R-project.org/package=Matrix">https://CRAN.R-project.org/package=Matrix</a>.
 </div>
 <div id="ref-R-jmatrix" class="csl-entry">
-Domingo, Juan. 2022a. <em>Jmatrix: Read from/Write in Disks Matrices with Any Data Type in a Binary Format</em>.
+Domingo, Juan. 2023a. <em>Jmatrix: Read from/Write to Disk Matrices with
+Any Data Type in a Binary Format</em>.
 </div>
 <div id="ref-R-parallelpam" class="csl-entry">
-———. 2022b. <em>Parallelpam: Applies the Partitioning-Around-Medoids (PAM) Clustering Algortihm to Big Sets of Data Using Parallel Implementation, If Several Cores Are Available</em>.
+———. 2023b. <em>Parallelpam: Applies the Partitioning-Around-Medoids
+(PAM) Clustering Algorithm to Big Sets of Data Using Parallel
+Implementation, If Several Cores Are Available</em>.
 </div>
-<div id="ref-R-scellpam" class="csl-entry">
-———. 2022c. <em>Scellpam: Applying Partitioning Around Medoids to Single Cell with High Number of Cells</em>.
+<div id="ref-Domingo2023" class="csl-entry">
+Domingo, Juan, Teresa Leon, and Esther Dura. 2023. <span>“Scellpam: An
+<span>R</span> Package/<span>C</span>++ Library to Perform Parallel
+Partitioning Around Medoids on scRNAseq Data Sets.”</span> <em>BMC
+Bioinformatics</em> 24 (1): 342. <a href="https://doi.org/10.1186/s12859-023-05471-1">https://doi.org/10.1186/s12859-023-05471-1</a>.
 </div>
 <div id="ref-R-DuoClustering2018" class="csl-entry">
-Duò, Angelo, and Charlotte Soneson. 2021. <em>DuoClustering2018: Data, Clustering Results and Visualization Functions from Duò Et Al (2018)</em>.
+Duò, Angelo, and Charlotte Soneson. 2021. <em>DuoClustering2018: Data,
+Clustering Results and Visualization Functions from Duò Et Al
+(2018)</em>.
 </div>
 <div id="ref-R-Seurat" class="csl-entry">
-Hao, Yuhan, Stephanie Hao, Erica Andersen-Nissen, William M. Mauck III, Shiwei Zheng, Andrew Butler, Maddie J. Lee, et al. 2021. <span>“Integrated Analysis of Multimodal Single-Cell Data.”</span> <em>Cell</em>. <a href="https://doi.org/10.1016/j.cell.2021.04.048">https://doi.org/10.1016/j.cell.2021.04.048</a>.
+Hao, Yuhan, Stephanie Hao, Erica Andersen-Nissen, William M. Mauck III,
+Shiwei Zheng, Andrew Butler, Maddie J. Lee, et al. 2021.
+<span>“Integrated Analysis of Multimodal Single-Cell Data.”</span>
+<em>Cell</em>. <a href="https://doi.org/10.1016/j.cell.2021.04.048">https://doi.org/10.1016/j.cell.2021.04.048</a>.
 </div>
 <div id="ref-Schubert2019" class="csl-entry">
-Schubert, Erich, and Peter J. Rousseeuw. 2019. <span>“Faster k-Medoids Clustering: Improving the <span>PAM</span>, <span>CLARA</span>, and <span>CLARANS</span> Algorithms.”</span> In <em>Similarity Search and Applications</em>, 171–87. Springer International Publishing. <a href="https://doi.org/10.1007/978-3-030-32047-8_16">https://doi.org/10.1007/978-3-030-32047-8_16</a>.
+Schubert, Erich, and Peter J. Rousseeuw. 2019. <span>“Faster k-Medoids
+Clustering: Improving the <span>PAM</span>, <span>CLARA</span>, and
+<span>CLARANS</span> Algorithms.”</span> In <em>Similarity Search and
+Applications</em>, 171–87. Springer International Publishing. <a href="https://doi.org/10.1007/978-3-030-32047-8_16">https://doi.org/10.1007/978-3-030-32047-8_16</a>.
 </div>
 <div id="ref-R-splatter" class="csl-entry">
-Zappia, Luke, Belinda Phipson, and Alicia Oshlack. 2017. <span>“Splatter: Simulation of Single-Cell RNA Sequencing Data.”</span> <em>Genome Biology</em>. <a href="https://doi.org/10.1186/s13059-017-1305-0">https://doi.org/10.1186/s13059-017-1305-0</a>.
+Zappia, Luke, Belinda Phipson, and Alicia Oshlack. 2017.
+<span>“Splatter: Simulation of Single-Cell RNA Sequencing Data.”</span>
+<em>Genome Biology</em>. <a href="https://doi.org/10.1186/s13059-017-1305-0">https://doi.org/10.1186/s13059-017-1305-0</a>.
 </div>
 </div>
 </div>

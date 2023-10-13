@@ -9,23 +9,23 @@ FilterJMatByName(fname, Gn, filname, namesat = "rows")
 \arguments{
 \item{fname}{A string with the file name of the original table}
 
-\item{Gn}{A list of R strings with the names of the genes or cells that must remain. All others will be filtered out}
+\item{Gn}{A list of R strings with the names of the rows or columns that must remain. All others will be filtered out}
 
 \item{filname}{A string with the file name of the filtered table}
 
-\item{namesat}{The string "rows" or "cols" indicating if the genes/cells at the original table are by rows or by colums. Default: "rows"}
+\item{namesat}{The string "rows" or "cols" indicating if the searched names are in the rows or in the columns of the original table. Default: "rows"}
 }
 \value{
 No return value, called for side effects (creates a file)
 }
 \description{
-Takes a jmatrix binary file containing a table with cells and genes and filter the genes or cell by name, eliminating those whose names are not in certain list
+Takes a jmatrix binary file containing a table with rows and columns and filters it by name, eliminating the rows or columns whose whose names are not in certain list
 }
 \details{
 If the table has no list of names in the requested dimension (rows or colums), an error is rised.\cr
-The gene or cell names whose names are not found obviosuly cannot remain, and the program rises a warning indicating for which gene/cell names this happens.\cr
+The row or column names whose names are not found obviosuly cannot remain, and the program rises a warning indicating for which row/column names this happens.\cr
 The matrix contained in the filtered file will have the same nature (full or sparse) and the same data type as the original.\cr
-This function can be used to filter either by cell or by gene name, with appropriate usage of parameter namesat
+This function can be used to filter either by row or by column name, with appropriate usage of parameter namesat
 }
 \examples{
 Rf <- matrix(runif(48),nrow=6)

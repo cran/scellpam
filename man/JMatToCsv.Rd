@@ -20,7 +20,14 @@ No return value, called for side effects (creates a file)
 }
 \description{
 Writes a binary matrix in the jmatrix package format as a .csv file. This is mainly for checking/inspection and
-to load the data from R as read.table, if the memory of having all data as doubles allows doing such thing.
+to load the data from R as read.csv, if the memory of having all data as doubles allows doing such thing.
+}
+\details{
+The numbers are written to text with as many decimal places as allowed by its data type (internally obtained
+with std::numeric_limits<type>::max_digits10)\cr
+NOTE ON READING FROM R: to read the .csv files exported by this function you MUST use the R function read.csv
+(not read.table) AND set its argument row.names to 1, since we always write a first column with the row names,
+even if the binary matrix does not store them; in this case they are simply "1","2",...
 }
 \examples{
 Rf <- matrix(runif(48),nrow=6)

@@ -14,13 +14,17 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
+```	
 
 ```{r setup}
 library(scellpam)
 ```
+
+# Citation
+To cite this package please, use preferently the paper of BMC mentioned at the bibliography below with citation @Domingo2023
+
 # Purpose  
-The package `scellpam` (@R-scellpam)  is meant as a way to apply the PAM 
+The package `scellpam` is meant as a way to apply the PAM 
 algorithm to results of single-cell RNA-Seq data sets.
 
 Differently to other packages, it can deal with a big number of cells 
@@ -112,7 +116,7 @@ columns (that is why we choose to normalize by colums), which is not what
 is needed later to calculate the dissimilarity matrix. Therefore, our 
 typical call would be
 ```{r, eval=FALSE}
-CsvToBinMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
+CsvToJMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
             comment="Obtained from countsfile.csv")
 ```
 As a result of the calculations the functions of this package generate 
@@ -347,11 +351,18 @@ Now, let us really do the call with this small dataset.
 ```{r}
 tmpfile1=paste0(tempdir(),"/Trapnell.bin")
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
-CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,
+CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,nthreads=-1,
                                 comment="Pearson dissimilarities for cell
                                          in experiment conquer
                                          GSE52529-GPL16791")
 ```
+
+WARNING: the normal way of calling `CalcAndWriteDissimilarityMatrix`
+would use nthreads=0 to make use of all available cores in your machine.
+Nevertheless, this does not seem to be allowed by CRAN to pass the test
+so I have had to use the serial version invoked with nthreads=-1. In your
+normal use of code try always nthreads=0.
+
 The resulting matrix is stored as a binary symmetric matrix of float values, 
 as we can check.
 ```{r}
@@ -366,8 +377,13 @@ Partitioning Around Medoids classifier. Function is
 ```{r}
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
 L=ApplyPAM(tmppeafile1,k=10,init_method="BUILD",
-           max_iter=1000,nthreads=0)
+           max_iter=1000,nthreads=-1)
 ```
+
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
 
 The dissimilarity matrix, as formerly calculated, is compulsory, as long 
 as the number of medoids, `k`. 
@@ -399,6 +415,13 @@ Llab1=ApplyPAM(tmppeafile1,k=10,init_method="LAB",max_iter=0)
 Llab2=ApplyPAM(tmppeafile1,k=10,init_method="LAB",max_iter=0)
 ```
 
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
+For the LAB method this does not matter, since parallel implementation is not
+yet provided.
+
 As you can see, to get and compare different initializations you must set
 the parameter `max_iter` to value `0`. In this
 case no iterations of objective function reduction are performed, and the 
@@ -417,7 +440,7 @@ them contains a specially good set of medoids. This is the role of method
 ```{r}
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
 Llab2Final=ApplyPAM(tmppeafile1,k=10,init_method="PREV",
-                    initial_med=Llab2$med)
+                    initial_med=Llab2$med,nthreads=-1)
 ```
 where the initial set of medoids is taken from the object returned by 
 the former calls.
@@ -508,8 +531,13 @@ Three functions deal with this: `CalculateSilhouette`,
 
 ```{r}
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
-S=CalculateSilhouette(Llab2$clasif,tmppeafile1,nthreads=0)
+S=CalculateSilhouette(Llab2$clasif,tmppeafile1,nthreads=-1)
 ```
+
+WARNING: the normal way of calling `CalculateSilhouette` would use nthreads=0
+to make use of all available cores in your machine. Nevertheless, this does
+not seem to be allowed by CRAN to pass the test so I have had to use the serial
+version invoked with nthreads=-1. In your normal use of code try always nthreads=0.
 
 The parameters to function `CalculateSilhouette` are the array of class 
 membership, as returned by `ApplyPAM` in its `clasif` field, and
@@ -588,8 +616,14 @@ But remember that this was the result of the first step of the PAM
 algorithm, so probably you will want to make them iterate.
 ```{r}
 tmppeafiltfile1=paste0(tempdir(),"/TrapnellPearsonFilt.bin")
-Lfinal=ApplyPAM(tmppeafiltfile1,k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med)
+Lfinal=ApplyPAM(tmppeafiltfile1,k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med,nthreads=-1)
 ```
+
+WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make
+use of all available cores in your machine. Nevertheless, this does not seem
+to be allowed by CRAN to pass the test so I have had to use the serial version
+invoked with nthreads=-1. In your normal use of code try always nthreads=0.
+
 Of course, we might have used simply 10 as number of medoids, `k`, since 
 this does not change by filtering, but this is to emphasize
 the fact that `ApplyPAM` with method `PREV` requires both parameters 

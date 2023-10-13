@@ -41,6 +41,10 @@ class SymmetricMatrix: public JMatrix<T>
     SymmetricMatrix(indextype nrows);
 
     /**
+     * TODO: make a copy constructor??
+     */
+     
+    /**
      * Constructor to fill the matrix content from a binary file
      * 
      * Binary file header as explained in the documetation to WriteBin
@@ -51,6 +55,20 @@ class SymmetricMatrix: public JMatrix<T>
      * 
      */
     SymmetricMatrix(std::string fname); 
+    
+    /**
+     * Constructor to fill the matrix content from a csv file
+     * First line is supposed to have the field names and it is ignored.
+     * First column of each line is supposed to have the field name, and it is ignored, too.
+     * The passed character is the expected field sepparator (usually, comma or tab)
+     * WARNING: even the .csv table must be square, only the lower-diagonal part (inclding main diagonal) is stored.
+     * 
+     * @param string fname: The name of the csv file to read
+     * @param unsigned char vtype: The data type to be stored
+     * @param char csep: The character used as field sepparator
+     * 
+     */
+    SymmetricMatrix(std::string fname,unsigned char vtype,char csep);
     
     /** 
      * Function to resize the matrix
@@ -99,7 +117,7 @@ class SymmetricMatrix: public JMatrix<T>
      * 
      * @return T: value at (r,c) of matrix
      */
-#ifdef WITH_CHECKS_MATRIXSYM
+#ifdef WITH_CHECKS_MATRIX
     T Get(indextype r,indextype c);
 #else
     inline T Get(indextype r,indextype c) { return (c<=r) ? data[r][c] : data[c][r]; };
@@ -112,7 +130,7 @@ class SymmetricMatrix: public JMatrix<T>
      * @param T: the value to be set
      * 
      */
-#ifdef WITH_CHECKS_MATRIXSYM
+#ifdef WITH_CHECKS_MATRIX
     void Set(indextype r,indextype c,T v); 
 #else  
     inline void Set(indextype r,indextype c,T v) { if (c<=r) data[r][c]=v; else data[c][r]=v; };

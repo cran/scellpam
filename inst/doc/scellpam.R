@@ -22,7 +22,7 @@ ScellpamSetDebug(TRUE,debparpam=TRUE,debjmat=TRUE)
 #            ctype="raw",valuetype="float",transpose=FALSE,comment="")
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  CsvToBinMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
+#  CsvToJMat("countsfile.csv","countsfile.bin",ctype="log1n",transpose=TRUE,
 #              comment="Obtained from countsfile.csv")
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -88,7 +88,7 @@ FilterJMatByName(tmpfile1,v,tmpfiltfile1,namesat="cols")
 ## -----------------------------------------------------------------------------
 tmpfile1=paste0(tempdir(),"/Trapnell.bin")
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
-CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,
+CalcAndWriteDissimilarityMatrix(tmpfile1,tmppeafile1,nthreads=-1,
                                 comment="Pearson dissimilarities for cell
                                          in experiment conquer
                                          GSE52529-GPL16791")
@@ -99,7 +99,7 @@ JMatInfo(tmppeafile1)
 ## -----------------------------------------------------------------------------
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
 L=ApplyPAM(tmppeafile1,k=10,init_method="BUILD",
-           max_iter=1000,nthreads=0)
+           max_iter=1000,nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
@@ -110,7 +110,7 @@ Llab2=ApplyPAM(tmppeafile1,k=10,init_method="LAB",max_iter=0)
 ## -----------------------------------------------------------------------------
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
 Llab2Final=ApplyPAM(tmppeafile1,k=10,init_method="PREV",
-                    initial_med=Llab2$med)
+                    initial_med=Llab2$med,nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 # Which are the indexes of the points chosen as medoids?
@@ -140,7 +140,7 @@ F[which(F[,3]==0),1]
 
 ## -----------------------------------------------------------------------------
 tmppeafile1=paste0(tempdir(),"/TrapnellPearson.bin")
-S=CalculateSilhouette(Llab2$clasif,tmppeafile1,nthreads=0)
+S=CalculateSilhouette(Llab2$clasif,tmppeafile1,nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 Sclus <- NumSilToClusterSil(Llab2$clasif,S)
@@ -166,5 +166,5 @@ JMatToCsv(tmpfiltfile1,tmpfiltcsvfile1)
 
 ## -----------------------------------------------------------------------------
 tmppeafiltfile1=paste0(tempdir(),"/TrapnellPearsonFilt.bin")
-Lfinal=ApplyPAM(tmppeafiltfile1,k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med)
+Lfinal=ApplyPAM(tmppeafiltfile1,k=length(Lfilt$med),init_method="PREV",initial_med=Lfilt$med,nthreads=-1)
 

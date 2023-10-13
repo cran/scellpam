@@ -8,9 +8,8 @@ knitr::opts_chunk$set(
 library(scellpam)
 
 ## -----------------------------------------------------------------------------
-# Initially, state of debug is FALSE. Turn it on exclusively for
-# the jmatrix part of scellpam with
-ScellpamSetDebug(FALSE,debparpam=FALSE,debjmat=TRUE)
+ScellpamSetDebug(TRUE,TRUE,TRUE)
+# Initially, state of debug is FALSE.
 
 ## -----------------------------------------------------------------------------
 # Create a 6x8 matrix of random values
@@ -32,6 +31,31 @@ JWriteBin(Rf,"Rfulldouble.bin",dtype="double",dmtype="full",
 JMatInfo("Rfullfloat.bin")
 # Same information about the double binary file
 JMatInfo("Rfulldouble.bin")
+
+## -----------------------------------------------------------------------------
+# Create a 6x8 matrix of random values
+Rf <- matrix(runif(48),nrow=6)
+# Set row and column names for it
+rownames(Rf) <- c("A","B","C","D","E","F")
+colnames(Rf) <- c("a","b","c","d","e","f","g","h")
+# Store it as the binary file Rfullfloat.bin
+JWriteBin(Rf,"Rfullfloat.bin",dtype="float",dmtype="full",
+          comment="Full matrix of floats")
+# Save the content of this .bin as a .csv file
+JMatToCsv("Rfullfloat.bin","Rfullfloat.csv",csep=",",withquotes=FALSE)
+
+## -----------------------------------------------------------------------------
+# Create a 6x8 matrix of random values
+Rf <- matrix(runif(48),nrow=6)
+# Set row and column names for it
+rownames(Rf) <- c("A","B","C","D","E","F")
+colnames(Rf) <- c("a","b","c","d","e","f","g","h")
+# Save it as a .csv file with the standard R function...
+write.csv(Rf,"rf.csv")
+# ...and read it to create a jmatrix binary file
+CsvToJMat("rf.csv","rf.bin",mtype="full",csep=",",ctype="raw",valuetype="float",transpose=FALSE,comment="Test matrix generated reading a .csv file")
+# Let's see the characteristics of the binary file
+JMatInfo("rf.bin")
 
 ## -----------------------------------------------------------------------------
 # Reads row 1 into vector vf. Float values inside the file are
@@ -107,5 +131,17 @@ JWriteBin(Rsym,"Rsymfloat.bin",dtype="float",dmtype="symmetric",
 JMatInfo("Rsymfloat.bin")
 
 ## -----------------------------------------------------------------------------
-(d<-GetSubdiag("Rsymfloat.bin"))
+Rns <- matrix(runif(49),nrow=7)
+rownames(Rns) <- c("A","B","C","D","E","F","G")
+colnames(Rns) <- c("a","b","c","d","e","f","g")
+# Let's see the matrix
+Rns
+# Write the matrix as full with type float
+JWriteBin(Rns,"Rfullfloat.bin",dtype="float",dmtype="full",
+          comment="Full matrix of floats")
+# Extract the first two and the last two columns
+FilterJMatByName("Rfullfloat.bin",c("a","b","f","g"),"Rfullfloat_fourcolumns.bin",namesat="cols")
+# Let's load the matrix and let's see it
+vm<-GetJManyRows("Rfullfloat_fourcolumns.bin",c(1,7))
+vm
 

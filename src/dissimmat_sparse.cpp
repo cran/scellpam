@@ -158,8 +158,9 @@ void FillCosMatrixFromSparse(indextype initial_row,indextype final_row,SparseMat
      }
     }              
    } 
-   
-   D->Set(rowA,rowB,1.0-(prod/(sqrt(sc1)*sqrt(sc2))));
+   // Precision problems in the sqrt calculation might yield an extremely small negative result. we clip it to zero
+   disttype val=1.0-(prod/(sqrt(sc1)*sqrt(sc2)));
+   D->Set(rowA,rowB,val<0.0 ? 0.0 : val);
   }
   
   // This is just to set the main diagonal.

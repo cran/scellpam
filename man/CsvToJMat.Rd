@@ -20,7 +20,7 @@ CsvToJMat(
 
 \item{ofname}{A string with the name of the binary output file.}
 
-\item{mtype}{A string to indicate the matrix type: 'full' or 'sparse'. Default: 'sparse'}
+\item{mtype}{A string to indicate the matrix type: 'full', 'sparse' or 'symmetric'. Default: 'sparse'}
 
 \item{csep}{The character used as separator in the .csv file. Default: ',' (comma) (Set to '\\t' for .tsv)}
 
@@ -38,7 +38,7 @@ No return value, called for side effects (creates a file)
 \description{
 Gets a csv/tsv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
 First line of the .csv is supposed to have the field names.\cr
-First column of each line is supposed to have the field name.\cr
+First column of each line is supposed to have the row name.\cr
 The fields are supposed to be separated by one occurrence of a character-field sepparator (usually, comma or tab)
 .tsv files can be read with this function, too, setting the csep argument to '\\t'
 }
@@ -46,6 +46,13 @@ The fields are supposed to be separated by one occurrence of a character-field s
 The parameter transpose has the default value of FALSE. But don't forget to set it to TRUE if you want the cells
 (which in single cell common practice are by columns) to be written by rows. This will be needed later to calculate
 the dissimilarity matrix, if this is the next step of your workflow. See help of CalcAndWriteDissimilarityMatrix
+
+Special note for loading symmetric matrices:\cr
+If you use this function to load what you expect to be a symmetric matrix from a .csv file, remember that the input table
+MUST be square, but only the lower-diagonal matrix will be stored, including the main diagonal. The rest of the input table is
+completely ignored, except to check that there are values in it. It is not checked if the table really represents a
+symmetric matrix or not.\cr
+Furthermore, symmetric matrices can only be loaded in raw mode, i.e.: no normalization is allowed, and they cannot be transposed.
 }
 \examples{
 # Since we have no a .csv file to test, we will generate one with another funcion of this package

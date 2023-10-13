@@ -14,3 +14,8 @@ Version 1.4.4 [2023-06-20]
 * Corrected errors in GetJRow and GetJCol for symmetric matrices when indices are bigger than 65536
 * Added the cosine and weighted-Euclidean distances
 
+Version 1.4.5 [2023-09-08]
+* Added possibility of reading symmetric matrices from .csv or .tsv files
+* Added preferred citation as file inst/CITATION and inside vignette
+* Read/write to/from .csv or .tsv checked to avoid strange behaviours when .csv has no row and/or column names.
+

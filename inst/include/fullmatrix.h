@@ -109,8 +109,11 @@ class FullMatrix: public JMatrix<T>
      * 
      * @return T: value at (r,c) of matrix
      */
+#ifdef WITH_CHECKS_MATRIX
     T Get(indextype r,indextype c);
-    
+#else   
+    inline T Get(indextype r,indextype c) { return data[r][c]; };
+#endif
     /** 
      * Function to set an element
      * 
@@ -119,8 +122,11 @@ class FullMatrix: public JMatrix<T>
      * @param T: the value to be set
      * 
      */
+#ifdef WITH_CHECKS_MATRIX
     void Set(indextype r,indextype c,T v);
-    
+#else   
+    inline void Set(indextype r,indextype c,T v) { data[r][c]=v; };
+#endif 
     /**
       * Function to get a row as a pointer to the content type.
       * The pointer is not returned since that way it does not need to be booked. The pointer to hold result is passed as parameter

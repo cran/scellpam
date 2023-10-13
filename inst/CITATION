@@ -1,0 +1,16 @@
+citHeader("Please, use preferently the BMC article citation to cite the scellpam package")
+bibentry ("Article",
+  title = "Scellpam: an {R} package/{C++} library to perform parallel partitioning around medoids on scRNAseq data sets",
+  author = "Juan Domingo and Teresa Leon and Esther Dura",
+  journal = "BMC Bioinformatics",
+  year = "2023",
+  volume ="24",
+  number = "1",
+  pages = "342--354",
+  doi = "10.1186/s12859-023-05471-1",
+  issn = "1471-2105"
+)
+
+bibentry("Manual",
+         other = unlist(citation(auto = meta), recursive = FALSE))
+

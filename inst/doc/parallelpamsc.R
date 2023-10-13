@@ -35,23 +35,23 @@ JMatInfo("datatest.bin")
 CalcAndWriteDissimilarityMatrix("datatest.bin","datatestL2.bin",
                                 distype="L2",restype="float",
                                 comment="L2 distance for vectors in
- jmatrix file datatest.bin",nthreads=0)
+ jmatrix file datatest.bin",nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 JMatInfo("datatestL2.bin")
 
 ## -----------------------------------------------------------------------------
 L=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=1000,
-           nthreads=0)
+           nthreads=-1)
 
 ## -----------------------------------------------------------------------------
-Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0)
+Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0,nthreads=-1)
 Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
 Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
 
 ## -----------------------------------------------------------------------------
 Llab2Final=ApplyPAM("datatestL2.bin",k=5,init_method="PREV",
-                    initial_med=Llab2$med)
+                    initial_med=Llab2$med,nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 # Which are the indexes of the points chosen as medoids?
@@ -69,7 +69,7 @@ min(L$clasif)
 max(L$clasif)
 
 ## -----------------------------------------------------------------------------
-S=CalculateSilhouette(Llab2$clasif,"datatestL2.bin",nthreads=0)
+S=CalculateSilhouette(Llab2$clasif,"datatestL2.bin",nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 Sclus <- NumSilToClusterSil(Llab2$clasif,S)
@@ -83,7 +83,7 @@ Lfilt=FilterBySilhouetteQuantile(S,Llab2,"datatest.bin",
 
 ## -----------------------------------------------------------------------------
 Lfinal=ApplyPAM("datatestL2Filt.bin",k=length(Lfilt$med),
-                init_method="PREV",initial_med=Lfilt$med)
+                init_method="PREV",initial_med=Lfilt$med,nthreads=-1)
 
 ## ---- results='hide'----------------------------------------------------------
 d = GetSubdiag("datatestL2.bin")

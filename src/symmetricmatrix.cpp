@@ -16,11 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Rcpp.h>
 #include <symmetricmatrix.h>
-#include <templatemacros.h>
+
 
 extern unsigned char DEB;
+
+/****************************************
+  TEMPLATED CONSTRUCTORS AND FUNCTIONS
+*****************************************/
 
 template <typename T>
 SymmetricMatrix<T>::SymmetricMatrix() : JMatrix<T>(MTYPESYMMETRIC)
@@ -40,10 +43,7 @@ SymmetricMatrix<T>::SymmetricMatrix(indextype nrows) : JMatrix<T>(MTYPESYMMETRIC
  {
      data[r].resize(r+1);
      data[r].assign(r+1,T(0));
-     /*
-     for (indextype c=0;c<=r;c++)
-         data[r][c]=0;
-     */
+ 
  }
 }
 
@@ -59,10 +59,7 @@ SymmetricMatrix<T>::SymmetricMatrix(const SymmetricMatrix& other) : JMatrix<T>(o
  {
      data[r].resize(r+1);
      copy(other.data[r].begin(),other.data[r].end(),data[r].begin());
-     /*
-     for (indextype c=0;c<=r;c++)
-         data[r][c]=other.data[r][c];
-     */
+  
  }
 }
 
@@ -176,10 +173,6 @@ SymmetricMatrix<T>& SymmetricMatrix<T>::operator=(const SymmetricMatrix<T>& othe
  {
      data[r].resize(r+1);
      copy(other.data[r].begin(),other.data[r].end(),data[r].begin());
-     /*
-     for (indextype c=0;c<=r;c++)
-         data[r][c]=other.data[r][c];
-     */
  }
  return *this;
 }
@@ -188,6 +181,107 @@ TEMPLATES_OPERATOR(SymmetricMatrix,=)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Transpose operator, denoted as != in FullMatrix, is not implemented. It does not make sense to transpose a symmetric matrix.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Constructor to read from a csv file.
+// This is implemented by request of a user, but it is strange to store a symmetric matrix in a .csv file, since it will
+// use twice the space it really needs...
+
+template <typename T>
+SymmetricMatrix<T>::SymmetricMatrix(std::string fname,unsigned char vtype,char csep) : JMatrix<T>(fname,MTYPESYMMETRIC,vtype,csep)
+{
+    std::string line;
+    // This is just to know number of rows
+    this->nr=0;
+    while (!this->ifile.eof())
+    {
+        getline(this->ifile,line);
+        if (!this->ifile.eof())
+            this->nr++;
+    }
+    if (this->nr != this->nc)
+    {
+        std::string err = "csv table in file "+fname+" has different number of rows and columns (as inferred from its header).\n";
+        err += "   It is not square, so it cannot be stored as a symmetric matrix.\n";
+        Rcpp::stop(err);
+    }
+    if (DEB & DEBJM)
+    {
+        Rcpp::Rcout << this->nr << " lines (excluding header) in file " << fname << std::endl;
+        Rcpp::Rcout << "Data will be read from each line and stored as ";
+        switch (vtype)
+        {
+         case ULTYPE: Rcpp::Rcout << "unsigned 32-bit integers.\n"; break;
+         case FTYPE: Rcpp::Rcout << "float values.\n"; break;
+         case DTYPE: Rcpp::Rcout << "double values.\n"; break;
+         default: Rcpp::Rcout << "unknown type values??? (Is this an error?).\n"; break;
+        }
+        Rcpp::Rcout << "WARNING: you are trying to read a symmetric matrix from a .csv file. You .csv file MUST contain a square matrix,\n";
+        Rcpp::Rcout << "         but only the lower-triangular matrix (incuding the main diagonal) of it will be stored. Values at the\n";
+        Rcpp::Rcout << "         upper-triangular matrix will be read just to check the number of them and immediately ignored.\n";
+    }
+    
+    data.resize(this->nr);
+    for (indextype r=0;r<this->nr;r++)
+    {
+     data[r].resize(r+1);
+     data[r].assign(r+1,T(0));
+    }
+    
+    // Reposition pointer at the beginnig and re-read first (header) line
+    // and no, seekg does not work (possibly, because we had reached the eof ???)
+    this->ifile.close();
+    this->ifile.open(fname.c_str());
+    size_t p=0;
+    getline(this->ifile,line);
+    // No need to process first line here, it was done at the parent's class constructor
+   
+    if (DEB & DEBJM)
+        Rcpp::Rcout << "Reading line... ";
+    while (!this->ifile.eof())
+    {
+        if ( (DEB & DEBJM) && !(p%1000))
+        {
+            Rcpp::Rcout << p << " ";
+            Rcpp::Rcout.flush();
+        }
+        getline(this->ifile,line);
+        if (!this->ifile.eof())
+        {
+          if (!this->ProcessDataLineCsvForSymmetric(line,csep,p,data[p]))
+          {
+              std::ostringstream errst;
+              errst << "Format error reading line " << p << " of file " << fname << ".\n";
+              Rcpp::stop(errst.str());
+          }
+          p++;
+          
+          if ( (DEB & DEBJM) && (this->nr>1000) && (!(p % 100)) )
+           Rcpp::Rcout << p << " "; 
+        }
+    }
+    
+    if (DEB & DEBJM)
+    {
+        Rcpp::Rcout << "\nRead " << p << " data lines of file " << fname;
+        if (p==this->nr)
+            Rcpp::Rcout << ", as expected.\n";
+        else
+            Rcpp::Rcout << " instead of " << this->nr << ".\n";
+    }
+    
+    // No call to ReadMetadata must be done here, since these data are NOT binary. The column names were read by the parent's class constructor
+    // and the row names are stored as they are read by the former call to ProcessDataLine
+    
+    
+    this->ifile.close();  
+}
+
+TEMPLATES_CONST(SymmetricMatrix,SINGLE_ARG(std::string fname,unsigned char vtype,char csep))
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 template<typename T>
 bool SymmetricMatrix<T>::TestDistDisMat()
 {
@@ -232,7 +326,7 @@ bool SymmetricMatrix<T>::TestDistDisMat()
 TEMPLATES_FUNC(bool,SymmetricMatrix,TestDistDisMat,)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifdef WITH_CHECKS_MATRIXSYM
+#ifdef WITH_CHECKS_MATRIX
 template <typename T>
 T SymmetricMatrix<T>::Get(indextype r,indextype c)
 { 
@@ -252,7 +346,7 @@ TEMPLATES_FUNCR(SymmetricMatrix,Get,SINGLE_ARG(indextype r,indextype c))
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef WITH_CHECKS_MATRIXSYM
+#ifdef WITH_CHECKS_MATRIX
 template <typename T>
 void SymmetricMatrix<T>::Set(indextype r,indextype c,T v)
 {
@@ -277,7 +371,7 @@ TEMPLATES_SETFUNC(void,SymmetricMatrix,Set,SINGLE_ARG(indextype r,indextype c),v
 template <typename T>
 T SymmetricMatrix<T>::GetRowSum(indextype r)
 {
-#ifdef WITH_CHECKS_MATRIXSYM
+#ifdef WITH_CHECKS_MATRIX
     if (r>=this->nr)
     {
     	std::ostringstream errst;
@@ -336,30 +430,42 @@ TEMPLATES_FUNC(void,SymmetricMatrix,WriteBin,std::string fname)
 template <typename T>
 void SymmetricMatrix<T>::WriteCsv(std::string fname,char csep,bool withquotes)
 {
+    // Remember: this writes the header, even if there were no column names (then, the header will be "","C1","C2",...)
     ((JMatrix<T> *)this)->WriteCsv(fname,csep,withquotes);
-    
-    bool with_headers=false;
-    size_t nch=this->colnames.size();
-    size_t nrh=this->rownames.size();
-    
-    if (nch>0 && nrh>0)
+
+    // Header has been written (unless the matrix had no columns...)
+    // But if it would have columns, but no rows, there is nothing after the header. The .csv would have a single line (the header)
+    if ((this->nc==0) || (this->nr==0))
     {
-     if (nch!=this->nc || nrh!=this->nr)
-      Rcpp::warning("Different size of headers and matrix, either in rows or in columns. Headers will not be written in the .csv file.\n");
-     with_headers=true;
+     this->ofile.close();
+     return;
     }
+
+    int p = std::numeric_limits<T>::max_digits10;
+
+    // We have rows to write; otherwise we would have returned four lines ago...
+    indextype rns=this->rownames.size();
     
     for (indextype r=0;r<this->nr;r++)
     {
-        if (with_headers)
+        if (rns>0)
             this->ofile << FixQuotes(this->rownames[r],withquotes) << csep;
-           
+        else
+        {
+         if (withquotes)
+            this->ofile << "\"R" << r+1 << "\"";
+         else
+            this->ofile << "R" << r+1;
+         this->ofile << csep;   // Blank empty field at the beginning of each line
+        }
+
         for (indextype c=0;c<r+1;c++)
-            this->ofile << data[r][c] << csep;
-        // Csv version writes all elements, event those not physically stored.
+            this->ofile << std::setprecision(p) << data[r][c] << csep;
+            
+        // Csv version writes all elements, even those not physically stored.
         for (indextype c=r+1;c<this->nr-1;c++)
-            this->ofile << data[c][r] << csep;
-        this->ofile << data[this->nr-1][r] << std::endl;
+            this->ofile << std::setprecision(p) << data[c][r] << csep;
+        this->ofile << std::setprecision(p) << data[this->nr-1][r] << std::endl;
     }
     this->ofile.close();
 }

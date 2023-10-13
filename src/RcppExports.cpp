@@ -10,62 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// BuildAbundanceMatrix
-Rcpp::NumericMatrix BuildAbundanceMatrix(Rcpp::NumericVector clasif, Rcpp::IntegerVector gr, int expgroups);
-RcppExport SEXP _scellpam_BuildAbundanceMatrix(SEXP clasifSEXP, SEXP grSEXP, SEXP expgroupsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type clasif(clasifSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type gr(grSEXP);
-    Rcpp::traits::input_parameter< int >::type expgroups(expgroupsSEXP);
-    rcpp_result_gen = Rcpp::wrap(BuildAbundanceMatrix(clasif, gr, expgroups));
-    return rcpp_result_gen;
-END_RCPP
-}
-// CsvToJMat
-void CsvToJMat(std::string ifname, std::string ofname, std::string mtype, char csep, std::string ctype, std::string valuetype, bool transpose, std::string comment);
-RcppExport SEXP _scellpam_CsvToJMat(SEXP ifnameSEXP, SEXP ofnameSEXP, SEXP mtypeSEXP, SEXP csepSEXP, SEXP ctypeSEXP, SEXP valuetypeSEXP, SEXP transposeSEXP, SEXP commentSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type ifname(ifnameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type ofname(ofnameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type mtype(mtypeSEXP);
-    Rcpp::traits::input_parameter< char >::type csep(csepSEXP);
-    Rcpp::traits::input_parameter< std::string >::type ctype(ctypeSEXP);
-    Rcpp::traits::input_parameter< std::string >::type valuetype(valuetypeSEXP);
-    Rcpp::traits::input_parameter< bool >::type transpose(transposeSEXP);
-    Rcpp::traits::input_parameter< std::string >::type comment(commentSEXP);
-    CsvToJMat(ifname, ofname, mtype, csep, ctype, valuetype, transpose, comment);
-    return R_NilValue;
-END_RCPP
-}
-// JMatToCsv
-void JMatToCsv(std::string ifile, std::string csvfile, char csep, bool withquotes);
-RcppExport SEXP _scellpam_JMatToCsv(SEXP ifileSEXP, SEXP csvfileSEXP, SEXP csepSEXP, SEXP withquotesSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type ifile(ifileSEXP);
-    Rcpp::traits::input_parameter< std::string >::type csvfile(csvfileSEXP);
-    Rcpp::traits::input_parameter< char >::type csep(csepSEXP);
-    Rcpp::traits::input_parameter< bool >::type withquotes(withquotesSEXP);
-    JMatToCsv(ifile, csvfile, csep, withquotes);
-    return R_NilValue;
-END_RCPP
-}
-// FilterJMatByName
-void FilterJMatByName(std::string fname, Rcpp::StringVector Gn, std::string filname, std::string namesat);
-RcppExport SEXP _scellpam_FilterJMatByName(SEXP fnameSEXP, SEXP GnSEXP, SEXP filnameSEXP, SEXP namesatSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type fname(fnameSEXP);
-    Rcpp::traits::input_parameter< Rcpp::StringVector >::type Gn(GnSEXP);
-    Rcpp::traits::input_parameter< std::string >::type filname(filnameSEXP);
-    Rcpp::traits::input_parameter< std::string >::type namesat(namesatSEXP);
-    FilterJMatByName(fname, Gn, filname, namesat);
-    return R_NilValue;
-END_RCPP
-}
 // dgCMatToJMat
 void dgCMatToJMat(Rcpp::S4 q, std::string fname, std::string mtype, std::string ctype, std::string valuetype, bool transpose, std::string comment);
 RcppExport SEXP _scellpam_dgCMatToJMat(SEXP qSEXP, SEXP fnameSEXP, SEXP mtypeSEXP, SEXP ctypeSEXP, SEXP valuetypeSEXP, SEXP transposeSEXP, SEXP commentSEXP) {
@@ -111,6 +55,49 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// BuildAbundanceMatrix
+Rcpp::NumericMatrix BuildAbundanceMatrix(Rcpp::NumericVector clasif, Rcpp::IntegerVector gr, int expgroups);
+RcppExport SEXP _scellpam_BuildAbundanceMatrix(SEXP clasifSEXP, SEXP grSEXP, SEXP expgroupsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type clasif(clasifSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type gr(grSEXP);
+    Rcpp::traits::input_parameter< int >::type expgroups(expgroupsSEXP);
+    rcpp_result_gen = Rcpp::wrap(BuildAbundanceMatrix(clasif, gr, expgroups));
+    return rcpp_result_gen;
+END_RCPP
+}
+// CsvToJMat
+void CsvToJMat(std::string ifname, std::string ofname, std::string mtype, char csep, std::string ctype, std::string valuetype, bool transpose, std::string comment);
+RcppExport SEXP _scellpam_CsvToJMat(SEXP ifnameSEXP, SEXP ofnameSEXP, SEXP mtypeSEXP, SEXP csepSEXP, SEXP ctypeSEXP, SEXP valuetypeSEXP, SEXP transposeSEXP, SEXP commentSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type ifname(ifnameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type ofname(ofnameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type mtype(mtypeSEXP);
+    Rcpp::traits::input_parameter< char >::type csep(csepSEXP);
+    Rcpp::traits::input_parameter< std::string >::type ctype(ctypeSEXP);
+    Rcpp::traits::input_parameter< std::string >::type valuetype(valuetypeSEXP);
+    Rcpp::traits::input_parameter< bool >::type transpose(transposeSEXP);
+    Rcpp::traits::input_parameter< std::string >::type comment(commentSEXP);
+    CsvToJMat(ifname, ofname, mtype, csep, ctype, valuetype, transpose, comment);
+    return R_NilValue;
+END_RCPP
+}
+// JMatToCsv
+void JMatToCsv(std::string ifile, std::string csvfile, char csep, bool withquotes);
+RcppExport SEXP _scellpam_JMatToCsv(SEXP ifileSEXP, SEXP csvfileSEXP, SEXP csepSEXP, SEXP withquotesSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type ifile(ifileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type csvfile(csvfileSEXP);
+    Rcpp::traits::input_parameter< char >::type csep(csepSEXP);
+    Rcpp::traits::input_parameter< bool >::type withquotes(withquotesSEXP);
+    JMatToCsv(ifile, csvfile, csep, withquotes);
+    return R_NilValue;
+END_RCPP
+}
 // ScellpamSetDebug
 void ScellpamSetDebug(bool deb, bool debparpam, bool debjmat);
 RcppExport SEXP _scellpam_ScellpamSetDebug(SEXP debSEXP, SEXP debparpamSEXP, SEXP debjmatSEXP) {
@@ -135,6 +122,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type comment(commentSEXP);
     Rcpp::traits::input_parameter< int >::type nthreads(nthreadsSEXP);
     CalcAndWriteDissimilarityMatrix(ifname, ofname, distype, restype, comment, nthreads);
+    return R_NilValue;
+END_RCPP
+}
+// FilterJMatByName
+void FilterJMatByName(std::string fname, Rcpp::StringVector Gn, std::string filname, std::string namesat);
+RcppExport SEXP _scellpam_FilterJMatByName(SEXP fnameSEXP, SEXP GnSEXP, SEXP filnameSEXP, SEXP namesatSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type fname(fnameSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type Gn(GnSEXP);
+    Rcpp::traits::input_parameter< std::string >::type filname(filnameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type namesat(namesatSEXP);
+    FilterJMatByName(fname, Gn, filname, namesat);
     return R_NilValue;
 END_RCPP
 }
@@ -406,15 +406,15 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_scellpam_BuildAbundanceMatrix", (DL_FUNC) &_scellpam_BuildAbundanceMatrix, 3},
-    {"_scellpam_CsvToJMat", (DL_FUNC) &_scellpam_CsvToJMat, 8},
-    {"_scellpam_JMatToCsv", (DL_FUNC) &_scellpam_JMatToCsv, 4},
-    {"_scellpam_FilterJMatByName", (DL_FUNC) &_scellpam_FilterJMatByName, 4},
     {"_scellpam_dgCMatToJMat", (DL_FUNC) &_scellpam_dgCMatToJMat, 7},
     {"_scellpam_GetSeuratGroups", (DL_FUNC) &_scellpam_GetSeuratGroups, 1},
     {"_scellpam_SceToJMat", (DL_FUNC) &_scellpam_SceToJMat, 9},
+    {"_scellpam_BuildAbundanceMatrix", (DL_FUNC) &_scellpam_BuildAbundanceMatrix, 3},
+    {"_scellpam_CsvToJMat", (DL_FUNC) &_scellpam_CsvToJMat, 8},
+    {"_scellpam_JMatToCsv", (DL_FUNC) &_scellpam_JMatToCsv, 4},
     {"_scellpam_ScellpamSetDebug", (DL_FUNC) &_scellpam_ScellpamSetDebug, 3},
     {"_scellpam_CalcAndWriteDissimilarityMatrix", (DL_FUNC) &_scellpam_CalcAndWriteDissimilarityMatrix, 6},
+    {"_scellpam_FilterJMatByName", (DL_FUNC) &_scellpam_FilterJMatByName, 4},
     {"_scellpam_FilterBySilhouetteQuantile", (DL_FUNC) &_scellpam_FilterBySilhouetteQuantile, 8},
     {"_scellpam_FilterBySilhouetteThreshold", (DL_FUNC) &_scellpam_FilterBySilhouetteThreshold, 8},
     {"_scellpam_ClassifAsDataFrame", (DL_FUNC) &_scellpam_ClassifAsDataFrame, 2},

@@ -166,8 +166,6 @@ std::string MetadataInfo(unsigned char metadatainfo);
  */
 int SizeOfType(unsigned char datatypeident);
 
-#define WITH_CHECKS_MATRIXSP 1
-
 const unsigned short HEADER_SIZE=128;	/*!< The header size. We fix a header of 128 bytes. We don't need so much, but just in case in the future... */
 
 /**
@@ -384,12 +382,14 @@ class JMatrix
  	std::ofstream ofile;
  	unsigned char TypeNameToId();
  	bool ProcessDataLineCsv(std::string line,char csep,T *rowofdata);
+ 	bool ProcessDataLineCsvForSymmetric(std::string line,char csep,indextype nrow,std::vector<T> &rowofdata);
  	int ReadMetadata();
  	void WriteMetadata();
  	std::vector<std::string> rownames;
  	std::vector<std::string> colnames;
  	char comment[COMMENT_SIZE];
  	void SetDataType(unsigned char dtype);
+ 	std::string CleanQuotes(std::string s);
  	
  private:
  	unsigned char jmtype;
@@ -400,6 +400,18 @@ class JMatrix
 	indextype CheckSep();
 };
 
+/**
+ *      Constant defined to check access to matrix elements
+ *
+ *      The simple fact of being defined at compilation time adds a test in each matrix access to be sure we are
+ *      not out of bound; if we are, a run-time error is raised.
+ *
+ *      This is obviously safer but at the expense of adding overhead and a slight increment of run time.\n
+ *      Comment this constant if you are absolutely sure your program does not make any Get or Set out of bounds.
+ *
+ */
+//#define WITH_CHECKS_MATRIX
+ 
 /**
  * Auxiliary funcions to check characteristics of matrix stored in binary file looking only at its header.
  *
