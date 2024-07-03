@@ -78,17 +78,15 @@ void InternalGetBinNames(std::string fname,unsigned char whichnames,std::vector<
  {
   if (DEB & DEBJM)
   {
-   std::string w;
    if ((whichnames & ROW_NAMES) && (whichnames & COL_NAMES))
-    w="Asking for row and colum names in file "+fname+", which did not store at least one of such data (even if there is one, the returned value will be empty).\n";
+    Rcpp::warning("Asking for row and colum names in the matrix file, which did not store at least one of such data (even if there is one, the returned value will be empty).\n");
    else
    {
     if (whichnames & ROW_NAMES)
-     w="Asking for row names in file "+fname+", which did not store such data.\n";
+     Rcpp::warning("Asking for row names in the matrix file, which did not store such data.\n");
     else
-     w="Asking for column names in file "+fname+", which did not store such data.\n";
-   } 
-   Rcpp::warning(w);
+     Rcpp::warning("Asking for column names in the matrix file, which did not store such data.\n");
+   }
   }
   return;
  }

@@ -17,6 +17,7 @@
  */
 
 #include <fastpam.h>
+#include <pthread.h>
 
 extern unsigned char DEB;
 

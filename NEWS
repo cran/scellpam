@@ -19,3 +19,13 @@ Version 1.4.5 [2023-09-08]
 * Added preferred citation as file inst/CITATION and inside vignette
 * Read/write to/from .csv or .tsv checked to avoid strange behaviours when .csv has no row and/or column names.
 
+Version 1.4.6.1 [2024-07-01]
+* Added the inclusion of pthread.h in several .cpp files to prevent a compilation failure using LLVM that does not happen with gcc.
+  Thanks to Tomas Kalibera for his kind notice.
+* Suppressed a line in silhouette.cpp that used a function from the class Rcpp::Language wich internally calls
+  funcion SET_TYPEOF which, according to the R sources (see src/include/Rinternals.h) shouldn't be in the API
+  and since June, 2023 seems to have been taken by the CRAN maintainers as a failure.
+* Added a bibliographic reference missing in vignette parallelpamsc
+* Eliminated all uses of Rcpp::warn("%s",any_C_string) since it seems to provoke a strange error of
+  Too many conversion specifiers in format string. Indeed, every use of format strings has been eliminated.
+

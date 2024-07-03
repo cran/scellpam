@@ -17,6 +17,7 @@
  */
 
 #include <dissimmat.h>
+#include <pthread.h>
 
 extern unsigned char DEB;
 
@@ -58,7 +59,7 @@ void FillMetricMatrixFromSparse(indextype initial_row,indextype final_row,Sparse
    // The mark array is initialized to the marks of rowA
    memcpy(mark,rowmark,ncols);
    
-   // and vb will contains the values of rowB. First, we clean it...
+   // and vb will contain the values of rowB. First, we clean it...
    memset((void *)vb,0x0,ncols*sizeof(counttype));
    
    // and now, we fill its values and update mark adding 2 to the rigth places. In that way, mark will return with 0, 1, 2 or 3
@@ -258,7 +259,7 @@ void FillPearsonMatrixFromSparse(indextype initial_row,indextype final_row,Spars
   
   for (unsigned rowB=0; rowB<rowA; rowB++)
   {
-   // bb will contains the values of rowB. First, we clean it...
+   // bb will contain the values of rowB. First, we clean it...
    memset((void *)vb,0x0,ncols*sizeof(counttype));
    
    // and now, we fill its values

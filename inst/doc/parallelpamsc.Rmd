@@ -222,8 +222,8 @@ This will be explained later.
 From now on, typical calls to obtain only the initial medoids would be
 ```{r}
 Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0,nthreads=-1)
-Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
-Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
+Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0,nthreads=-1)
+Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0,nthreads=-1)
 ```
 
 WARNING: the normal way of calling `ApplyPAM` would use nthreads=0 to make

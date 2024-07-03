@@ -17,6 +17,7 @@
  */
 
 #include<silhouette.h>
+#include<pthread.h>
 
 extern unsigned char DEB;
 
@@ -429,7 +430,12 @@ Rcpp::NumericMatrix NumSilToClusterSil(Rcpp::NumericVector cl,Rcpp::NumericVecto
  retm.attr("dimnames")=dimnames;
  retm.attr("Ordered")=true;
  retm.attr("class")="silhouette";
- retm.attr("call")=Rcpp::Language("CalculateSilhouette","cl","fdist","nthreads");
+ /* The next line was intended to create an object as similar as possible to the cluster::silhouette object
+    of the cluster package but it provoked problems because the use of Rcpp::Language make internal
+    calls to the R function SET_TYPEOF which is not in the R external API and this, in turn, provokes
+    errors that prevent the package to be accepted by CRAN
+ */
+ //retm.attr("call")=Rcpp::Language("CalculateSilhouette","cl","fdist","nthreads");
  
  return(retm);
 }

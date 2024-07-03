@@ -68,9 +68,7 @@ Rcpp::List FilterByQuantile(Rcpp::NumericVector s, float q, Rcpp::List L,std::ve
  
  if (nfmed!=0)
  {
-  std::ostringstream errst;
-  errst << nfmed << " of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n";
-  Rcpp::warning(errst.str());
+  Rcpp::warning("One or more medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n");
   if (DEB & DEBSC)
    Rcpp::Rcout << nfmed << " of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n";
  }
@@ -162,9 +160,7 @@ Rcpp::List FilterByThreshold(Rcpp::NumericVector s, float threshold, Rcpp::List 
  
  if (nfmed!=0)
  {
-  std::ostringstream errst;
-  errst << nfmed << " of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n";
-  Rcpp::warning(errst.str());
+  Rcpp::warning("One or more of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n");
   if (DEB & DEBSC)
    Rcpp::Rcout << nfmed << " of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).\n";
  }

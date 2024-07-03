@@ -60,7 +60,7 @@ std::vector<std::string> FilterAndCheckNames(std::vector<std::string> &names,std
  // Just for checking... 
  bool anynotfound=false;
  bool anyrepeated=false;
- std::string warn1="These names were in the passed list of names to be kept but they were not in the list of "+(byrows ? std::string("row") : std::string("column"))+" names of the original matrix:\n";
+ std::string warn1="";
  std::string warn2="These names were in the passed list of names to be kept and they were more than once in the list of "+(byrows ? std::string("row") : std::string("column"))+" names of the original matrix:\n";
  for (size_t i=0; i< gnames.size(); i++)
  {
@@ -75,10 +75,24 @@ std::vector<std::string> FilterAndCheckNames(std::vector<std::string> &names,std
    warn2 += (gnames[i]+" ");
   } 
  }
+ 
  if (anynotfound)
-  Rcpp::warning(warn1.c_str());
+ {
+  if (byrows)
+   Rcpp::warning("These names were in the passed list of names to be kept but they were not in the list of row names of the original matrix:\n");
+  else
+   Rcpp::warning("These names were in the passed list of names to be kept but they were not in the list of column names of the original matrix:\n");
+  Rcpp::Rcerr << warn1 << "\n";
+ }
+   
  if (anyrepeated)
-  Rcpp::warning(warn2.c_str());
+ {
+  if (byrows)
+   Rcpp::warning("These names were in the passed list of names to be kept and they were more than once in the list of row names of the original matrix:\n");
+  else
+   Rcpp::warning("These names were in the passed list of names to be kept and they were more than once in the list of column names of the original matrix:\n");
+  Rcpp::Rcerr << warn2 << "\n"; 
+ }
  
  if (byrows)
  {

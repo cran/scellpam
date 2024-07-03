@@ -92,7 +92,7 @@ void MemoryWarnings(unsigned long nr,int s)
   Rcpp::warning("Your computer has not enough memory to hold the matrix so swap will be used. This means that calculation can be terribly slow. Use Ctrl-C to interrupt the program if you want.\n");
  
  if (double(estimated_size)>0.75*double(mem))
-  Rcpp::warning("The matrix needs more than 75% of your computer's memory. This might provoke use of swap which will make calculation terribly slow. Close other applications, if possible, or interrupt the program with Ctrl-C.\n");
+  Rcpp::warning("The matrix needs more than three fours of your computer's memory. This might provoke use of swap which will make calculation terribly slow. Close other applications, if possible, or interrupt the program with Ctrl-C.\n");
     
 }
 

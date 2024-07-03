@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -46,8 +46,8 @@ L=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=1000,
 
 ## -----------------------------------------------------------------------------
 Lbuild=ApplyPAM("datatestL2.bin",k=5,init_method="BUILD",max_iter=0,nthreads=-1)
-Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
-Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0)
+Llab1=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0,nthreads=-1)
+Llab2=ApplyPAM("datatestL2.bin",k=5,init_method="LAB",max_iter=0,nthreads=-1)
 
 ## -----------------------------------------------------------------------------
 Llab2Final=ApplyPAM("datatestL2.bin",k=5,init_method="PREV",
@@ -85,26 +85,26 @@ Lfilt=FilterBySilhouetteQuantile(S,Llab2,"datatest.bin",
 Lfinal=ApplyPAM("datatestL2Filt.bin",k=length(Lfilt$med),
                 init_method="PREV",initial_med=Lfilt$med,nthreads=-1)
 
-## ---- results='hide'----------------------------------------------------------
+## ----results='hide'-----------------------------------------------------------
 d = GetSubdiag("datatestL2.bin")
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library(cluster)
 #  clusterpam = pam(d,diss=TRUE,k=5)
 #  print(sort(clusterpam$id.med))
 #  print(sort(L$med))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Be patient, this may take some time...
 #  Dm = GetJManyRows("datatestL2.bin",seq(1:nvec))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  library(ClusterR)
 #  ClusterRpam = Cluster_Medoids(Dm,clusters=5)
 #  print(sort(ClusterRpam$medoid_indices))
 #  print(sort(L$med))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  TDparallelpam = GetTD(L,"datatestL2.bin")
 #  
 #  # This is to adapt cluster package output format to ours, since this is what our GetTD function expects...
