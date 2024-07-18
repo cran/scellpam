@@ -28,4 +28,8 @@ Version 1.4.6.1 [2024-07-01]
 * Added a bibliographic reference missing in vignette parallelpamsc
 * Eliminated all uses of Rcpp::warn("%s",any_C_string) since it seems to provoke a strange error of
   Too many conversion specifiers in format string. Indeed, every use of format strings has been eliminated.
+  
+Version 1.4.6.2 [2024-07-18]
+* Change in a header to avoid new warning in C++20 due to the use of template in a constructor.
+
 

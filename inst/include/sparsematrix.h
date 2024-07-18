@@ -61,7 +61,7 @@ class SparseMatrix: public JMatrix<T>
      * @param string fname: The name of the file to read
      * 
      */
-    SparseMatrix<T>(std::string fname);
+    SparseMatrix(std::string fname);
     
     /**
      * Constructor to fill the matrix content from the transpose of the matrix contained in a binary file
@@ -73,7 +73,7 @@ class SparseMatrix: public JMatrix<T>
      * @param string fname: The name of the file to read
      * 
      */
-    SparseMatrix<T>(std::string fname,TrMark);
+    SparseMatrix(std::string fname,TrMark);
     
     /**
      * Constructor to fill the matrix content from a csv file
