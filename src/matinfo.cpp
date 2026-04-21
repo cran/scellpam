@@ -32,7 +32,7 @@ extern unsigned char DEB;
  *
  **********************************************************/
  
-// ******** Function to get information of the matrix *************
+// ******** Functions to get information of the matrix *************
 
 //' JMatInfo
 //'
@@ -152,3 +152,79 @@ void JMatInfo(std::string fname, std::string fres = "")
   
 }
 
+//' JMatInfoList
+//'
+//' Returns a list with information about a matrix stored in the binary format of package jmatrix
+//'
+//' @param fname  String with the file name that contains the binary data.
+//' @return       A list with the following keys:
+//' \itemize{
+//'     \item mattype  - String with one of the values "full", "sparse", "symmetric" or "unknown"
+//'     \item datatype - String with one of the values "uchar", "char", "ushort", "short", "uint", "int", "ulong", "long", "float", "double", "ldouble" or "unknown"
+//'     \item endian   - String with one of the values "little","big"
+//'     \item nrows    - Integer, the number of rows
+//'     \item ncols    - Integer, the number of cols
+//'     \item comment  - String with the comment, if stored, or the empty string otherwise
+//' }
+//' @examples
+//' Rf <- matrix(runif(48),nrow=6)
+//' rownames(Rf) <- c("A","B","C","D","E","F")
+//' colnames(Rf) <- c("a","b","c","d","e","f","g","h")
+//' tmpfile1=paste0(tempdir(),"/Rfullfloat.bin")
+//' L <- JMatInfoList(tmpfile1)
+//' cat(sep="","Matrix in file ",tmpfile1," is ",L$mattype,", has elements of type ")
+//' cat(sep="",L$datatype," stored in ",L$endian," endian, its size is ",L$nrows," x ",L$ncols,"\n")
+//' if (L$comment=="") { cat("Attached comment:\n",L$comment,"\n") }
+//' @export
+// [[Rcpp::export]]
+Rcpp::List JMatInfoList(std::string fname)
+{
+ unsigned char mtype,ctype,endian,mdinfo;
+ indextype nrows,ncols;
+ 
+ MatrixType(fname,mtype,ctype,endian,mdinfo,nrows,ncols);
+ 
+ Rcpp::List ret;
+ 
+ char comment[COMMENT_SIZE];
+ if (mdinfo & COMMENT)
+ {
+  unsigned long long start_metadata,start_comment;
+  PositionsInFile(fname,&start_metadata,&start_comment);
+  std::ifstream f(fname.c_str());
+  f.seekg(start_comment,std::ios::beg);
+  f.read((char *)comment,COMMENT_SIZE);
+  f.close();
+  ret["comment"] = comment;
+ }
+ else
+  ret["comment"] = "";
+
+ switch (mtype)
+ {
+  case MTYPEFULL:      ret["mattype"]="full"; break;
+  case MTYPESPARSE:    ret["mattype"]="sparse"; break;
+  case MTYPESYMMETRIC: ret["mattype"]="symmetric"; break;
+  default:             ret["mattype"]="unknown"; break;
+ }
+ switch (ctype)
+ {
+  case UCTYPE: ret["datatype"]="uchar"; break;
+  case SCTYPE: ret["datatype"]="char"; break;
+  case USTYPE: ret["datatype"]="ushort"; break;
+  case SSTYPE: ret["datatype"]="short"; break;
+  case UITYPE: ret["datatype"]="uint"; break;
+  case SITYPE: ret["datatype"]="int"; break;
+  case ULTYPE: ret["datatype"]="ulong"; break;
+  case SLTYPE: ret["datatype"]="long"; break;
+  case FTYPE:  ret["datatype"]="float"; break;
+  case DTYPE:  ret["datatype"]="double"; break;
+  case LDTYPE: ret["datatype"]="ldouble"; break;
+  default: ret["datatype"]="unknown\n"; break;
+ }
+ ret["endian"] = ((endian == BIGEND) ? "big" : "little");
+ ret["nrows"] = nrows;
+ ret["ncols"] = ncols;
+
+ return(ret);  
+}

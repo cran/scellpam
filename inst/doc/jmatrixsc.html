@@ -49,6 +49,7 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -149,6 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -373,7 +375,7 @@ you will need to know how to prepare your data to be processed by
 <code>jmatrix</code>; all the functions detailed below are already
 included into <code>scellpam</code> and are available just by loading it
 with <code>library(scellpam)</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
 </div>
 <div id="purpose" class="section level1">
 <h1>Purpose</h1>
@@ -427,11 +429,11 @@ case it could be useful for anyone else.</p>
 <p>First of all, the package can show quite informative (but sometimes
 verbose) messages in the console. To turn on/off such messages you can
 use.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for scellpam (biological part) of the package set to ON.</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for parallelpam inside scellpam package set to ON.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for jmatrix inside scellpam package set to ON.</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE.</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">TRUE</span>,<span class="cn">TRUE</span>,<span class="cn">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Debugging for scellpam (biological part) of the package set to ON.</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Debugging for parallelpam inside scellpam package set to ON.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; Debugging for jmatrix inside scellpam package set to ON.</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE.</span></span></code></pre></div>
 </div>
 <div id="data-storage" class="section level2">
 <h2>Data storage</h2>
@@ -443,92 +445,92 @@ package <code>scellpam</code>.</p>
 <p>As a convenience and only for testing purposes (to be used in this
 vignette), we provide the function <code>JWriteBin</code> to write a R
 matrix as a <code>jmatrix</code> file.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Rf</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            a         b         c           d         e         f          g</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.27589971 0.9846780 0.3718661 0.054738886 0.2069468 0.2158733 0.09942662</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.01678051 0.2110365 0.7561296 0.143986892 0.5582157 0.6200316 0.32619514</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.48299428 0.5528306 0.1274279 0.421164190 0.5377578 0.8797580 0.90853176</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.77741102 0.5887183 0.3318360 0.634689683 0.7284263 0.1091728 0.03242129</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.29742146 0.3560088 0.1045180 0.596748357 0.4722127 0.7780832 0.43684075</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.67264312 0.2984609 0.1981823 0.008672506 0.6744010 0.9683110 0.37124352</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.4432057</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.1925767</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.3744585</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.4201738</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.7171956</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.1224369</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># and write it as the binary file Rfullfloat.bin</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (6x8)</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Also, you can write it with double data type:</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;double&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of doubles&quot;</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfulldouble.bin of (6x8)</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 512</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of doubles</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>Rf</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;           a         b         c          d          e         f         g</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; A 0.6696851 0.8578017 0.3020567 0.50658462 0.07616901 0.7832231 0.7009153</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; B 0.2227856 0.1331562 0.1505534 0.06968315 0.03594645 0.5828077 0.6146703</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; C 0.6697792 0.3956704 0.8700933 0.58231319 0.63222692 0.4784611 0.2693743</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; D 0.7396226 0.2343066 0.9294285 0.63964725 0.61226819 0.2167763 0.8224437</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; E 0.4466017 0.5514376 0.5182877 0.77220898 0.91617740 0.9787335 0.8908885</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; F 0.3547610 0.5895073 0.9856993 0.18686308 0.76085484 0.7299589 0.6280631</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; A 0.9617832</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; B 0.8846715</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; C 0.9482599</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; D 0.2063947</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; E 0.3211114</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; F 0.1435706</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co"># and write it as the binary file Rfullfloat.bin</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (6x8)</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co"># Also, you can write it with double data type:</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;double&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of doubles&quot;</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfulldouble.bin of (6x8)</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 512</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of doubles</span></span></code></pre></div>
 <p>To get information about the stored file the function
 <code>JMatInfo</code> is provided. Of course, this funcion does not read
 the complete file in memory but just the header.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Information about the float binary file</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               Rfullfloat.bin</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Full matrix of floats&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same information about the double binary file</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               Rfulldouble.bin</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          double</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Full matrix of doubles&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Information about the float binary file</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; File:               Rfullfloat.bin</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Full matrix of floats&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># Same information about the double binary file</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; File:               Rfulldouble.bin</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; Data type:          double</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Full matrix of doubles&quot;</span></span></code></pre></div>
 <p>A jmatrix binary file can be exported to .csv/.tsv table. This is
 done with the function <code>JMatToCsv</code></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Store it as the binary file Rfullfloat.bin</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (6x8)</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the content of this .bin as a .csv file</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatToCsv</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;Rfullfloat.csv&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">withquotes=</span><span class="cn">FALSE</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read full matrix with size (6,8)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># Store it as the binary file Rfullfloat.bin</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rf,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (6x8)</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># Save the content of this .bin as a .csv file</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">JMatToCsv</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;Rfullfloat.csv&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">withquotes=</span><span class="cn">FALSE</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; Read full matrix with size (6,8)</span></span></code></pre></div>
 <p>The generated file will not have quotes neither around the column
 names (in its first line) nor around each row name (at the beginning of
 each line) since withquotes is FALSE but it can be set to TRUE for the
@@ -545,36 +547,36 @@ separation character (usually, a comma). No separation character must be
 added at the end of each line. This format is compatible with the .csv
 generated by R with the function <code>write.csv</code>.</p>
 <p>The function to read .csv files is <code>CsvToJMat</code></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Save it as a .csv file with the standard R function...</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(Rf,<span class="st">&quot;rf.csv&quot;</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ...and read it to create a jmatrix binary file</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;rf.csv&quot;</span>,<span class="st">&quot;rf.bin&quot;</span>,<span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;raw&quot;</span>,<span class="at">valuetype=</span><span class="st">&quot;float&quot;</span>,<span class="at">transpose=</span><span class="cn">FALSE</span>,<span class="at">comment=</span><span class="st">&quot;Test matrix generated reading a .csv file&quot;</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 columns of values (not including the column of names) in file rf.csv.</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 lines (excluding header) in file rf.csv</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data will be read from each line and stored as float values.</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading line... 0 </span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read 6 data lines of file rf.csv, as expected.</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix rf.bin of (6x8)</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Test matrix generated reading a .csv file</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the characteristics of the binary file</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;rf.bin&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               rf.bin</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Test matrix generated reading a .csv file&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Create a 6x8 matrix of random values</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>Rf <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># Set row and column names for it</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">rownames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">colnames</span>(Rf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># Save it as a .csv file with the standard R function...</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">write.csv</span>(Rf,<span class="st">&quot;rf.csv&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># ...and read it to create a jmatrix binary file</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;rf.csv&quot;</span>,<span class="st">&quot;rf.bin&quot;</span>,<span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;raw&quot;</span>,<span class="at">valuetype=</span><span class="st">&quot;float&quot;</span>,<span class="at">transpose=</span><span class="cn">FALSE</span>,<span class="at">comment=</span><span class="st">&quot;Test matrix generated reading a .csv file&quot;</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; 8 columns of values (not including the column of names) in file rf.csv.</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; 6 lines (excluding header) in file rf.csv</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; Data will be read from each line and stored as float values.</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; Reading line... 0 </span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; Read 6 data lines of file rf.csv, as expected.</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix rf.bin of (6x8)</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 320</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Test matrix generated reading a .csv file</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># Let&#39;s see the characteristics of the binary file</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;rf.bin&quot;</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt; File:               rf.bin</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; Matrix type:        FullMatrix</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Test matrix generated reading a .csv file&quot;</span></span></code></pre></div>
 <div id="special-note-for-symmetric-matrices" class="section level3">
 <h3>Special note for symmetric matrices:</h3>
 <p>The parameter mtype=“symmetric” will consider the content of the .csv
@@ -590,176 +592,178 @@ main diagonal) will be stored.</p>
 <p>As stated before, no function is provided to read the whole matrix in
 memory which would contradict the philosophy of this package, but you
 can get rows or columns from a file.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reads row 1 into vector vf. Float values inside the file are</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># promoted to double.</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJRow</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="dv">1</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          a          b          c          d          e          f          g </span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.13720177 0.32074910 0.56739020 0.02200842 0.07246488 0.77734601 0.97423404 </span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          h </span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.85302329</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Reads row 1 into vector vf. Float values inside the file are</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># promoted to double.</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJRow</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="dv">1</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;           a           b           c           d           e           f </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 0.577359200 0.273662329 0.003547955 0.429528981 0.655562162 0.243750870 </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;           g           h </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 0.593012810 0.817924798</span></span></code></pre></div>
 <p>Obviously, storage in float provokes a loosing of precision. We have
 observed this not to be relevant for <code>PAM</code> (partitioning
 around medoids) algorihm but it can be important in other cases. It is
 the price to pay for halving the needed space.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Checks the precision lost</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[<span class="dv">1</span>,]<span class="sc">-</span>vf))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.3643971</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Checks the precision lost</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[<span class="dv">1</span>,]<span class="sc">-</span>vf))</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.7374214</span></span></code></pre></div>
 <p>Nevertheless, storing as double obviously keeps the data intact.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vd<span class="ot">&lt;-</span><span class="fu">GetJRow</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="dv">1</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[<span class="dv">1</span>,]<span class="sc">-</span>vd))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8391243</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>vd<span class="ot">&lt;-</span><span class="fu">GetJRow</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[<span class="dv">1</span>,]<span class="sc">-</span>vd))</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1] 0.6004861</span></span></code></pre></div>
 <p>Now, let us see examples of some functions to read rows or columns by
 number or by name, or to read several rows/columns as a R matrix. In all
 examples numbers for rows and columns are in R-convention (i.e. 
 starting at 1)</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read column number 3</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJCol</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="dv">3</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         A         B         C         D         E         F </span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.5673902 0.8786766 0.6234628 0.7779209 0.6899800 0.2735479</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test precision</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[,<span class="dv">3</span>]<span class="sc">-</span>vf))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8357554</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read row with name C</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJRowByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;C&quot;</span>))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         a         b         c         d         e         f         g         h </span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.8305408 0.3501627 0.6234628 0.1549637 0.1349286 0.5732384 0.1725612 0.8720549</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read column with name c</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJColByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;c&quot;</span>))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         A         B         C         D         E         F </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.5673902 0.8786766 0.6234628 0.7779209 0.6899800 0.2735479</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the names of all rows or columns as vectors of R strings</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>(rn<span class="ot">&lt;-</span><span class="fu">GetJRowNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(cn<span class="ot">&lt;-</span><span class="fu">GetJColNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the names of rows and columns simultaneosuly as a list of two elements</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>(l<span class="ot">&lt;-</span><span class="fu">GetJNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $rownames</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $colnames</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get several rows at once. The returned matrix has the rows in the</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same order as the passed list,</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and this list can contain even repeated values</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>(vm<span class="ot">&lt;-</span><span class="fu">GetJManyRows</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)))</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           a         b         c          d          e         f         g</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.1372018 0.3207491 0.5673902 0.02200842 0.07246488 0.7773460 0.9742340</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.6204843 0.6626323 0.7779209 0.52911037 0.99443126 0.2887037 0.3533239</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.8530233</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.2409358</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Of course, columns can be extrated equally</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>(vc<span class="ot">&lt;-</span><span class="fu">GetJManyCols</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)))</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            a           d</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.27589971 0.054738886</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.01678051 0.143986892</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.48299428 0.421164190</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.77741102 0.634689683</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.29742146 0.596748357</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.67264312 0.008672506</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># and similar functions are provided for extracting by names:</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>(vm<span class="ot">&lt;-</span><span class="fu">GetJManyRowsByNames</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;D&quot;</span>)))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           a         b         c          d         e         f          g</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.2758997 0.9846780 0.3718661 0.05473889 0.2069468 0.2158733 0.09942662</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.7774110 0.5887183 0.3318360 0.63468968 0.7284263 0.1091728 0.03242129</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.4432057</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.4201738</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>(vc<span class="ot">&lt;-</span><span class="fu">GetJManyColsByNames</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;d&quot;</span>)))</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            a           d</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.27589971 0.054738886</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.01678051 0.143986892</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.48299428 0.421164190</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.77741102 0.634689683</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.29742146 0.596748357</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.67264312 0.008672506</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Read column number 3</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJCol</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="dv">3</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;           A           B           C           D           E           F </span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 0.003547955 0.919409037 0.700763881 0.423173040 0.787252307 0.682436585</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># Test precision</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">abs</span>(Rf[,<span class="dv">3</span>]<span class="sc">-</span>vf))</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; [1] 0.7066479</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># Read row with name C</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJRowByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;C&quot;</span>))</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt;          a          b          c          d          e          f          g </span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; 0.70377225 0.12205330 0.70076388 0.04194048 0.81096894 0.91793907 0.71686345 </span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt;          h </span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; 0.21611275</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># Read column with name c</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>(vf<span class="ot">&lt;-</span><span class="fu">GetJColByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="st">&quot;c&quot;</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt;           A           B           C           D           E           F </span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 0.003547955 0.919409037 0.700763881 0.423173040 0.787252307 0.682436585</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># Get the names of all rows or columns as vectors of R strings</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>(rn<span class="ot">&lt;-</span><span class="fu">GetJRowNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>(cn<span class="ot">&lt;-</span><span class="fu">GetJColNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># Get the names of rows and columns simultaneosuly as a list of two elements</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>(l<span class="ot">&lt;-</span><span class="fu">GetJNames</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>))</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; $rownames</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot;</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; $colnames</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot;</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co"># Get several rows at once. The returned matrix has the rows in the</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co"># same order as the passed list,</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co"># and this list can contain even repeated values</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a>(vm<span class="ot">&lt;-</span><span class="fu">GetJManyRows</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)))</span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt;            a          b           c         d         e         f           g</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt; A 0.57735920 0.27366233 0.003547955 0.4295290 0.6555622 0.2437509 0.593012810</span></span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co">#&gt; D 0.01306094 0.04315013 0.423173040 0.3257324 0.7127851 0.7040681 0.005519667</span></span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#&gt; A 0.8179248</span></span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co">#&gt; D 0.3110617</span></span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co"># Of course, columns can be extrated equally</span></span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a>(vc<span class="ot">&lt;-</span><span class="fu">GetJManyCols</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)))</span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co">#&gt;           a          d</span></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="co">#&gt; A 0.6696851 0.50658462</span></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a><span class="co">#&gt; B 0.2227856 0.06968315</span></span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co">#&gt; C 0.6697792 0.58231319</span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a><span class="co">#&gt; D 0.7396226 0.63964725</span></span>
+<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a><span class="co">#&gt; E 0.4466017 0.77220898</span></span>
+<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a><span class="co">#&gt; F 0.3547610 0.18686308</span></span>
+<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a><span class="co"># and similar functions are provided for extracting by names:</span></span>
+<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a>(vm<span class="ot">&lt;-</span><span class="fu">GetJManyRowsByNames</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;D&quot;</span>)))</span>
+<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a><span class="co">#&gt;           a         b         c         d          e         f         g</span></span>
+<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a><span class="co">#&gt; A 0.6696851 0.8578017 0.3020567 0.5065846 0.07616901 0.7832231 0.7009153</span></span>
+<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a><span class="co">#&gt; D 0.7396226 0.2343066 0.9294285 0.6396473 0.61226819 0.2167763 0.8224437</span></span>
+<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a><span class="co">#&gt;           h</span></span>
+<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a><span class="co">#&gt; A 0.9617832</span></span>
+<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a><span class="co">#&gt; D 0.2063947</span></span>
+<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a>(vc<span class="ot">&lt;-</span><span class="fu">GetJManyColsByNames</span>(<span class="st">&quot;Rfulldouble.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;d&quot;</span>)))</span>
+<span id="cb10-59"><a href="#cb10-59" tabindex="-1"></a><span class="co">#&gt;           a          d</span></span>
+<span id="cb10-60"><a href="#cb10-60" tabindex="-1"></a><span class="co">#&gt; A 0.6696851 0.50658462</span></span>
+<span id="cb10-61"><a href="#cb10-61" tabindex="-1"></a><span class="co">#&gt; B 0.2227856 0.06968315</span></span>
+<span id="cb10-62"><a href="#cb10-62" tabindex="-1"></a><span class="co">#&gt; C 0.6697792 0.58231319</span></span>
+<span id="cb10-63"><a href="#cb10-63" tabindex="-1"></a><span class="co">#&gt; D 0.7396226 0.63964725</span></span>
+<span id="cb10-64"><a href="#cb10-64" tabindex="-1"></a><span class="co">#&gt; E 0.4466017 0.77220898</span></span>
+<span id="cb10-65"><a href="#cb10-65" tabindex="-1"></a><span class="co">#&gt; F 0.3547610 0.18686308</span></span></code></pre></div>
 <p>The package can manage and store sparse and symmetric matrices,
 too.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generation of a 6x8 sparse matrix</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Rsp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>sparsity <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>nnz <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">48</span><span class="sc">*</span>sparsity)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>where <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="dv">47</span><span class="sc">*</span><span class="fu">runif</span>(nnz))</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">runif</span>(nnz)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nnz)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a> Rsp[<span class="fu">floor</span>(where[i]<span class="sc">/</span><span class="dv">8</span>)<span class="sc">+</span><span class="dv">1</span>,(where[i]<span class="sc">%%</span><span class="dv">8</span>)<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> val[i]</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rsp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rsp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>Rsp</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           a b c         d e         f         g h</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.0000000 0 0 0.0000000 0 0.0000000 0.0000000 0</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.0000000 0 0 0.0000000 0 0.0000000 0.0000000 0</span></span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.2819449 0 0 0.0000000 0 0.0000000 0.0000000 0</span></span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.9078598 0 0 0.0000000 0 0.1857652 0.9463108 0</span></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.0000000 0 0 0.2251895 0 0.0000000 0.0000000 0</span></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.0000000 0 0 0.0000000 0 0.0000000 0.0000000 0</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the matrix as sparse with type float</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rsp,<span class="st">&quot;Rspafloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;sparse&quot;</span>,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Sparse matrix of floats&quot;</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rspafloat.bin of (6x8)</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 192</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Sparse matrix of floats</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Generation of a 6x8 sparse matrix</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>Rsp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">48</span>),<span class="at">nrow=</span><span class="dv">6</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>sparsity <span class="ot">&lt;-</span> <span class="fl">0.1</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>nnz <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">48</span><span class="sc">*</span>sparsity)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>where <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="dv">47</span><span class="sc">*</span><span class="fu">runif</span>(nnz))</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>val <span class="ot">&lt;-</span> <span class="fu">runif</span>(nnz)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nnz)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>{</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a> Rsp[<span class="fu">floor</span>(where[i]<span class="sc">/</span><span class="dv">8</span>)<span class="sc">+</span><span class="dv">1</span>,(where[i]<span class="sc">%%</span><span class="dv">8</span>)<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> val[i]</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>}</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">rownames</span>(Rsp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="fu">colnames</span>(Rsp) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>,<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>Rsp</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt;           a        b c          d         e f g         h</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co">#&gt; A 0.0000000 0.000000 0 0.08821962 0.0000000 0 0 0.0000000</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co">#&gt; B 0.6711437 0.000000 0 0.00000000 0.0000000 0 0 0.0000000</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co">#&gt; C 0.0000000 0.000000 0 0.00000000 0.3650302 0 0 0.0000000</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co">#&gt; D 0.0000000 0.000000 0 0.00000000 0.0000000 0 0 0.0000000</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co">#&gt; E 0.0000000 0.378279 0 0.00000000 0.0000000 0 0 0.9786728</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="co">#&gt; F 0.0000000 0.000000 0 0.00000000 0.0000000 0 0 0.0000000</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co"># Write the matrix as sparse with type float</span></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rsp,<span class="st">&quot;Rspafloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;sparse&quot;</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Sparse matrix of floats&quot;</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 6 rows and they will be used.</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 8 columns and they will be used.</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rspafloat.bin of (6x8)</span></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 192</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co">#&gt;    Writing row names (6 strings written, from A to F).</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co">#&gt;    Writing column names (8 strings written, from a to h).</span></span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Sparse matrix of floats</span></span></code></pre></div>
 <p>Notice that the condition of being a sparse matrix and the storage
 space used can be known with the matrix info.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rspafloat.bin&quot;</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               Rspafloat.bin</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SparseMatrix</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Sparse matrix of floats&quot;</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Binary data size:   64 bytes, which is 33.3333% of the full matrix size (which would be 192 bytes).</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rspafloat.bin&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co">#&gt; File:               Rspafloat.bin</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SparseMatrix</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; Number of elements: 48</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; Number of rows:     6</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; Number of columns:  8</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Sparse matrix of floats&quot;</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; Binary data size:   64 bytes, which is 33.3333% of the full matrix size (which would be 192 bytes).</span></span></code></pre></div>
 <p>Be careful: trying to store as sparse a matrix which is not (it has
 not a majority of 0-entries) works, but produces a matrix larger than
 the corresponding full matrix.</p>
 <p>With respect to symmetric matrices, <code>JWriteBin</code> works the
 same way. Let us generate a <span class="math inline">\(7 \times
 7\)</span> symmetric matrix.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Rns <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">49</span>),<span class="at">nrow=</span><span class="dv">7</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Rsym <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span>(Rns<span class="sc">+</span><span class="fu">t</span>(Rns))</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rsym) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rsym) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>Rsym</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           a         b         c         d         e         f         g</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.6580855 0.2277210 0.3177799 0.1935018 0.8192427 0.2259890 0.5978475</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.2277210 0.9026866 0.8097610 0.8490149 0.2086403 0.4967763 0.2406990</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.3177799 0.8097610 0.4672116 0.6815653 0.4647701 0.8140876 0.4645924</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.1935018 0.8490149 0.6815653 0.2008103 0.2752492 0.2906596 0.2553448</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.8192427 0.2086403 0.4647701 0.2752492 0.6722613 0.5298083 0.2106208</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.2259890 0.4967763 0.8140876 0.2906596 0.5298083 0.3636066 0.6298440</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; G 0.5978475 0.2406990 0.4645924 0.2553448 0.2106208 0.6298440 0.8802311</span></span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the matrix as symmetric with type float</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rsym,<span class="st">&quot;Rsymfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;symmetric&quot;</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Symmetric matrix of floats&quot;</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 7 rows and they will be used.</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rsymfloat.bin</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 240</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Symmetric matrix of floats</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the information </span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rsymfloat.bin&quot;</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               Rsymfloat.bin</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 49 (28 really stored)</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     7</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  7</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored only names of rows.</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Symmetric matrix of floats&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>Rns <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">49</span>),<span class="at">nrow=</span><span class="dv">7</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>Rsym <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span>(Rns<span class="sc">+</span><span class="fu">t</span>(Rns))</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">rownames</span>(Rsym) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">colnames</span>(Rsym) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>Rsym</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt;           a           b          c          d         e         f          g</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; A 0.9459231 0.500615277 0.38453235 0.67627339 0.5901613 0.6274743 0.47639276</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; B 0.5006153 0.003367118 0.59336424 0.52558831 0.5265700 0.6185457 0.70061728</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; C 0.3845323 0.593364236 0.56576417 0.29576158 0.2254669 0.3809581 0.09688214</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; D 0.6762734 0.525588306 0.29576158 0.77212842 0.7620326 0.4951943 0.08897509</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; E 0.5901613 0.526569990 0.22546690 0.76203261 0.5166262 0.7804015 0.13477464</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; F 0.6274743 0.618545682 0.38095806 0.49519430 0.7804015 0.5691856 0.54481534</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt; G 0.4763928 0.700617278 0.09688214 0.08897509 0.1347746 0.5448153 0.30508303</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co"># Write the matrix as symmetric with type float</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rsym,<span class="st">&quot;Rsymfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;symmetric&quot;</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Symmetric matrix of floats&quot;</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 7 rows and they will be used.</span></span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rsymfloat.bin</span></span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 240</span></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Symmetric matrix of floats</span></span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1"></a><span class="co"># Get the information </span></span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1"></a><span class="fu">JMatInfo</span>(<span class="st">&quot;Rsymfloat.bin&quot;</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1"></a><span class="co">#&gt; File:               Rsymfloat.bin</span></span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
+<span id="cb13-27"><a href="#cb13-27" tabindex="-1"></a><span class="co">#&gt; Number of elements: 49 (28 really stored)</span></span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb13-29"><a href="#cb13-29" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb13-30"><a href="#cb13-30" tabindex="-1"></a><span class="co">#&gt; Number of rows:     7</span></span>
+<span id="cb13-31"><a href="#cb13-31" tabindex="-1"></a><span class="co">#&gt; Number of columns:  7</span></span>
+<span id="cb13-32"><a href="#cb13-32" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored only names of rows.</span></span>
+<span id="cb13-33"><a href="#cb13-33" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Symmetric matrix of floats&quot;</span></span></code></pre></div>
 <p>Notice that if you store a R matrix which is NOT symmetric as a
 symmetric <code>jmatrix</code>, only the lower triangular part
 (including the main diagonal) will be saved. The upper-triangular part
@@ -772,45 +776,45 @@ can play with them using the <code>Rspafloat.bin</code> and
 or columns, you can filter it using them and generate another jmatrix
 file with only the rows or columns you wish to keep. The function to do
 so is ‘FilterJMatByName’.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Rns <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">49</span>),<span class="at">nrow=</span><span class="dv">7</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Rns) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Rns) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>Rns</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            a         b          c         d          e         f         g</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.31021769 0.3593303 0.98829232 0.9253817 0.18590674 0.5768363 0.8441831</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; B 0.23485317 0.9915758 0.83992465 0.7763845 0.55670597 0.2598939 0.5588117</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; C 0.30524976 0.5852155 0.21496642 0.7879748 0.57089967 0.5254845 0.5747068</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; D 0.89363911 0.4487132 0.06305535 0.2217450 0.04212866 0.4336528 0.6390827</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; E 0.85171313 0.9734071 0.79525294 0.8950884 0.54799849 0.7841066 0.6538280</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F 0.07688849 0.3062170 0.15616117 0.9416905 0.14402383 0.8818467 0.3853623</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; G 0.83164201 0.4677084 0.64806237 0.9006757 0.83035942 0.8629806 0.8469882</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the matrix as full with type float</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rns,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 7 rows and they will be used.</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 7 columns and they will be used.</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (7x7)</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 324</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (7 strings written, from a to g).</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the first two and the last two columns</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">FilterJMatByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>),<span class="st">&quot;Rfullfloat_fourcolumns.bin&quot;</span>,<span class="at">namesat=</span><span class="st">&quot;cols&quot;</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read full matrix with size (7,7)</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 columns of the 7 in the original matrix will be kept.</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat_fourcolumns.bin of (7x4)</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 240</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (4 strings written, from a to g).</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s load the matrix and let&#39;s see it</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>vm<span class="ot">&lt;-</span><span class="fu">GetJManyRows</span>(<span class="st">&quot;Rfullfloat_fourcolumns.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">7</span>))</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>vm</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           a         b         f         g</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A 0.3102177 0.3593303 0.5768363 0.8441831</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; G 0.8316420 0.4677084 0.8629806 0.8469882</span></span></code></pre></div>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>Rns <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="dv">49</span>),<span class="at">nrow=</span><span class="dv">7</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">rownames</span>(Rns) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">colnames</span>(Rns) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co"># Let&#39;s see the matrix</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>Rns</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;             a          b         c         d          e          f         g</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; A 0.469397791 0.11537064 0.9881718 0.1012687 0.84926888 0.88461990 0.6458684</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; B 0.533307226 0.66905418 0.2686082 0.2753178 0.48148338 0.94058022 0.3675294</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; C 0.647232194 0.01073514 0.2820836 0.2470050 0.72307326 0.05315989 0.7615902</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; D 0.961584122 0.78471743 0.3717574 0.8976698 0.58215172 0.58914916 0.5369714</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; E 0.768689241 0.07402659 0.4091635 0.1245653 0.15316566 0.07033232 0.2647625</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; F 0.003652655 0.12835040 0.1298656 0.0962747 0.09495854 0.18638222 0.1648992</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; G 0.931171369 0.14837874 0.9212196 0.9292377 0.74870132 0.14225576 0.5516723</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co"># Write the matrix as full with type float</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="fu">JWriteBin</span>(Rns,<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="at">dtype=</span><span class="st">&quot;float&quot;</span>,<span class="at">dmtype=</span><span class="st">&quot;full&quot;</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Full matrix of floats&quot;</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co">#&gt; The passed matrix has row names for the 7 rows and they will be used.</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="co">#&gt; The passed matrix has column names for the 7 columns and they will be used.</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat.bin of (7x7)</span></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 324</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co">#&gt;    Writing column names (7 strings written, from a to g).</span></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co"># Extract the first two and the last two columns</span></span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a><span class="fu">FilterJMatByName</span>(<span class="st">&quot;Rfullfloat.bin&quot;</span>,<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;f&quot;</span>,<span class="st">&quot;g&quot;</span>),<span class="st">&quot;Rfullfloat_fourcolumns.bin&quot;</span>,<span class="at">namesat=</span><span class="st">&quot;cols&quot;</span>)</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a><span class="co">#&gt; Read full matrix with size (7,7)</span></span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a><span class="co">#&gt; 4 columns of the 7 in the original matrix will be kept.</span></span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix Rfullfloat_fourcolumns.bin of (7x4)</span></span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 240</span></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a><span class="co">#&gt;    Writing row names (7 strings written, from A to G).</span></span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a><span class="co">#&gt;    Writing column names (4 strings written, from a to g).</span></span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Full matrix of floats</span></span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a><span class="co"># Let&#39;s load the matrix and let&#39;s see it</span></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a>vm<span class="ot">&lt;-</span><span class="fu">GetJManyRows</span>(<span class="st">&quot;Rfullfloat_fourcolumns.bin&quot;</span>,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">7</span>))</span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a>vm</span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a><span class="co">#&gt;           a         b         f         g</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a><span class="co">#&gt; A 0.4693978 0.1153706 0.8846199 0.6458684</span></span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a><span class="co">#&gt; G 0.9311714 0.1483787 0.1422558 0.5516723</span></span></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-scellpam" class="csl-entry">
 Domingo, Juan. 2023a. <em>Applying Partitioning Around Medoids to Single
 Cell Data with High Number of Cells</em>.

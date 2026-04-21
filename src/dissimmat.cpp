@@ -17,6 +17,7 @@
  */
 
 #include <dissimmat.h>
+#include <filtermat.h>
 
 extern unsigned char DEB;
 
@@ -175,6 +176,61 @@ void CalcAndWriteDissimilarityMatrix(std::string ifname, std::string ofname, std
   break;
   default: Rcpp::stop("Unknown error. Matrix type was supposed to have been checked before.\n"); break;
  }
+ return;
+}
+
+//' ExtractAndWriteDissimilarityMatrix
+//'
+//' Writes a binary symmetric matrix with some of the dissimilarities stored in a binary matrix in the scellpam package format.\cr
+//' The purpose of this function is to get the dissimilarity matrix between some selected individuals of a larger set whose dissimilarity matrix has been
+//' calculated before without calculating explicitly the dissimilarities again. The extracted matrix has the same data type as the original and of course
+//' is a symmetric matrix, too. A comment can be added to the original matrix comment or set, if there was no previous comment.
+//'
+//'
+//' @param ifname   A string with the name of the file containing the original dissimilarity matrix in jmatrix format
+//' @param ofname   A string with the name of the file to contain the symmetric dissimilarity matrix between the selected rows.
+//' @param select   A boolean array with length equal to the size of the original matrix indicating (with true) which rows/columns must be extracted.
+//' @param comment  Comment to be atttached to the dissimilary matrix, added to the comment of the original one. Default: "" (no comment)
+//' @return         No return value, called for side effects (creates a file)
+//' @examples
+//' # TO BE DONE
+//' @export
+// [[Rcpp::export]]
+void ExtractAndWriteDissimilarityMatrix(std::string ifname, std::string ofname, Rcpp::LogicalVector select,std::string comment="")
+{
+ unsigned char mt,ct,e,md;
+ indextype nr,nc;
+ MatrixType(ifname,mt,ct,e,md,nr,nc);
+ 
+ if (mt!=MTYPESYMMETRIC)
+ {
+  Rcpp::stop("Input file %s must contain a symmetric matrix.\n",ifname);
+  return;
+ }
+ if ((ct!=FTYPE) && (ct!=DTYPE))
+ {
+  Rcpp::stop("Input file %s must contain a symmetric matrix with data type float or double\n",ifname);
+  return;
+ }
+ 
+ if (select.length()!=nr)
+ {
+  Rcpp::stop("Boolean vector of selected cases has length %ld whereas input dissimilarity matrix has %ld rows (and columns).\n",select.length(),nr);
+  return;
+ }
+ 
+ std::vector<bool> sel(nr);
+ indextype numsel=0;
+ for (indextype r=0; r<nr; r++)
+ {
+  sel[r]=select[r];
+  if (sel[r])
+   numsel++;
+ }
+ if (ct==FTYPE)
+  FilterDissim<float>(ifname,ofname,md,sel,comment);
+ else
+  FilterDissim<double>(ifname,ofname,md,sel,comment);
  return;
 }
 

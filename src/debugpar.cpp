@@ -66,3 +66,26 @@ void ScellpamSetDebug(bool deb = true,bool debparpam = false,bool debjmat = fals
   DEB &= (~DEBJM);
 }
 
+//' ScellpamGetDebug
+//'
+//' Obtains the current state of the debugging parameter. To be used by R functions which want to adjust their messages according to the general debugging settings.
+//'
+//' @return     A list with the following keys:
+//' \itemize{
+//'      \item deb       - Boolean with the current debugging value of the scellpam (biological part) of this package
+//'      \item debparpam - Boolean with the current debugging value of the parallel PAM part inside this package
+//'      \item debjmat   - Boolean with the current debugging value of the jmatrix part inside this package
+//' }
+//' @examples
+//' d<-ScellpamGetDebug()
+//' @export
+// [[Rcpp::export]]
+Rcpp::List ScellpamGetDebug()
+{
+ bool d1,d2,d3;
+ d1 = (DEB & DEBSC);
+ d2 = (DEB & DEBPP);
+ d3 = (DEB & DEBJM);
+ Rcpp::List ret=Rcpp::List::create(Rcpp::Named("deb")=d1,Rcpp::Named("debparpam")=d2,Rcpp::Named("debjmat")=d3);
+ return(ret);
+}

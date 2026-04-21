@@ -17,16 +17,20 @@ void GetAvailableMemAndSwap(unsigned long &avmem,unsigned long &avswap)
  Rcpp::IntegerVector memuse_installed = test("memuse");
  if (DEB)                                                  // Messages on memory does not depend on the package purpose. They will be shown as long as any debug flag is active
  {
+  /*
   Rcpp::Rcout << "Package memuse is ";
   if (memuse_installed[0]!=1)
    Rcpp::Rcout << "NOT installed. Cannot provide reliable memory information.\n";
   else
    Rcpp::Rcout << "installed. OK.\n";
+  */
+  if (memuse_installed[0]!=1)
+   Rcpp::Rcout << "Package memuse is NOT installed. Cannot provide reliable memory information.\n";
  }
  if (memuse_installed[0]!=1)
  {
   avmem=avswap=0;
-  Rcpp::warning("Package memuse if not installed. Cannot provide reliable memory information. Your request could exhaust your memory; not our fault. Install package 'memuse'.\n");
+  Rcpp::warning("Package memuse is not installed. Cannot provide reliable memory information. Your request could exhaust your memory; not our fault. Install package 'memuse'.\n");
   return;
  } 
  
@@ -75,6 +79,7 @@ void MemoryWarnings(unsigned long nr,int s)
  {
   double percent=double(estimated_size)/double(mem);
   percent = int(10000.0*percent)/100.0;
+  /*
   Rcpp::Rcout << "  Memory used by the matrix: " << estimated_size << " KiB, which is " << percent << "% of the available memory, which is " << mem << " Kib.\n";
   if (percent < 50.0)
    Rcpp::Rcout << "  That seems OK.\n";
@@ -83,6 +88,15 @@ void MemoryWarnings(unsigned long nr,int s)
     Rcpp::Rcout << "  This is quite tight. Consider closing some application you don't need just now.\n";
    else
     Rcpp::Rcout << "  You are exhausting your memory. You should close some application you don't need just now.\n";
+  */
+  if (percent >= 50.0)
+  {
+   Rcpp::Rcout << "  Memory used by the matrix: " << estimated_size << " KiB, which is " << percent << "% of the available memory, which is " << mem << " Kib.\n";
+   if (percent < 75.0)
+    Rcpp::Rcout << "  This is quite tight. Consider closing some application you don't need just now.\n";
+   else
+    Rcpp::Rcout << "  You are exhausting your memory. You should close some application you don't need just now.\n";
+  }
  }
  
  if (double(estimated_size)>double(mem)+double(swap))

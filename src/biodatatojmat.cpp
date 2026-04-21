@@ -564,7 +564,7 @@ void SceToJMat(Rcpp::NumericMatrix &M, std::string fname,
   else
   {
    if (DEB & DEBSC)
-    Rcpp::Rcout << "The passed matrix had row names, but they will not be taken into accounts, since you have given a value to parameter rownames,\n";
+    Rcpp::Rcout << "The passed matrix had row names, but they will not be taken into account, since you have given a value to parameter rownames,\n";
    rnames=rownames;
   }
   
@@ -579,14 +579,14 @@ void SceToJMat(Rcpp::NumericMatrix &M, std::string fname,
   else
   {
    if (DEB & DEBSC)
-    Rcpp::Rcout << "The passed matrix had column names, but they will not be taken into accounts, since you have given a value to parameter colnames,\n";
+    Rcpp::Rcout << "The passed matrix had column names, but they will not be taken into account, since you have given a value to parameter colnames,\n";
    cnames=colnames;
   }
  }
  else  // It the passed matrix has no row and column names, they will be filled with the passed values, if any.
  {
-  rnames = (rownames.isNull()) ? Rcpp::StringVector() : rownames; 
-  cnames = (colnames.isNull()) ? Rcpp::StringVector() : colnames;
+  rnames = (rownames.isNull()) ? Rcpp::StringVector() : Rcpp::StringVector(rownames); 
+  cnames = (colnames.isNull()) ? Rcpp::StringVector() : Rcpp::StringVector(colnames);
  }
  
  if (valuetype=="uint32")

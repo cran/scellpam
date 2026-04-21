@@ -49,6 +49,7 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -149,6 +150,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -364,7 +366,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(scellpam)</span></code></pre></div>
 <div id="citation" class="section level1">
 <h1>Citation</h1>
 <p>To cite this package please, use preferently the paper of BMC
@@ -394,14 +396,14 @@ them. All their functions have been included here, too, so doing
 <p>First of all, the package can show quite informative (but sometimes
 verbose) messages in the console. To turn on/off such messages you can
 use,</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE. Turn it on with</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">TRUE</span>,<span class="at">debparpam=</span><span class="cn">TRUE</span>,<span class="at">debjmat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for scellpam (biological part) of the package set to ON.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for parallelpam inside scellpam package set to ON.</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Debugging for jmatrix inside scellpam package set to ON.</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We have also turned on debugging of the parallel PAM algorithm and of the binary matrix creation/manipulation</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># but if this annoys you their default value is FALSE for both cases even when the scellpam debug is set to true, so just do</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ScellpamSetDebug(TRUE)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Initially, state of debug is FALSE. Turn it on with</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">ScellpamSetDebug</span>(<span class="cn">TRUE</span>,<span class="at">debparpam=</span><span class="cn">TRUE</span>,<span class="at">debjmat=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Debugging for scellpam (biological part) of the package set to ON.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; Debugging for parallelpam inside scellpam package set to ON.</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Debugging for jmatrix inside scellpam package set to ON.</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># We have also turned on debugging of the parallel PAM algorithm and of the binary matrix creation/manipulation</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># but if this annoys you their default value is FALSE for both cases even when the scellpam debug is set to true, so just do</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># ScellpamSetDebug(TRUE)</span></span></code></pre></div>
 </div>
 <div id="data-loadstorage" class="section level2">
 <h2>Data load/storage</h2>
@@ -427,12 +429,12 @@ single function to extract from all of them.</p>
 file and writes to disk its binary representation. The
 <code>jmatrix</code> format can create full, sparse or symmetric
 matrices.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>)</span></code></pre></div>
 <p>By default, data are stored as a sparse matrix of numbers as floats
 (4 bytes per item in most architectures). Indeed, default parameters
 are</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">mtype=</span><span class="st">&quot;sparse&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">ctype=</span><span class="st">&quot;raw&quot;</span>,<span class="at">valuetype=</span><span class="st">&quot;float&quot;</span>,<span class="at">transpose=</span><span class="cn">FALSE</span>,<span class="at">comment=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">mtype=</span><span class="st">&quot;sparse&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>          <span class="at">ctype=</span><span class="st">&quot;raw&quot;</span>,<span class="at">valuetype=</span><span class="st">&quot;float&quot;</span>,<span class="at">transpose=</span><span class="cn">FALSE</span>,<span class="at">comment=</span><span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p>where mtype can be <code>sparse</code> or <code>full</code> and
 valuetype can be <code>float</code> or <code>double</code>. Changing the
 default values for these parameters is strongly discouraged, except when
@@ -459,14 +461,14 @@ will be stored in the metadata, after the row and column names.</p>
 columns (that is why we choose to normalize by colums), which is not
 what is needed later to calculate the dissimilarity matrix. Therefore,
 our typical call would be</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">comment=</span><span class="st">&quot;Obtained from countsfile.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;countsfile.csv&quot;</span>,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>            <span class="at">comment=</span><span class="st">&quot;Obtained from countsfile.csv&quot;</span>)</span></code></pre></div>
 <p>As a result of the calculations the functions of this package
 generate binary files, also in <code>jmatrix</code> format. If you want
 to inspect them they can be written back as <code>.csv</code> files,
 which allows them to be imported as R tables, if your computer has
 memory enough to hold them. This is done as</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatToCsv</span>(<span class="st">&quot;countsfile.bin&quot;</span>,<span class="st">&quot;countsback.csv&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">withquotes=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">JMatToCsv</span>(<span class="st">&quot;countsfile.bin&quot;</span>,<span class="st">&quot;countsback.csv&quot;</span>,<span class="at">csep=</span><span class="st">&quot;,&quot;</span>,<span class="at">withquotes=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Also, you can selectively read some rows and/or columns of them. See
 appropriate functions in the vignette called <code>jmatrixsc</code>
 attached to this package.</p>
@@ -492,13 +494,13 @@ is an object of the class <code>dgCMatrix</code>, defined in package
 <code>Matrix</code> (<span class="citation">Bates, Maechler, and Jagan
 (2022)</span>). We provide a function, too, to write it to
 <code>jmatrix</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;yourdata.rds&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from yourdata.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;yourdata.rds&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from yourdata.rds&quot;</span>)</span></code></pre></div>
 <p>Nevertheless, sometimes the dgCMatrix is stored in a different slot
 of the object like</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>raw.data,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from other data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">dgCMatToJMat</span>(q<span class="sc">@</span>raw.data,<span class="st">&quot;countsfile.bin&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>             <span class="at">comment=</span><span class="st">&quot;Obtained from other data&quot;</span>)</span></code></pre></div>
 <p>It is up to you to inspect the original object (with
 <code>str(q)</code>) and see what you must do.</p>
 <p>Parameters <code>mtype</code>, <code>ctype</code> and
@@ -510,7 +512,7 @@ sample a set of cells with some common characteristic like coming from
 the same living being or from a common stage in a process of cellular
 change. Cells are then labelled with a factor and this could be obtained
 with</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Gr<span class="ot">=</span><span class="fu">GetSeuratGroups</span>(q)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>Gr<span class="ot">=</span><span class="fu">GetSeuratGroups</span>(q)</span></code></pre></div>
 <p>where <code>Gr</code> is a numeric vector of integers with as many
 components as cells that contains a consecutive numeric identifier of
 the group starting at 1. But again this may depend on the internal
@@ -537,26 +539,26 @@ forbidden if you want to pass the CRAN tests. It you want to run them,
 please copy+paste this code in R.</p>
 <p>Your code, for example with <code>splatter</code>, would probably
 look like</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(splatter)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(scater)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Splattersce <span class="ot">&lt;-</span> <span class="fu">mockSCE</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">SceToJMat</span>(Splattersce<span class="sc">@</span>assays<span class="sc">@</span>data<span class="sc">@</span>listData<span class="sc">$</span>counts,<span class="st">&quot;mockSCE.bin&quot;</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">comment=</span><span class="st">&quot;Generated by splatter with mockSCE() and normalized</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="st">                    to log2(counts+1).&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>   <span class="fu">library</span>(splatter)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>   <span class="fu">library</span>(scater)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>})</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>Splattersce <span class="ot">&lt;-</span> <span class="fu">mockSCE</span>()</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">SceToJMat</span>(Splattersce<span class="sc">@</span>assays<span class="sc">@</span>data<span class="sc">@</span>listData<span class="sc">$</span>counts,<span class="st">&quot;mockSCE.bin&quot;</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>           <span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>           <span class="at">comment=</span><span class="st">&quot;Generated by splatter with mockSCE() and normalized</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="st">                    to log2(counts+1).&quot;</span>)</span></code></pre></div>
 <p>Nevertheless, in <code>DuoClustering</code> you would have something
 like</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">library</span>(DuoClustering2018)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>KuTCCsce <span class="ot">&lt;-</span> <span class="fu">sce_filteredExpr10_KumarTCC</span>()</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">SceToJMat</span>(KuTCCsce<span class="sc">@</span>assays<span class="sc">$</span>data<span class="sc">@</span>listData<span class="sc">$</span>counts,<span class="st">&quot;KuTCC.bin&quot;</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Generated by DuoCLustering with Kumar data and</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">                normalized to log2(counts+1).&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>   <span class="fu">library</span>(DuoClustering2018)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>})</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>KuTCCsce <span class="ot">&lt;-</span> <span class="fu">sce_filteredExpr10_KumarTCC</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">SceToJMat</span>(KuTCCsce<span class="sc">@</span>assays<span class="sc">$</span>data<span class="sc">@</span>listData<span class="sc">$</span>counts,<span class="st">&quot;KuTCC.bin&quot;</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>          <span class="at">mtype=</span><span class="st">&quot;full&quot;</span>,<span class="at">ctype=</span><span class="st">&quot;log1n&quot;</span>,<span class="at">transpose=</span><span class="cn">TRUE</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>          <span class="at">comment=</span><span class="st">&quot;Generated by DuoCLustering with Kumar data and</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="st">                normalized to log2(counts+1).&quot;</span>)</span></code></pre></div>
 <p>Please, notice the subtle difference between</p>
 <p><code>Splattersce@assays@data@listData$counts</code> and</p>
 <p><code>KuTCCsce@assays$data@listData$counts</code></p>
@@ -576,36 +578,36 @@ prints in the console or in a text file information about a stored
 binary file. As an example, let us load and write a <code>.csv</code>
 file and then let us see the information of the generated binary
 file.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;extdata/conquer_GSE52529_Trapnell_sample.csv&quot;</span>,tmpfile,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">transpose=</span><span class="cn">TRUE</span>,<span class="at">comment=</span><span class="st">&quot;Experiment conquer GSE52529-GPL16791&quot;</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 columns of values (not including the column of names) in file extdata/conquer_GSE52529_Trapnell_sample.csv.</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5218 lines (excluding header) in file extdata/conquer_GSE52529_Trapnell_sample.csv</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data will be read from each line and stored as float values.</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading line... 0 1000 2000 3000 4000 5000 </span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read 5218 data lines of file extdata/conquer_GSE52529_Trapnell_sample.csv, as expected.</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Transposing matrix of (5218x288) to a matrix of (288x5218)</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpao5EW9/Trapnell.bin of (288x5218)</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 3030456</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/Rtmpao5EW9/Trapnell.bin</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SparseMatrix</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 1502784</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     288</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  5218</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Experiment conquer GSE52529-GPL16791&quot;</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Binary data size:   3030328 bytes, which is 50.4119% of the full matrix size (which would be 6011136 bytes).</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">CsvToJMat</span>(<span class="st">&quot;extdata/conquer_GSE52529_Trapnell_sample.csv&quot;</span>,tmpfile,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>          <span class="at">transpose=</span><span class="cn">TRUE</span>,<span class="at">comment=</span><span class="st">&quot;Experiment conquer GSE52529-GPL16791&quot;</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; 288 columns of values (not including the column of names) in file extdata/conquer_GSE52529_Trapnell_sample.csv.</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; 5218 lines (excluding header) in file extdata/conquer_GSE52529_Trapnell_sample.csv</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; Data will be read from each line and stored as float values.</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; Reading line... 0 1000 2000 3000 4000 5000 </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; Read 5218 data lines of file extdata/conquer_GSE52529_Trapnell_sample.csv, as expected.</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; Transposing matrix of (5218x288) to a matrix of (288x5218)</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpSIjGm6/Trapnell.bin of (288x5218)</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 3030456</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile)</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/RtmpSIjGm6/Trapnell.bin</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SparseMatrix</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co">#&gt; Number of elements: 1502784</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a><span class="co">#&gt; Number of rows:     288</span></span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a><span class="co">#&gt; Number of columns:  5218</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored names of rows and columns.</span></span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Experiment conquer GSE52529-GPL16791&quot;</span></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a><span class="co">#&gt; Binary data size:   3030328 bytes, which is 50.4119% of the full matrix size (which would be 6011136 bytes).</span></span></code></pre></div>
 <p>If you want to keep the information about the binary file in a text
 file, just do</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tmptxtfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellInfo.txt&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile,tmptxtfile)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>tmpfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>tmptxtfile<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellInfo.txt&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmpfile,tmptxtfile)</span></code></pre></div>
 </div>
 <div id="filtering-genes-or-cells" class="section level3">
 <h3>Filtering genes or cells</h3>
@@ -622,16 +624,16 @@ us filter some 1000 of the 65218 genes contained in file
 conquer_<code>GSE52529-GPL16791_Trapnell.csv</code> and whose names we
 have put in the list stored in variable <code>v</code> by reading the
 file <code>Trapnell_remain_genes.csv</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>v<span class="ot">&lt;-</span><span class="fu">as.vector</span>(<span class="fu">read.table</span>(<span class="st">&quot;extdata/Trapnell_remain_genes.csv&quot;</span>)[[<span class="dv">1</span>]])</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell_filtered.bin&quot;</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">FilterJMatByName</span>(tmpfile1,v,tmpfiltfile1,<span class="at">namesat=</span><span class="st">&quot;cols&quot;</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1000 columns of the 5218 in the original matrix will be kept.</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpao5EW9/Trapnell_filtered.bin of (288x1000)</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 1276144</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (1000 strings written, from ENSG00000067113.16 to ENSG00000093100.13).</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>v<span class="ot">&lt;-</span><span class="fu">as.vector</span>(<span class="fu">read.table</span>(<span class="st">&quot;extdata/Trapnell_remain_genes.csv&quot;</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell_filtered.bin&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">FilterJMatByName</span>(tmpfile1,v,tmpfiltfile1,<span class="at">namesat=</span><span class="st">&quot;cols&quot;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; 1000 columns of the 5218 in the original matrix will be kept.</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpSIjGm6/Trapnell_filtered.bin of (288x1000)</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 1276144</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;    Writing column names (1000 strings written, from ENSG00000067113.16 to ENSG00000093100.13).</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791</span></span></code></pre></div>
 <p>If the list contains names not present in the original file the
 program emits a warning (and keeps only whose which are present).</p>
 </div>
@@ -644,10 +646,10 @@ has been programmed in parallel, taking advantage of the multiple cores
 of the machine, if available. See vignette <code>parallelpamsc</code> of
 this package to know more about <code>parallelpam</code> (<span class="citation">Domingo (2023b)</span>). From now on, just the
 prospective call to comment on the parameters.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">distype=</span><span class="st">&quot;Pearson&quot;</span>,<span class="at">nthreads=</span><span class="dv">0</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell in experiment conquer GSE52529-GPL16791&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">distype=</span><span class="st">&quot;Pearson&quot;</span>,<span class="at">nthreads=</span><span class="dv">0</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell in experiment conquer GSE52529-GPL16791&quot;</span>)</span></code></pre></div>
 <p>The input and output files (first and second parameters) are of
 course compulsory. Input file can be a sparse of full binary matrix (but
 obviously, not a symmetric matrix).</p>
@@ -687,27 +689,24 @@ waiting termination is not worth. For bigger problems the number of
 chosen threads is the number of available cores. Nevertheless, this
 choice may not be the best, depending on your machine.</p>
 <p>Now, let us really do the call with this small dataset.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">                                         in experiment conquer</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">                                         GSE52529-GPL16791&quot;</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Input matrix is a sparse matrix  with elements of type &#39;float&#39; and size (288,5218)</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read sparse matrix from file /tmp/Rtmpao5EW9/Trapnell.bin.</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Its size is [288 x 5218] and it uses 378647 elements, half of 4 bytes and half of 4 bytes each, with accounts for 2.88995 MBytes.</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Creating dissimilarity matrix of size (288x288)</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255967224 Kib.</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of dissimilarity matrix calculation (serial version). Elapsed time: 0.728399 s</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 166592</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Output binary file /tmp/Rtmpao5EW9/TrapnellPearson.bin written.</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">CalcAndWriteDissimilarityMatrix</span>(tmpfile1,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>                                <span class="at">comment=</span><span class="st">&quot;Pearson dissimilarities for cell</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="st">                                         in experiment conquer</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="st">                                         GSE52529-GPL16791&quot;</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; Input matrix is a sparse matrix  with elements of type &#39;float&#39; and size (288,5218)</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; Read sparse matrix from file /tmp/RtmpSIjGm6/Trapnell.bin.</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt;    Its size is [288 x 5218] and it uses 378647 elements, half of 4 bytes and half of 4 bytes each, with accounts for 2.88995 MBytes.</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt; Creating dissimilarity matrix of size (288x288)</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt; End of dissimilarity matrix calculation (serial version). Elapsed time: 0.776066 s</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 166592</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt;    Writing row names (288 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; Output binary file /tmp/RtmpSIjGm6/TrapnellPearson.bin written.</span></span></code></pre></div>
 <p>WARNING: the normal way of calling
 <code>CalcAndWriteDissimilarityMatrix</code> would use nthreads=0 to
 make use of all available cores in your machine. Nevertheless, this does
@@ -716,58 +715,55 @@ serial version invoked with nthreads=-1. In your normal use of code try
 always nthreads=0.</p>
 <p>The resulting matrix is stored as a binary symmetric matrix of float
 values, as we can check.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmppeafile1)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of elements: 82944 (41616 really stored)</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of rows:     288</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of columns:  288</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored only names of rows.</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Pearson dissimilarities for cell</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">JMatInfo</span>(tmppeafile1)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co">#&gt; File:               /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt; Matrix type:        SymmetricMatrix</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt; Number of elements: 82944 (41616 really stored)</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt; Data type:          float</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt; Endianness:         little endian (same as this machine)</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt; Number of rows:     288</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; Number of columns:  288</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt; Metadata:           Stored only names of rows.</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co">#&gt; Metadata comment:  &quot;Pearson dissimilarities for cell</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791&quot;</span></span></code></pre></div>
 </div>
 <div id="applying-pam" class="section level2">
 <h2>Applying PAM</h2>
 <p>The last step is to take the previously calculated matrix and apply
 the Partitioning Around Medoids classifier. Function is
 <code>ApplyPAM</code>. Default parameters are:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>L<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">max_iter=</span><span class="dv">1000</span>,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255994140 Kib.</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, serial version</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 28. 8 reassigned points. TD=10251.591797</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 284. 79 reassigned points. TD=9409.731445</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 107. 0 reassigned points. TD=8996.875977</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 268. 21 reassigned points. TD=8661.666016</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 118. 0 reassigned points. TD=8333.292969</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 17. 108 reassigned points. TD=8016.939453</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 154. 0 reassigned points. TD=7747.802734</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00187303 s</span></span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 51) swapped with point 209; TD-change=-103.419434; TD=7183.665039. 60 reassigned points.</span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 7 (point 17) swapped with point 39; TD-change=-43.391033; TD=7140.273926. 11 reassigned points.</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 7140.273926</span></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.000909435 s</span></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00187303 s (method BUILD).</span></span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.000909435 s in 1 iterations (0.000909435 seconds/iteration).</span></span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00278247 s (0 minutes, 0.00278247 seconds).</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>L<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>           <span class="at">max_iter=</span><span class="dv">1000</span>,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, serial version</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 28. 8 reassigned points. TD=10251.591797</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 284. 79 reassigned points. TD=9409.731445</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 107. 0 reassigned points. TD=8996.875977</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 268. 21 reassigned points. TD=8661.666016</span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 118. 0 reassigned points. TD=8333.292969</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 17. 108 reassigned points. TD=8016.939453</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 154. 0 reassigned points. TD=7747.802734</span></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00247808 s</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 51) swapped with point 209; TD-change=-103.419434; TD=7183.665039. 60 reassigned points.</span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 7 (point 17) swapped with point 39; TD-change=-43.391033; TD=7140.273926. 11 reassigned points.</span></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a><span class="co">#&gt; Iteration 2.    Exiting, since DeltaTDst is 0.000000. Final value of TD is 7140.273926</span></span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00112345 s</span></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00247808 s (method BUILD).</span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00112345 s in 1 iterations (0.00112345 seconds/iteration).</span></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00360152 s (0 minutes, 0.00360152 seconds).</span></span></code></pre></div>
 <p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
 nthreads=0 to make use of all available cores in your machine.
 Nevertheless, this does not seem to be allowed by CRAN to pass the test
@@ -795,85 +791,76 @@ to get different initializations and compare the results.</p>
 <code>clasif</code>. This will be explained later.</p>
 <p>From now on, typical calls to obtain only the initial medoids would
 be</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Lbuild<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255993892 Kib.</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, serial version</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 28. 8 reassigned points. TD=10251.591797</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 284. 79 reassigned points. TD=9409.731445</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 107. 0 reassigned points. TD=8996.875977</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 268. 21 reassigned points. TD=8661.666016</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 118. 0 reassigned points. TD=8333.292969</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 17. 108 reassigned points. TD=8016.939453</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 154. 0 reassigned points. TD=7747.802734</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00187154 s</span></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00187154 s (method BUILD).</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00187154 s (0 minutes, 0.00187154 seconds).</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Llab1<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255993640 Kib.</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 137. 48 reassigned points. TD=11207.690430</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 39. 111 reassigned points. TD=10894.427734</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 34. 9 reassigned points. TD=9396.723633</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 200. 55 reassigned points. TD=9186.223633</span></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 70. 5 reassigned points. TD=8898.829102</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 91. 21 reassigned points. TD=8642.791992</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 224. 7 reassigned points. TD=8542.523438</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 58. 8 reassigned points. TD=8445.713867</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 198. 37 reassigned points. TD=8297.508789</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8297.508789</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000214903 s</span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000214903 s (method LAB).</span></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000214903 s (0 minutes, 0.000214903 seconds).</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Llab2<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255993640 Kib.</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 13. TD=12031.589844</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 143. 50 reassigned points. TD=11301.868164</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 22. 9 reassigned points. TD=9656.576172</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 88. 114 reassigned points. TD=9350.387695</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 108. 22 reassigned points. TD=9022.187500</span></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 173. 7 reassigned points. TD=8891.097656</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 178. 58 reassigned points. TD=8640.534180</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 109. 45 reassigned points. TD=8462.361328</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 209. 36 reassigned points. TD=8330.823242</span></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 26. 49 reassigned points. TD=8223.282227</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Current TD: 8223.282227</span></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000217719 s</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000217719 s (method LAB).</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000217719 s (0 minutes, 0.000217719 seconds).</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>Lbuild<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;BUILD&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt; Starting BUILD initialization method, serial version</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 28. 8 reassigned points. TD=10251.591797</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 284. 79 reassigned points. TD=9409.731445</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 107. 0 reassigned points. TD=8996.875977</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 268. 21 reassigned points. TD=8661.666016</span></span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 118. 0 reassigned points. TD=8333.292969</span></span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 17. 108 reassigned points. TD=8016.939453</span></span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 154. 0 reassigned points. TD=7747.802734</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 126. 0 reassigned points. TD=7500.490234</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 5 reassigned points. TD=7287.086914</span></span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a><span class="co">#&gt; Current TD: 7287.086914</span></span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a><span class="co">#&gt; BUILD initialization method (serial version) finished. Elapsed time: 0.00242151 s</span></span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb19-22"><a href="#cb19-22" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.00242151 s (method BUILD).</span></span>
+<span id="cb19-23"><a href="#cb19-23" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb19-24"><a href="#cb19-24" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00242151 s (0 minutes, 0.00242151 seconds).</span></span>
+<span id="cb19-25"><a href="#cb19-25" tabindex="-1"></a>Llab1<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb19-27"><a href="#cb19-27" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb19-28"><a href="#cb19-28" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb19-29"><a href="#cb19-29" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb19-30"><a href="#cb19-30" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
+<span id="cb19-31"><a href="#cb19-31" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb19-32"><a href="#cb19-32" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 50. TD=11914.134766</span></span>
+<span id="cb19-33"><a href="#cb19-33" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 284. 80 reassigned points. TD=11072.270508</span></span>
+<span id="cb19-34"><a href="#cb19-34" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 260. 22 reassigned points. TD=10742.471680</span></span>
+<span id="cb19-35"><a href="#cb19-35" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 17. 118 reassigned points. TD=10393.680664</span></span>
+<span id="cb19-36"><a href="#cb19-36" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 209. 47 reassigned points. TD=10195.897461</span></span>
+<span id="cb19-37"><a href="#cb19-37" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 282. 26 reassigned points. TD=10055.405273</span></span>
+<span id="cb19-38"><a href="#cb19-38" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 28. 9 reassigned points. TD=8425.294922</span></span>
+<span id="cb19-39"><a href="#cb19-39" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 229. 6 reassigned points. TD=8357.185547</span></span>
+<span id="cb19-40"><a href="#cb19-40" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 166. 35 reassigned points. TD=8245.176758</span></span>
+<span id="cb19-41"><a href="#cb19-41" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 173. 7 reassigned points. TD=8087.779297</span></span>
+<span id="cb19-42"><a href="#cb19-42" tabindex="-1"></a><span class="co">#&gt; Current TD: 8087.779297</span></span>
+<span id="cb19-43"><a href="#cb19-43" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000305663 s</span></span>
+<span id="cb19-44"><a href="#cb19-44" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb19-45"><a href="#cb19-45" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000305663 s (method LAB).</span></span>
+<span id="cb19-46"><a href="#cb19-46" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb19-47"><a href="#cb19-47" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000305663 s (0 minutes, 0.000305663 seconds).</span></span>
+<span id="cb19-48"><a href="#cb19-48" tabindex="-1"></a>Llab2<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;LAB&quot;</span>,<span class="at">max_iter=</span><span class="dv">0</span>)</span>
+<span id="cb19-49"><a href="#cb19-49" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb19-50"><a href="#cb19-50" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb19-51"><a href="#cb19-51" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb19-52"><a href="#cb19-52" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb19-53"><a href="#cb19-53" tabindex="-1"></a><span class="co">#&gt; Starting LAB initialization method, serial version.</span></span>
+<span id="cb19-54"><a href="#cb19-54" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb19-55"><a href="#cb19-55" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 1. Medoid 1 found. Point 224. TD=12348.035156</span></span>
+<span id="cb19-56"><a href="#cb19-56" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 2. Medoid 2 found. Point 73. 151 reassigned points. TD=11302.341797</span></span>
+<span id="cb19-57"><a href="#cb19-57" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 3. Medoid 3 found. Point 167. 76 reassigned points. TD=10990.782227</span></span>
+<span id="cb19-58"><a href="#cb19-58" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 4. Medoid 4 found. Point 94. 9 reassigned points. TD=9448.943359</span></span>
+<span id="cb19-59"><a href="#cb19-59" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 5. Medoid 5 found. Point 284. 64 reassigned points. TD=8968.860352</span></span>
+<span id="cb19-60"><a href="#cb19-60" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 6. Medoid 6 found. Point 28. 6 reassigned points. TD=8759.571289</span></span>
+<span id="cb19-61"><a href="#cb19-61" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 7. Medoid 7 found. Point 144. 22 reassigned points. TD=8506.154297</span></span>
+<span id="cb19-62"><a href="#cb19-62" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 8. Medoid 8 found. Point 173. 7 reassigned points. TD=8277.733398</span></span>
+<span id="cb19-63"><a href="#cb19-63" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 9. Medoid 9 found. Point 212. 17 reassigned points. TD=8186.301270</span></span>
+<span id="cb19-64"><a href="#cb19-64" tabindex="-1"></a><span class="co">#&gt; Looking for medoid 10. Medoid 10 found. Point 203. 23 reassigned points. TD=8082.231934</span></span>
+<span id="cb19-65"><a href="#cb19-65" tabindex="-1"></a><span class="co">#&gt; Current TD: 8082.231934</span></span>
+<span id="cb19-66"><a href="#cb19-66" tabindex="-1"></a><span class="co">#&gt; LAB initialization method (serial version) finished. Elapsed time: 0.000341811 s</span></span>
+<span id="cb19-67"><a href="#cb19-67" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb19-68"><a href="#cb19-68" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0.000341811 s (method LAB).</span></span>
+<span id="cb19-69"><a href="#cb19-69" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0 s in 0 iterations.</span></span>
+<span id="cb19-70"><a href="#cb19-70" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.000341811 s (0 minutes, 0.000341811 seconds).</span></span></code></pre></div>
 <p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
 nthreads=0 to make use of all available cores in your machine.
 Nevertheless, this does not seem to be allowed by CRAN to pass the test
@@ -895,30 +882,26 @@ different.</p>
 of them contains a specially good set of medoids. This is the role of
 method <code>PREV</code> that we have mentioned before. A typical call
 would be</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Llab2Final<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">initial_med=</span>Llab2<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearson.bin</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255993892 Kib.</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 4 (point 88) swapped with point 107; TD-change=-330.062347; TD=7893.220703. 43 reassigned points.</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 2 (point 143) swapped with point 118; TD-change=-237.802246; TD=7655.418457. 16 reassigned points.</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 8 (point 109) swapped with point 154; TD-change=-176.831970; TD=7478.586914. 28 reassigned points.</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 1 (point 14) swapped with point 126; TD-change=-126.650116; TD=7351.936523. 43 reassigned points.</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 7 (point 178) swapped with point 284; TD-change=-104.315048; TD=7247.621582. 6 reassigned points.</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 10 (point 26) swapped with point 39; TD-change=-76.960526; TD=7170.661133. 14 reassigned points.</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 3 (point 22) swapped with point 28; TD-change=-30.032187; TD=7140.628906. 0 reassigned points.</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00192886 s</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00192886 s in 6 iterations (0.000321476 seconds/iteration).</span></span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00192886 s (0 minutes, 0.00192886 seconds).</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>Llab2Final<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafile1,<span class="at">k=</span><span class="dv">10</span>,<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>                    <span class="at">initial_med=</span>Llab2<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearson.bin</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 288 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 225) swapped with point 107; TD-change=-307.261292; TD=7774.969727. 29 reassigned points.</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 9 (point 212) swapped with point 118; TD-change=-235.628036; TD=7539.341797. 18 reassigned points.</span></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 10 (point 203) swapped with point 154; TD-change=-166.019669; TD=7373.322266. 24 reassigned points.</span></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 4 (point 94) swapped with point 126; TD-change=-134.677902; TD=7238.644043. 4 reassigned points.</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 3 (point 167) swapped with point 209; TD-change=-40.301716; TD=7198.342285. 26 reassigned points.</span></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 7 (point 144) swapped with point 268; TD-change=-38.180592; TD=7160.162109. 0 reassigned points.</span></span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00229642 s</span></span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00229642 s in 5 iterations (0.000459283 seconds/iteration).</span></span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00229642 s (0 minutes, 0.00229642 seconds).</span></span></code></pre></div>
 <p>where the initial set of medoids is taken from the object returned by
 the former calls.</p>
 <p>With respect to that object, as we said it is a list with two
@@ -934,34 +917,34 @@ order in <code>L$med</code> (also from 1).</p>
 <p>This means that if <code>L$clasif[p]</code> is <code>m</code>, the
 point <code>p</code> belongs to the class grouped around medoid
 <code>L$med[m]</code>. Let us see it:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which are the indexes of the points chosen as medoids?</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1269168 GSM1268987 GSM1269243 GSM1269066 GSM1269227 GSM1269077 GSM1268998 </span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        209         28        284        107        268        118         39 </span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1269113 GSM1269085 GSM1269132 </span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        154        126        173</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In which class has point 147 been classified?</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>clasif[<span class="dv">147</span>]</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1269106 </span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          7</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># And which is the index (row in the dissimilarity matrix) of the medoid closest to point 147?</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>med[L<span class="sc">$</span>clasif[<span class="dv">147</span>]]</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GSM1268998 </span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         39</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># Which are the indexes of the points chosen as medoids?</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>L<span class="sc">$</span>med</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt; GSM1269168 GSM1268987 GSM1269243 GSM1269066 GSM1269227 GSM1269077 GSM1268998 </span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt;        209         28        284        107        268        118         39 </span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt; GSM1269113 GSM1269085 GSM1269132 </span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#&gt;        154        126        173</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co"># In which class has point 147 been classified?</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>L<span class="sc">$</span>clasif[<span class="dv">147</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co">#&gt; GSM1269106 </span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#&gt;          7</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="co"># And which is the index (row in the dissimilarity matrix) of the medoid closest to point 147?</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>L<span class="sc">$</span>med[L<span class="sc">$</span>clasif[<span class="dv">147</span>]]</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="co">#&gt; GSM1268998 </span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a><span class="co">#&gt;         39</span></span></code></pre></div>
 <p>In this way, values in L$clasif are between 1 and the number of
 medoids, as we can see.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(L<span class="sc">$</span>clasif)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(L<span class="sc">$</span>clasif)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">min</span>(L<span class="sc">$</span>clasif)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">max</span>(L<span class="sc">$</span>clasif)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
 <p>Therefore, they can be used as factors.</p>
 <p>To help in the data analysis a data frame can be built, too, with the
 names of the cells instead of their numbers. It is created as</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">ClassifAsDataFrame</span>(L,tmppeafile1)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">ClassifAsDataFrame</span>(L,tmppeafile1)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span></code></pre></div>
 <p>The second parameter is the dissimilarity matrix created before when
 we called <code>CalcAndWriteDissimilarityMatrix</code>. The reason of
 using it here is because the returned dataframe has three columns:
@@ -973,16 +956,16 @@ the distance between the cells <code>CellName</code> and
 <p>This data frame implicitly knows which cells are medoids: those whose
 distance to the closest medoid (themselves) is 0. They can be extracted
 as</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract column 1 (cell name) of those rows for which distance to</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># closest medoid (column 3) is 0</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>F[<span class="fu">which</span>(F[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">0</span>),<span class="dv">1</span>]</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;GSM1268987&quot; &quot;GSM1268998&quot; &quot;GSM1269066&quot; &quot;GSM1269077&quot; &quot;GSM1269085&quot;</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;GSM1269113&quot; &quot;GSM1269132&quot; &quot;GSM1269168&quot; &quot;GSM1269227&quot; &quot;GSM1269243&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Extract column 1 (cell name) of those rows for which distance to</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="co"># closest medoid (column 3) is 0</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>F[<span class="fu">which</span>(F[,<span class="dv">3</span>]<span class="sc">==</span><span class="dv">0</span>),<span class="dv">1</span>]</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;GSM1268987&quot; &quot;GSM1268998&quot; &quot;GSM1269066&quot; &quot;GSM1269077&quot; &quot;GSM1269085&quot;</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;GSM1269113&quot; &quot;GSM1269132&quot; &quot;GSM1269168&quot; &quot;GSM1269227&quot; &quot;GSM1269243&quot;</span></span></code></pre></div>
 <p>Finally, an abundance matrix can be obtained if the cells came from
 different groups (samples) by combining such groups with the obtained
 clusters. This is done by function
 <code>BuildAbundanceMatrix</code>,</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>M<span class="ot">=</span><span class="fu">BuildAbundanceMatrix</span>(L<span class="sc">$</span>clasif,Gr)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>M<span class="ot">=</span><span class="fu">BuildAbundanceMatrix</span>(L<span class="sc">$</span>clasif,Gr)</span></code></pre></div>
 <p>where the <code>Gr</code> vector should have been obtained before
 (either from the Seurat object with <code>GetSeuratGroups</code>, or by
 any other means from your input object, if possible). Since the data of
@@ -1004,15 +987,12 @@ distance of two or more of them.</p>
 functions deal with this: <code>CalculateSilhouette</code>,
 <code>FilterBySilhouetteQuantile</code> and
 <code>FilterBySilhouetteThreshold</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">CalculateSilhouette</span>(Llab2<span class="sc">$</span>clasif,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 162 KiB, which is 0% of the available memory, which is 255997232 Kib.</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Calculating silhouette (serial implementation)...</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 288 points classified in 10 classes.</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished serial implementation of silhouette (including dissimilarity matrix load). Elapsed time: 0.000262823 s</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>S<span class="ot">=</span><span class="fu">CalculateSilhouette</span>(Llab2<span class="sc">$</span>clasif,tmppeafile1,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a><span class="co">#&gt;    Calculating silhouette (serial implementation)...</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="co">#&gt; 288 points classified in 10 classes.</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co">#&gt; Finished serial implementation of silhouette (including dissimilarity matrix load). Elapsed time: 0.000273934 s</span></span></code></pre></div>
 <p>WARNING: the normal way of calling <code>CalculateSilhouette</code>
 would use nthreads=0 to make use of all available cores in your machine.
 Nevertheless, this does not seem to be allowed by CRAN to pass the test
@@ -1035,10 +1015,10 @@ classification vector was named.</p>
 classifications, too). This is done so that, if you load the package
 cluster, plot will generate the kind of silhouette plots included in
 such package.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Sclus <span class="ot">&lt;-</span> <span class="fu">NumSilToClusterSil</span>(Llab2<span class="sc">$</span>clasif,S)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sclus)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>Sclus <span class="ot">&lt;-</span> <span class="fu">NumSilToClusterSil</span>(Llab2<span class="sc">$</span>clasif,S)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">plot</span>(Sclus)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
 <p>Once the silhouette is calculated we can filter it by quantile or by
 threshold. All points under this quantile or threshold will be
 discarded, except if they are medoids. Parameters are the silhouette, as
@@ -1051,29 +1031,29 @@ for the remaining cells and (depending on the function used) the
 quantile in <span class="math inline">\([0,1]\)</span> or the silhouette
 threshold in <span class="math inline">\([-1,1]\)</span>. As an
 example:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>Lfilt<span class="ot">=</span><span class="fu">FilterBySilhouetteQuantile</span>(S,Llab2,tmpfile1,tmpfiltfile1,</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                                 tmppeafile1,tmppeafiltfile1,<span class="fl">0.2</span>)</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; After filtering silhouette with quantile 0.2 (threshold -0.163434) 232 of the 288 points remain.</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in FilterBySilhouetteQuantile(S, Llab2, tmpfile1, tmpfiltfile1, : One</span></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; or more medoids have been kept, even they were below the threshold (which seems</span></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; problematic. Check your clusters...).</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpao5EW9/TrapnellFilt.bin of (232x5218)</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 2385968</span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791 Filtered by silhouette from file /tmp/Rtmpao5EW9/Trapnell.bin with quantile 0.2. </span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/Rtmpao5EW9/TrapnellPearsonFilt.bin</span></span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 108240</span></span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing row names (232 strings written, from GSM1268960 to GSM1269247).</span></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
-<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
-<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791 Filtered by silhouette from file /tmp/Rtmpao5EW9/TrapnellPearson.bin with quantile 0.2.</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>tmpfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/Trapnell.bin&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>tmppeafile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearson.bin&quot;</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>Lfilt<span class="ot">=</span><span class="fu">FilterBySilhouetteQuantile</span>(S,Llab2,tmpfile1,tmpfiltfile1,</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>                                 tmppeafile1,tmppeafiltfile1,<span class="fl">0.2</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a><span class="co">#&gt; After filtering silhouette with quantile 0.2 (threshold -0.0614308) 234 of the 288 points remain.</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a><span class="co">#&gt; Warning in FilterBySilhouetteQuantile(S, Llab2, tmpfile1, tmpfiltfile1, : One</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a><span class="co">#&gt; or more medoids have been kept, even they were below the threshold (which seems</span></span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="co">#&gt; problematic. Check your clusters...).</span></span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a><span class="co">#&gt; 4 of the medoids have been kept, even they were below the threshold (which seems problematic. Check your clusters...).</span></span>
+<span id="cb28-12"><a href="#cb28-12" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpSIjGm6/TrapnellFilt.bin of (234x5218)</span></span>
+<span id="cb28-13"><a href="#cb28-13" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 2450688</span></span>
+<span id="cb28-14"><a href="#cb28-14" tabindex="-1"></a><span class="co">#&gt;    Writing row names (234 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb28-15"><a href="#cb28-15" tabindex="-1"></a><span class="co">#&gt;    Writing column names (5218 strings written, from ENSG00000164675.10 to ENSG00000093100.13).</span></span>
+<span id="cb28-16"><a href="#cb28-16" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Experiment conquer GSE52529-GPL16791 Filtered by silhouette from file /tmp/RtmpSIjGm6/Trapnell.bin with quantile 0.2. </span></span>
+<span id="cb28-17"><a href="#cb28-17" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (288,288)</span></span>
+<span id="cb28-18"><a href="#cb28-18" tabindex="-1"></a><span class="co">#&gt; Writing binary matrix /tmp/RtmpSIjGm6/TrapnellPearsonFilt.bin</span></span>
+<span id="cb28-19"><a href="#cb28-19" tabindex="-1"></a><span class="co">#&gt; End of block of binary data at offset 110108</span></span>
+<span id="cb28-20"><a href="#cb28-20" tabindex="-1"></a><span class="co">#&gt;    Writing row names (234 strings written, from GSM1268960 to GSM1269247).</span></span>
+<span id="cb28-21"><a href="#cb28-21" tabindex="-1"></a><span class="co">#&gt;    Writing comment: Pearson dissimilarities for cell</span></span>
+<span id="cb28-22"><a href="#cb28-22" tabindex="-1"></a><span class="co">#&gt;                                          in experiment conquer</span></span>
+<span id="cb28-23"><a href="#cb28-23" tabindex="-1"></a><span class="co">#&gt;                                          GSE52529-GPL16791 Filtered by silhouette from file /tmp/RtmpSIjGm6/TrapnellPearson.bin with quantile 0.2.</span></span></code></pre></div>
 <p>If the original matrix contained row (in this case, cell) and column
 (in this case, gene) names, the column names are copied and the row
 names are transported for those rows (cells) that remain. The same
@@ -1089,39 +1069,34 @@ real but artifacts due to a few outliers that are close to each
 other.</p>
 <p>Of course you can use the filtered cells to build a data frame, as
 long as the dissimilarity matrix contains cell names,</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>Ffilt<span class="ot">=</span><span class="fu">ClassifAsDataFrame</span>(Lfilt,tmppeafiltfile1)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (232,232)</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>Ffilt<span class="ot">=</span><span class="fu">ClassifAsDataFrame</span>(Lfilt,tmppeafiltfile1)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (234,234)</span></span></code></pre></div>
 <p>or to recreate a .csv file of counts of the remaining cells with
 their correct names using <code>BinMatToCsv</code> like this.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>tmpfiltcsvfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.csv&quot;</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">JMatToCsv</span>(tmpfiltfile1,tmpfiltcsvfile1)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>tmpfiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.bin&quot;</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>tmpfiltcsvfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellFilt.csv&quot;</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">JMatToCsv</span>(tmpfiltfile1,tmpfiltcsvfile1)</span></code></pre></div>
 <p>But remember that this was the result of the first step of the PAM
 algorithm, so probably you will want to make them iterate.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Lfinal<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafiltfile1,<span class="at">k=</span><span class="fu">length</span>(Lfilt<span class="sc">$</span>med),<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Lfilt<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/Rtmpao5EW9/TrapnellPearsonFilt.bin</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Package memuse is installed. OK.</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Memory used by the matrix: 105 KiB, which is 0% of the available memory, which is 256015172 Kib.</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   That seems OK.</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (232,232)</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 232 vectors and the overhead of using threads would be excessive.</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 1 (point 10) swapped with point 76; TD-change=-467.832794; TD=8434.242188. 5 reassigned points.</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 4 (point 61) swapped with point 87; TD-change=-317.871826; TD=8116.370605. 44 reassigned points.</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 6 (point 132) swapped with point 117; TD-change=-241.221786; TD=7875.148926. 3 reassigned points.</span></span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 8 (point 78) swapped with point 94; TD-change=-172.342545; TD=7702.806152. 28 reassigned points.</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 7 (point 136) swapped with point 126; TD-change=-110.021385; TD=7592.784668. 14 reassigned points.</span></span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 5. Medoid at place 2 (point 109) swapped with point 158; TD-change=-65.576607; TD=7527.208008. 13 reassigned points.</span></span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Iteration 6. Medoid at place 3 (point 16) swapped with point 20; TD-change=-37.281467; TD=7489.926758. 0 reassigned points.</span></span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.00115008 s</span></span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.00115008 s in 6 iterations (0.00019168 seconds/iteration).</span></span>
-<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.00115008 s (0 minutes, 0.00115008 seconds).</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>tmppeafiltfile1<span class="ot">=</span><span class="fu">paste0</span>(<span class="fu">tempdir</span>(),<span class="st">&quot;/TrapnellPearsonFilt.bin&quot;</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>Lfinal<span class="ot">=</span><span class="fu">ApplyPAM</span>(tmppeafiltfile1,<span class="at">k=</span><span class="fu">length</span>(Lfilt<span class="sc">$</span>med),<span class="at">init_method=</span><span class="st">&quot;PREV&quot;</span>,<span class="at">initial_med=</span>Lfilt<span class="sc">$</span>med,<span class="at">nthreads=</span><span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt; Reading symmetric distance/dissimilarity matrix /tmp/RtmpSIjGm6/TrapnellPearsonFilt.bin</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt; Read symmetric matrix with size (234,234)</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt;   Matrix is a correct distance/dissimilarity matrix.</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt; Calculating with a single thread, since you have only 234 vectors and the overhead of using threads would be excessive.</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt; Starting improved FastPAM1 method in serial implementation...</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: all successive messages use R-numbering (from 1) for points and medoids. Substract 1 to get the internal C-numbers.</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt; Iteration 0. Medoid at place 9 (point 183) swapped with point 100; TD-change=-449.691803; TD=7829.441895. 4 reassigned points.</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt; Iteration 1. Medoid at place 8 (point 154) swapped with point 110; TD-change=-345.151184; TD=7484.290527. 2 reassigned points.</span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="co">#&gt; Iteration 2. Medoid at place 1 (point 191) swapped with point 137; TD-change=-222.933578; TD=7261.356934. 28 reassigned points.</span></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co">#&gt; Iteration 3. Medoid at place 10 (point 178) swapped with point 116; TD-change=-180.124664; TD=7081.232422. 19 reassigned points.</span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="co">#&gt; Iteration 4. Medoid at place 7 (point 130) swapped with point 222; TD-change=-60.591366; TD=7020.641113. 0 reassigned points.</span></span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="co">#&gt; Optimization method (serial version) finished. Elapsed time: 0.0012251 s</span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="co">#&gt; Time summary  (serial implementation).</span></span>
+<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="co">#&gt;    Initalization: 0 s (method PREV).</span></span>
+<span id="cb31-17"><a href="#cb31-17" tabindex="-1"></a><span class="co">#&gt;    Optimization:  0.0012251 s in 4 iterations (0.000306274 seconds/iteration).</span></span>
+<span id="cb31-18"><a href="#cb31-18" tabindex="-1"></a><span class="co">#&gt;    Total time:    0.0012251 s (0 minutes, 0.0012251 seconds).</span></span></code></pre></div>
 <p>WARNING: the normal way of calling <code>ApplyPAM</code> would use
 nthreads=0 to make use of all available cores in your machine.
 Nevertheless, this does not seem to be allowed by CRAN to pass the test
@@ -1131,7 +1106,7 @@ your normal use of code try always nthreads=0.</p>
 <code>k</code>, since this does not change by filtering, but this is to
 emphasize the fact that <code>ApplyPAM</code> with method
 <code>PREV</code> requires both parameters to be consistent.</p>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-Matrix" class="csl-entry">
 Bates, Douglas, Martin Maechler, and Mikael Jagan. 2022. <em>Matrix:
 Sparse and Dense Matrix Classes and Methods</em>. <a href="https://CRAN.R-project.org/package=Matrix">https://CRAN.R-project.org/package=Matrix</a>.

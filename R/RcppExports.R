@@ -129,6 +129,31 @@ BuildAbundanceMatrix <- function(clasif, gr, expgroups = 0L) {
     .Call(`_scellpam_BuildAbundanceMatrix`, clasif, gr, expgroups)
 }
 
+#' ClosestCases
+#'
+#' Gets a matrix of size nxp where each file represents an individual (gene, cell,..) and each column its characteristics (counts,...)\cr
+#' stored in a file in jmatrix format and returns a matrix of nxp with contains, for each individual the indices of the q individuals\cr
+#' closest to it. To do so, the Pearson correlation coefficent is calculated between each row. Then, closeness can be measured directly,\cr
+#' as the q values with higher value, but also in a more sophisticated way using the p-values to consider null correlations.
+#'
+#' @param datafile  A string with the name of the file containing the individuals/characteristics in jmatrix format.
+#' @param q         The name of closest related individuals to be returned. Default: 5
+#' @param method    The method to be applied to choose the closest values. It must be one of these strings: 'trivial', 'absvalue', 'FDR'.
+#' @param dvalue     The value of the absolute value of the Pearson coefficient or of the False Discovery Rate (FDR), depending on the value of the 'method' parameter
+#' @param nthreads Number of threads to be used for the parallel calculations with this meaning:\cr
+#'                 -1: don't use threads.\cr
+#'                  0: let the function choose according to the number of individuals (cells) and to the number of available cores.\cr
+#'                  Any possitive number > 1: use that number of threads. You can use even more than cores, but this is discouraged and raises a warning.\cr
+#'                 Default: 0.
+#' @return          A nxq matrix with the indices (in R notation, starting at 1) of the individuals closest to the individual i at i-th row
+#'                  Index will be 0 in some cases if less than q individuals are found to be close according to the 'absvalue' or 'FDR' criteria
+#' @examples
+#' # To be done
+#' @export
+ClosestCases <- function(datafile, q = 5L, method = "trivial", dvalue = 0.0, nthreads = 0L) {
+    .Call(`_scellpam_ClosestCases`, datafile, q, method, dvalue, nthreads)
+}
+
 #' CsvToJMat
 #'
 #' Gets a csv/tsv file and writes to a disk file the binary matrix of counts contained in it in the jmatrix binary format.\cr
@@ -226,6 +251,23 @@ ScellpamSetDebug <- function(deb = TRUE, debparpam = FALSE, debjmat = FALSE) {
     invisible(.Call(`_scellpam_ScellpamSetDebug`, deb, debparpam, debjmat))
 }
 
+#' ScellpamGetDebug
+#'
+#' Obtains the current state of the debugging parameter. To be used by R functions which want to adjust their messages according to the general debugging settings.
+#'
+#' @return     A list with the following keys:
+#' \itemize{
+#'      \item deb       - Boolean with the current debugging value of the scellpam (biological part) of this package
+#'      \item debparpam - Boolean with the current debugging value of the parallel PAM part inside this package
+#'      \item debjmat   - Boolean with the current debugging value of the jmatrix part inside this package
+#' }
+#' @examples
+#' d<-ScellpamGetDebug()
+#' @export
+ScellpamGetDebug <- function() {
+    .Call(`_scellpam_ScellpamGetDebug`)
+}
+
 #' CalcAndWriteDissimilarityMatrix
 #'
 #' Writes a binary symmetric matrix with the dissimilarities between ROWS of the data stored in a binary matrix in the scellpam package format.\cr
@@ -278,6 +320,26 @@ ScellpamSetDebug <- function(deb = TRUE, debparpam = FALSE, debjmat = FALSE) {
 #' @export
 CalcAndWriteDissimilarityMatrix <- function(ifname, ofname, distype = "L2", restype = "float", comment = "", nthreads = 0L) {
     invisible(.Call(`_scellpam_CalcAndWriteDissimilarityMatrix`, ifname, ofname, distype, restype, comment, nthreads))
+}
+
+#' ExtractAndWriteDissimilarityMatrix
+#'
+#' Writes a binary symmetric matrix with some of the dissimilarities stored in a binary matrix in the scellpam package format.\cr
+#' The purpose of this function is to get the dissimilarity matrix between some selected individuals of a larger set whose dissimilarity matrix has been
+#' calculated before without calculating explicitly the dissimilarities again. The extracted matrix has the same data type as the original and of course
+#' is a symmetric matrix, too. A comment can be added to the original matrix comment or set, if there was no previous comment.
+#'
+#'
+#' @param ifname   A string with the name of the file containing the original dissimilarity matrix in jmatrix format
+#' @param ofname   A string with the name of the file to contain the symmetric dissimilarity matrix between the selected rows.
+#' @param select   A boolean array with length equal to the size of the original matrix indicating (with true) which rows/columns must be extracted.
+#' @param comment  Comment to be atttached to the dissimilary matrix, added to the comment of the original one. Default: "" (no comment)
+#' @return         No return value, called for side effects (creates a file)
+#' @examples
+#' # TO BE DONE
+#' @export
+ExtractAndWriteDissimilarityMatrix <- function(ifname, ofname, select, comment = "") {
+    invisible(.Call(`_scellpam_ExtractAndWriteDissimilarityMatrix`, ifname, ofname, select, comment))
 }
 
 #' FilterJMatByName
@@ -787,6 +849,34 @@ GetJManyRowsByNames <- function(fname, extrownames) {
 #' @export
 JMatInfo <- function(fname, fres = "") {
     invisible(.Call(`_scellpam_JMatInfo`, fname, fres))
+}
+
+#' JMatInfoList
+#'
+#' Returns a list with information about a matrix stored in the binary format of package jmatrix
+#'
+#' @param fname  String with the file name that contains the binary data.
+#' @return       A list with the following keys:
+#' \itemize{
+#'     \item mattype  - String with one of the values "full", "sparse", "symmetric" or "unknown"
+#'     \item datatype - String with one of the values "uchar", "char", "ushort", "short", "uint", "int", "ulong", "long", "float", "double", "ldouble" or "unknown"
+#'     \item endian   - String with one of the values "little","big"
+#'     \item nrows    - Integer, the number of rows
+#'     \item ncols    - Integer, the number of cols
+#'     \item comment  - String with the comment, if stored, or the empty string otherwise
+#' }
+#' @examples
+#' Rf <- matrix(runif(48),nrow=6)
+#' rownames(Rf) <- c("A","B","C","D","E","F")
+#' colnames(Rf) <- c("a","b","c","d","e","f","g","h")
+#' tmpfile1=paste0(tempdir(),"/Rfullfloat.bin")
+#' L <- JMatInfoList(tmpfile1)
+#' cat(sep="","Matrix in file ",tmpfile1," is ",L$mattype,", has elements of type ")
+#' cat(sep="",L$datatype," stored in ",L$endian," endian, its size is ",L$nrows," x ",L$ncols,"\n")
+#' if (L$comment=="") { cat("Attached comment:\n",L$comment,"\n") }
+#' @export
+JMatInfoList <- function(fname) {
+    .Call(`_scellpam_JMatInfoList`, fname)
 }
 
 #' GetJRowNames

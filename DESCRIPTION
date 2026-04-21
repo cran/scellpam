@@ -2,10 +2,11 @@ Package: scellpam
 Type: Package
 Title: Applying Partitioning Around Medoids to Single Cell Data with
         High Number of Cells
-Version: 1.4.6.2
-Date: 2024-07-18
-Author: Juan Domingo [aut, cre] (<https://orcid.org/0000-0003-4728-6256>),
-  Guillermo Ayala [ctb] (<https://orcid.org/0000-0002-6231-2865>),
+Version: 1.4.7
+Date: 2026-04-20
+Author: Juan Domingo [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-4728-6256>),
+  Guillermo Ayala [ctb] (ORCID: <https://orcid.org/0000-0002-6231-2865>),
   Spanish Ministry of Science and Innovation, MCIN/AEI
     <doi:10.13039/501100011033> [fnd]
 Maintainer: Juan Domingo <Juan.Domingo@uv.es>
@@ -22,11 +23,11 @@ Description: PAM (Partitioning Around Medoids) algorithm application to samples 
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.8), memuse (>= 4.2.1), cluster (>= 2.1.4)
 LinkingTo: Rcpp
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 Suggests: rmarkdown, knitr, scater, splatter
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2024-07-18 13:58:54 UTC; jdomingo
+Packaged: 2026-04-20 17:20:35 UTC; jdomingo
 Repository: CRAN
-Date/Publication: 2024-07-18 16:30:02 UTC
+Date/Publication: 2026-04-21 15:02:09 UTC

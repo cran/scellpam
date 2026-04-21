@@ -68,6 +68,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ClosestCases
+Rcpp::IntegerMatrix ClosestCases(std::string datafile, int q, std::string method, double dvalue, int nthreads);
+RcppExport SEXP _scellpam_ClosestCases(SEXP datafileSEXP, SEXP qSEXP, SEXP methodSEXP, SEXP dvalueSEXP, SEXP nthreadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type datafile(datafileSEXP);
+    Rcpp::traits::input_parameter< int >::type q(qSEXP);
+    Rcpp::traits::input_parameter< std::string >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< double >::type dvalue(dvalueSEXP);
+    Rcpp::traits::input_parameter< int >::type nthreads(nthreadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ClosestCases(datafile, q, method, dvalue, nthreads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // CsvToJMat
 void CsvToJMat(std::string ifname, std::string ofname, std::string mtype, char csep, std::string ctype, std::string valuetype, bool transpose, std::string comment);
 RcppExport SEXP _scellpam_CsvToJMat(SEXP ifnameSEXP, SEXP ofnameSEXP, SEXP mtypeSEXP, SEXP csepSEXP, SEXP ctypeSEXP, SEXP valuetypeSEXP, SEXP transposeSEXP, SEXP commentSEXP) {
@@ -110,6 +125,16 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// ScellpamGetDebug
+Rcpp::List ScellpamGetDebug();
+RcppExport SEXP _scellpam_ScellpamGetDebug() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(ScellpamGetDebug());
+    return rcpp_result_gen;
+END_RCPP
+}
 // CalcAndWriteDissimilarityMatrix
 void CalcAndWriteDissimilarityMatrix(std::string ifname, std::string ofname, std::string distype, std::string restype, std::string comment, int nthreads);
 RcppExport SEXP _scellpam_CalcAndWriteDissimilarityMatrix(SEXP ifnameSEXP, SEXP ofnameSEXP, SEXP distypeSEXP, SEXP restypeSEXP, SEXP commentSEXP, SEXP nthreadsSEXP) {
@@ -122,6 +147,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type comment(commentSEXP);
     Rcpp::traits::input_parameter< int >::type nthreads(nthreadsSEXP);
     CalcAndWriteDissimilarityMatrix(ifname, ofname, distype, restype, comment, nthreads);
+    return R_NilValue;
+END_RCPP
+}
+// ExtractAndWriteDissimilarityMatrix
+void ExtractAndWriteDissimilarityMatrix(std::string ifname, std::string ofname, Rcpp::LogicalVector select, std::string comment);
+RcppExport SEXP _scellpam_ExtractAndWriteDissimilarityMatrix(SEXP ifnameSEXP, SEXP ofnameSEXP, SEXP selectSEXP, SEXP commentSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type ifname(ifnameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type ofname(ofnameSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type select(selectSEXP);
+    Rcpp::traits::input_parameter< std::string >::type comment(commentSEXP);
+    ExtractAndWriteDissimilarityMatrix(ifname, ofname, select, comment);
     return R_NilValue;
 END_RCPP
 }
@@ -332,6 +370,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// JMatInfoList
+Rcpp::List JMatInfoList(std::string fname);
+RcppExport SEXP _scellpam_JMatInfoList(SEXP fnameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type fname(fnameSEXP);
+    rcpp_result_gen = Rcpp::wrap(JMatInfoList(fname));
+    return rcpp_result_gen;
+END_RCPP
+}
 // GetJRowNames
 Rcpp::StringVector GetJRowNames(std::string fname);
 RcppExport SEXP _scellpam_GetJRowNames(SEXP fnameSEXP) {
@@ -410,10 +459,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_scellpam_GetSeuratGroups", (DL_FUNC) &_scellpam_GetSeuratGroups, 1},
     {"_scellpam_SceToJMat", (DL_FUNC) &_scellpam_SceToJMat, 9},
     {"_scellpam_BuildAbundanceMatrix", (DL_FUNC) &_scellpam_BuildAbundanceMatrix, 3},
+    {"_scellpam_ClosestCases", (DL_FUNC) &_scellpam_ClosestCases, 5},
     {"_scellpam_CsvToJMat", (DL_FUNC) &_scellpam_CsvToJMat, 8},
     {"_scellpam_JMatToCsv", (DL_FUNC) &_scellpam_JMatToCsv, 4},
     {"_scellpam_ScellpamSetDebug", (DL_FUNC) &_scellpam_ScellpamSetDebug, 3},
+    {"_scellpam_ScellpamGetDebug", (DL_FUNC) &_scellpam_ScellpamGetDebug, 0},
     {"_scellpam_CalcAndWriteDissimilarityMatrix", (DL_FUNC) &_scellpam_CalcAndWriteDissimilarityMatrix, 6},
+    {"_scellpam_ExtractAndWriteDissimilarityMatrix", (DL_FUNC) &_scellpam_ExtractAndWriteDissimilarityMatrix, 4},
     {"_scellpam_FilterJMatByName", (DL_FUNC) &_scellpam_FilterJMatByName, 4},
     {"_scellpam_FilterBySilhouetteQuantile", (DL_FUNC) &_scellpam_FilterBySilhouetteQuantile, 8},
     {"_scellpam_FilterBySilhouetteThreshold", (DL_FUNC) &_scellpam_FilterBySilhouetteThreshold, 8},
@@ -430,6 +482,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_scellpam_GetJRowByName", (DL_FUNC) &_scellpam_GetJRowByName, 2},
     {"_scellpam_GetJManyRowsByNames", (DL_FUNC) &_scellpam_GetJManyRowsByNames, 2},
     {"_scellpam_JMatInfo", (DL_FUNC) &_scellpam_JMatInfo, 2},
+    {"_scellpam_JMatInfoList", (DL_FUNC) &_scellpam_JMatInfoList, 1},
     {"_scellpam_GetJRowNames", (DL_FUNC) &_scellpam_GetJRowNames, 1},
     {"_scellpam_GetJColNames", (DL_FUNC) &_scellpam_GetJColNames, 1},
     {"_scellpam_GetJNames", (DL_FUNC) &_scellpam_GetJNames, 1},

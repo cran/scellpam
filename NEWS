@@ -32,4 +32,8 @@ Version 1.4.6.1 [2024-07-01]
 Version 1.4.6.2 [2024-07-18]
 * Change in a header to avoid new warning in C++20 due to the use of template in a constructor.
 
-
+Version 1.4.7 [2026-04-20]
+* Addition of function to get the info of a JMatrix as a R-list.
+* Addition of function to get the closest neighbours of an individual from the distance matrix.
+* Added typecasts in function SceToJMat to adjust to upcoming Rcpp changes
+ 
